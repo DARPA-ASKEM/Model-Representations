@@ -23,7 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Validate JSON
-        uses: GrantBirki/json-yaml-validate@v1.3.0
+        uses: mehalter/json-yaml-validate@main
         with:
           json_schema: ./${{ matrix.frameworks }}/${{ matrix.frameworks }}_schema.json
+          json_formats: "true"
           base_dir: ./${{ matrix.frameworks }}/examples/
