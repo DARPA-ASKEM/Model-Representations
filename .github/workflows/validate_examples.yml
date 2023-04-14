@@ -9,20 +9,21 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: set-matrix
-        run: echo "::set-output name=matrix::$(find . -name '*_schema.json' ! -name 'base_schema.json' -printf "%h\n" | cut -c 3- | jq -R -s -c 'split("\n")[:-1]')"
+        run: |
+          echo "matrix=$(find . -name '*_schema.json' ! -name 'base_schema.json' -printf "%h\n" | cut -c 3- | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
   # loop over found frameworks
   verify-json-validation:
+    needs: get-frameworks
     runs-on: ubuntu-latest
     strategy:
       matrix:
         frameworks: ${{ fromJson(needs.get-frameworks.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Validate JSON
-        uses: snapcart/json-schema-validator@v1.0.0
+        uses: GrantBirki/json-yaml-validate@v1.3.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           json_schema: ./${{ matrix.frameworks }}/${{ matrix.frameworks }}_schema.json
-          json_path_pattern: ./${{ matrix.frameworks }}/examples/.*.json$
+          base_dir: ./${{ matrix.frameworks }}/examples/
