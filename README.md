@@ -14,11 +14,11 @@ To add a framework, create a directory at the top-level of this repository using
 ├── petrinet
 │   ├── petrinet_schema.json
 │   └── examples
-│       └── simple_sir.json
+│       └── sir.json
 └── regulatorynet
     ├── regulatorynet_schema.json
     └── examples
-        └── sample_regulatoryynet.json
+        └── sample_regulatorynet.json
 ```
 
 ## Versioning
