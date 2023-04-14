@@ -1,0 +1,127 @@
+{
+    "name": "SIR Model",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petri_v0.1/petri/petri_schema.json",
+    "description": "SIR model created by Ben, Micah, Brandon",
+    "model_version": "0.1",
+    "model": {
+      "states": [
+        {
+          "id": "S",
+          "name": "Susceptible",
+          "grounding": {},
+          "initial":
+          {
+            "expression": "S0",
+            "expression_mathml": "<mi>S0</mi>"
+          }
+        },
+        {
+          "id": "I",
+          "name": "Infected",
+          "initial":
+          {
+            "expression": "I0",
+            "expression_mathml": "<mi>I0</mi>"
+          }
+        },
+        {
+          "id": "R",
+          "name": "Recovered",
+          "initial":
+          {
+            "expression": "R0",
+            "expression_mathml": "<mi>R0</mi>"
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "id": "inf",
+          "input": ["S","I"],
+          "output": ["I","I"],
+          "properties": {
+            "name": "Infection",
+            "grounding": {},
+            "rate": {
+              "expression": "S*I*beta",
+              "expression_mathml": "<apply><times/><ci>S</ci><ci>I</ci><ci>beta</ci></apply>"
+            }
+          }
+        },
+        {
+          "id": "rec",
+          "input": ["I"],
+          "output": ["R"],
+          "properties": {
+            "name": "Recovery",
+            "grounding": {},
+            "rate": {
+              "expression": "I*gamma",
+              "expression_mathml": "<apply><times/><ci>I</ci><ci>gamma</ci></apply>"
+            }
+          }
+        }
+      ],
+      "parameters": [
+        {
+          "id": "beta",
+          "description": "infection rate",
+          "value": 0.027,
+          "distribution": {
+            "type": "StndardUniform1",
+            "parameters": {
+              "minimum": 0.026,
+              "maximum": 0.028
+            }
+          }
+        },
+        {
+          "id": "gamma",
+          "description": "infectious period",
+          "value": 0.14,
+          "distribution": {
+            "type": "StandardUniform1",
+            "parameters": {
+              "minimum": 0.1,
+              "maximum": 0.18
+            }
+          }
+        },
+        {
+          "id": "rho",
+          "description": "recovery rate",
+          "value": 0.1
+        },
+        {
+          "id": "mu",
+          "description": "death rate",
+          "value": 0.01
+        },
+        {
+          "id": "S0",
+          "description": "Total susceptible population at timestep 0",
+          "value": 1000
+        },
+        {
+          "id": "E0",
+          "description": "Total exposed population at timestep 0",
+          "value": 0
+        },
+        {
+          "id": "I0",
+          "description": "Total infected population at timestep 0",
+          "value": 1
+        },
+        {
+          "id": "R0",
+          "description": "Total recovered population at timestep 0",
+          "value": 0
+        },
+        {
+          "id": "D0",
+          "description": "Total deceased population at timestep 0",
+          "value": 0
+        }
+      ]
+    }
+  }
