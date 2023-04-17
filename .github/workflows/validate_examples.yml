@@ -1,0 +1,30 @@
+name: Validate examples
+
+on: [pull_request]
+
+jobs:
+  # get all frameworks in our repo
+  get-frameworks:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: set-matrix
+        run: |
+          echo "matrix=$(find . -name '*_schema.json' ! -name 'base_schema.json' -printf "%h\n" | cut -c 3- | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+  # loop over found frameworks
+  verify-json-validation:
+    needs: get-frameworks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        frameworks: ${{ fromJson(needs.get-frameworks.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validate JSON
+        uses: mehalter/json-yaml-validate@main
+        with:
+          json_schema: ./${{ matrix.frameworks }}/${{ matrix.frameworks }}_schema.json
+          json_formats: "true"
+          base_dir: ./${{ matrix.frameworks }}/examples/
