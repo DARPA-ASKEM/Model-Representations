@@ -101,7 +101,7 @@
           "id": "R0",
           "description": "Total recovered population at timestep 0",
           "value": 0
-        },
+        }
       ]
     }
   }
