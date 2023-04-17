@@ -3,25 +3,30 @@
     "type": "object",
     "properties": {
       "name": {
-        "type": "string"
+        "type": "string",
+        "description": "Name of the model."
       },
       "description": {
-        "type": "string"
-      },
-      "url": {
         "type": "string",
-        "format": "uri"
+        "description": "A description of the model."
       },
       "schema": {
         "type": "string",
-        "format": "uri"
+        "format": "uri",
+        "description": "URI of a JSON schema document that describes the model stored in the 'model' parameter."
       },
       "model": {
-        "type": "object"
+        "type": "object",
+        "description": "JSON representation of a model. This should contain everything needed to fully run the model, including all rates/initial parameters/distributions/etc."
       },
       "properties": {
-        "type": "object"
+        "type": "object",
+        "description": "(Optional) Information about the model that may be used during modification or execution of the model."
+      },
+      "metadata": {
+        "type": "object",
+        "description": "(Optional) Information not useful for execution of the model, but that may be useful to some consumer in the future. E.g. creation timestamp or source paper's author."
       }
     },
-    "required": ["name", "description", "url", "schema", "model"]
+    "required": ["name", "description", "schema", "model"]
   }
