@@ -77,7 +77,7 @@
         },
         {
           "id": "gamma",
-          "description": "infectious period",
+          "description": "recovery rate",
           "value": 0.14,
           "distribution": {
             "type": "StandardUniform1",
@@ -88,24 +88,9 @@
           }
         },
         {
-          "id": "rho",
-          "description": "recovery rate",
-          "value": 0.1
-        },
-        {
-          "id": "mu",
-          "description": "death rate",
-          "value": 0.01
-        },
-        {
           "id": "S0",
           "description": "Total susceptible population at timestep 0",
           "value": 1000
-        },
-        {
-          "id": "E0",
-          "description": "Total exposed population at timestep 0",
-          "value": 0
         },
         {
           "id": "I0",
@@ -115,11 +100,6 @@
         {
           "id": "R0",
           "description": "Total recovered population at timestep 0",
-          "value": 0
-        },
-        {
-          "id": "D0",
-          "description": "Total deceased population at timestep 0",
           "value": 0
         }
       ]
