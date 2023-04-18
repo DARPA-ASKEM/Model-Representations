@@ -43,7 +43,8 @@
                 "id": {"type": "string"},
                 "description": {"type": "string"},
                 "value": {"type": "number"},
-                "distribution": {"$ref": "#/$defs/distribution"}
+                "distribution": {"$ref": "#/$defs/distribution"},
+                "grounding": {"type": "object"}
               },
               "required": ["id"]
             }
