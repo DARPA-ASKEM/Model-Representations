@@ -86,7 +86,7 @@
       "distribution": {
         "type": "object",
         "properties": {
-          "type": {"type": "string"},
+          "type": {"type": "object"},
           "parameters": {"type": "object"}
         },
         "required": ["type", "parameters"],
