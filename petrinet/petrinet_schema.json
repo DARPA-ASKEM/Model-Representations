@@ -44,7 +44,7 @@
                 "description": {"type": "string"},
                 "value": {"type": "number"},
                 "distribution": {"$ref": "#/$defs/distribution"},
-                "grounding": {"type": "object"}
+                "grounding": {"$ref": "#/$defs/grounding"}
               },
               "required": ["id"]
             }
@@ -91,6 +91,15 @@
         },
         "required": ["type", "parameters"],
         "additionalProperties": true
+      },
+      "grounding": {
+        "type": "object",
+        "properties": {
+          "identifiers": {"type": "string"},
+          "context": {"type": "object"}
+        },
+        "required": ["identifiers", "context"],
+        "additionalProperties": false
       }
     },
     "additionalProperties": true,
