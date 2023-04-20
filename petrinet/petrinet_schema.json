@@ -86,7 +86,7 @@
       "distribution": {
         "type": "object",
         "properties": {
-          "type": {"type": "object"},
+          "type": {"type": "string"},
           "parameters": {"type": "object"}
         },
         "required": ["type", "parameters"],
@@ -95,7 +95,7 @@
       "grounding": {
         "type": "object",
         "properties": {
-          "identifiers": {"type": "string"},
+          "identifiers": {"type": "object"},
           "context": {"type": "object"}
         },
         "required": ["identifiers", "context"],
