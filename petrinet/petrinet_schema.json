@@ -100,7 +100,7 @@
           "identifiers": {"type": "object"},
           "context": {"type": "object"}
         },
-        "required": ["identifiers", "context"],
+        "required": ["identifiers"],
         "additionalProperties": false
       }
     },
