@@ -49,7 +49,6 @@
           "output": ["I","I"],
           "properties": {
             "name": "Infection",
-            "grounding": {},
             "rate": {
               "expression": "S*I*beta",
               "expression_mathml": "<apply><times/><ci>S</ci><ci>I</ci><ci>beta</ci></apply>"
@@ -62,7 +61,6 @@
           "output": ["R"],
           "properties": {
             "name": "Recovery",
-            "grounding": {},
             "rate": {
               "expression": "I*gamma",
               "expression_mathml": "<apply><times/><ci>I</ci><ci>gamma</ci></apply>"
