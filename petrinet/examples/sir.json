@@ -112,5 +112,36 @@
           "value": 0
         }
       ]
-    }
+    },
+    "metadata": [{
+      "id": "metadatum_1",
+      "type": "variable",
+      "refers_to_id": "S0",
+      "metadata": [
+        {
+          "type": "data_annotation",
+          "value": "1523330"
+        }
+      ],
+      "datasets": [
+        {
+          "id": "dataset_1",
+          "name": "population_by_state.csv",
+          "metadata": {
+            "url": "https://raw.githubusercontent.com/covid19data/examples/population_by_state.csv"
+          }
+        }
+      ],
+      "papers": [
+        {
+          "id": "paper_1",
+          "name": "COVID-19 Vaccine Effectiveness by Product and Timing in New York State",
+          "doi": "10.1101/2021.10.08.21264595"
+        }
+      ],
+      "provenance": {
+        "type": "MIT annotation",
+        "value": "text, dataset, formula annotation (chunwei@mit.edu)"
+      }
+    }]
   }

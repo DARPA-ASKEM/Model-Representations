@@ -54,7 +54,43 @@
         },
         "additionalProperties": false,
         "required": ["states", "transitions", "parameters"]
-      }
+      },
+    "metadata": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "refers_to_id": {"type": "string"},
+          "name": {"type": "string"},
+          "provenance": {"$ref": "#/$defs/provenance"},
+          "metadata": {
+            "type": "array", 
+            "items": {
+                "type": "object",
+                "$ref": "#/$defs/metadatum"
+              }
+            },
+          "datasets": {
+            "type": "array", 
+            "items": {
+                "type": "object",
+                "$ref": "#/$defs/dataset"
+              }
+            },
+          "papers": {
+            "type": "array", 
+            "items": {
+                "type": "object",
+                "$ref": "#/$defs/paper"
+              }
+          },            
+          "grounding": {"$ref": "#/$defs/grounding"}
+          },
+          "additionalProperties": true,
+          "required": ["id", "refers_to_id", "metadata"]          
+        }
+      }      
     },
     "$defs": {
       "initial": {
@@ -102,7 +138,53 @@
         },
         "required": ["identifiers"],
         "additionalProperties": false
-      }
+      },
+      "provenance": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string"},
+          "value": {"type": "string"}
+        },
+        "required": ["type", "value"],
+        "additionalProperties": false
+      },      
+      "metadatum": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string"},
+          "value": {"type": "string"}
+        },
+        "required": ["type", "value"],
+        "additionalProperties": false
+      },
+      "dataset": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "column": {"type": "string"},
+          "metadata": {"type": "object"}
+        },
+        "required": ["id"],
+        "additionalProperties": false
+      },
+      "paper": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "doi": {"type": "string"},          
+          "name": {"type": "string"},
+          "equations": {
+            "type": "array", 
+            "items": {
+              "type": "object"
+              }
+          },
+          "metadata": {"type": "object"}
+        },
+        "required": ["id", "doi"],
+        "additionalProperties": false
+      }         
     },
     "additionalProperties": true,
     "required": ["name", "description", "schema", "model"]
