@@ -17,6 +17,7 @@
               "properties": {
                 "id": {"type": "string"},
                 "name": {"type": "string"},
+                "grounding": {"$ref": "#/$defs/grounding"},
                 "initial": {"$ref": "#/$defs/initial"}
               },
               "required": ["id"]
@@ -30,6 +31,7 @@
                 "id": {"type": "string"},
                 "input": {"type": "array", "items": {"type": "string"}},
                 "output": {"type": "array", "items": {"type": "string"}},
+                "grounding": {"$ref": "#/$defs/grounding"},
                 "properties": {"$ref": "#/$defs/properties"}
               },
               "required": ["id", "input", "output"]
@@ -43,6 +45,7 @@
                 "id": {"type": "string"},
                 "description": {"type": "string"},
                 "value": {"type": "number"},
+                "grounding": {"$ref": "#/$defs/grounding"},
                 "distribution": {"$ref": "#/$defs/distribution"}
               },
               "required": ["id"]
@@ -67,7 +70,7 @@
         "type": "object",
         "properties": {
           "name": {"type": "string"},
-          "grounding": {"type": "object"},
+          "grounding": {"$ref": "#/$defs/grounding"},
           "rate": {"$ref": "#/$defs/rate"}
         },
         "required": ["name", "rate"],
@@ -90,6 +93,15 @@
         },
         "required": ["type", "parameters"],
         "additionalProperties": true
+      },
+      "grounding": {
+        "type": "object",
+        "properties": {
+          "identifiers": {"type": "object"},
+          "context": {"type": "object"}
+        },
+        "required": ["identifiers"],
+        "additionalProperties": false
       }
     },
     "additionalProperties": true,

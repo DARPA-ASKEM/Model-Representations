@@ -8,7 +8,9 @@
         {
           "id": "S",
           "name": "Susceptible",
-          "grounding": {},
+          "grounding": {
+            "identifiers": {"ido": "0000514"}
+          },
           "initial":
           {
             "expression": "S0",
@@ -18,6 +20,9 @@
         {
           "id": "I",
           "name": "Infected",
+          "grounding": {
+            "identifiers": {"ido": "0000511"}
+          },
           "initial":
           {
             "expression": "I0",
@@ -27,6 +32,9 @@
         {
           "id": "R",
           "name": "Recovered",
+          "grounding": {
+            "identifiers": {"ido": "0000592"}
+          },
           "initial":
           {
             "expression": "R0",
@@ -41,7 +49,6 @@
           "output": ["I","I"],
           "properties": {
             "name": "Infection",
-            "grounding": {},
             "rate": {
               "expression": "S*I*beta",
               "expression_mathml": "<apply><times/><ci>S</ci><ci>I</ci><ci>beta</ci></apply>"
@@ -54,7 +61,6 @@
           "output": ["R"],
           "properties": {
             "name": "Recovery",
-            "grounding": {},
             "rate": {
               "expression": "I*gamma",
               "expression_mathml": "<apply><times/><ci>I</ci><ci>gamma</ci></apply>"
@@ -68,7 +74,7 @@
           "description": "infection rate",
           "value": 0.027,
           "distribution": {
-            "type": "StndardUniform1",
+            "type": "StandardUniform1",
             "parameters": {
               "minimum": 0.026,
               "maximum": 0.028
@@ -78,6 +84,9 @@
         {
           "id": "gamma",
           "description": "recovery rate",
+          "grounding": {
+            "identifiers": {"askemo": "0000013"}
+          },
           "value": 0.14,
           "distribution": {
             "type": "StandardUniform1",
