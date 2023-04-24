@@ -7,8 +7,10 @@ const path = require('node:path');
 const ajv = new Ajv();
 addFormats(ajv);
 
-const baseSchemaFile = 'base_schema.json';
-const schemaFiles = globSync("*/*.json");
+const testPath = (process.argv.length > 2) ? process.argv[2] : "../";
+
+const baseSchemaFile = `${testPath}base_schema.json`;
+const schemaFiles = globSync(`${testPath}*/*.json`);
 
 const validate = (schemaFile, objectFile) => {
     const object = JSON.parse(fs.readFileSync(objectFile));
@@ -19,15 +21,23 @@ const validate = (schemaFile, objectFile) => {
     return validated;
 }
 
+
 let passed = true;
+let testCount = 0;
+let passCount = 0;
 for (let schemaFile of schemaFiles) {
     // TODO: Validate each model schema matches the base schema.
     const exampleFiles = globSync(path.join(path.dirname(schemaFile), "examples/*.json"));
     for (let exampleFile of exampleFiles) {
+        testCount++;
         const baseSchemaPassed = validate(baseSchemaFile, exampleFile);
         const filePassed = validate(schemaFile, exampleFile);
         // The validation is true only if everything passes all the times. One failure and you're out!
-        passed = passed & baseSchemaPassed & filePassed;
+        const testPassed = baseSchemaPassed & filePassed;
+        if (testPassed) {
+            passCount++;
+        }
+        passed = passed & testPassed;
     }
 }
 
@@ -37,6 +47,7 @@ if (!passed) {
     process.exit(1);
 }
 else {
+    console.log(`\n${passCount} out of ${testCount} tests passed.`);
     console.log('\nAll schemas validated.');
     process.exit(0);
 }

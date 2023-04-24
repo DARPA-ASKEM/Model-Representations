@@ -1,9 +1,11 @@
 
 PHONY:init
 init:
-	npm install
+	cd validation; \
+	npm install;
 
 
 PHONY:test
 test:
-	npm run test
+	cd validation; \
+	npm run test;
