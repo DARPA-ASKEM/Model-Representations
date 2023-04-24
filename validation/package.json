@@ -1,0 +1,25 @@
+{
+  "name": "askem-model-representations",
+  "version": "0.0.1",
+  "description": "Model representations for the ASKEM project",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DARPA-ASKEM/Model-Representations.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DARPA-ASKEM/Model-Representations/issues"
+  },
+  "homepage": "https://github.com/DARPA-ASKEM/Model-Representations#readme",
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-cli": "^5.0.0",
+    "ajv-formats": "^2.1.1",
+    "glob": "^10.1.0"
+  }
+}
