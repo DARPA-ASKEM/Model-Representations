@@ -23,7 +23,7 @@
       "type": "object",
       "description": "(Optional) Information about the model that may be used during modification or execution of the model."
     },
-    "metadata": {
+    "metadata":{
       "title": "ExtractionsCollection",
       "description": "Represents a collection of extractions ",
       "type": "object",
@@ -237,20 +237,6 @@
           ],
           "$id": "#/definitions/Variable"
         },
-        "StatementValueType": {
-          "title": "StatementValueType",
-          "description": "Represents the type of the statement ",
-          "enum": [
-            "description",
-            "value",
-            "unit",
-            "unit_and_value",
-            "misc",
-            "<class 'askem_extractions.data_model.statement_value_type.StatementValueType.Config'>"
-          ],
-          "type": "string",
-          "$id": "#/definitions/StatementValueType"
-        },
         "StatementValue": {
           "title": "StatementValue",
           "description": "Represents the contents of a statement about a variable ",
@@ -261,7 +247,8 @@
               "type": "string"
             },
             "type": {
-              "$ref": "#/definitions/StatementValueType"
+              "title": "Type",
+              "type": "string"
             },
             "dkg_grounding": {
               "$ref": "#/definitions/DKGConcept"
