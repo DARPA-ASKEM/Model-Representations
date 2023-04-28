@@ -55,42 +55,10 @@
         "additionalProperties": false,
         "required": ["states", "transitions", "parameters"]
       },
-    "metadata": {
-      "type": "array",
-      "items": {
+      "metadata": {
         "type": "object",
-        "properties": {
-          "id": {"type": "string"},
-          "refers_to_id": {"type": "string"},
-          "name": {"type": "string"},
-          "provenance": {"$ref": "#/$defs/provenance"},
-          "metadata": {
-            "type": "array", 
-            "items": {
-                "type": "object",
-                "$ref": "#/$defs/metadatum"
-              }
-            },
-          "datasets": {
-            "type": "array", 
-            "items": {
-                "type": "object",
-                "$ref": "#/$defs/dataset"
-              }
-            },
-          "papers": {
-            "type": "array", 
-            "items": {
-                "type": "object",
-                "$ref": "#/$defs/paper"
-              }
-          },            
-          "grounding": {"$ref": "#/$defs/grounding"}
-          },
-          "additionalProperties": true,
-          "required": ["id", "refers_to_id", "metadata"]          
-        }
-      }      
+        "description": "(Optional) Information not useful for execution of the model, but that may be useful to some consumer in the future. E.g. creation timestamp or source paper's author."
+      }
     },
     "$defs": {
       "initial": {

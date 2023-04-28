@@ -1,0 +1,353 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the model."
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the model."
+    },
+    "schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "URI of a JSON schema document that describes the model stored in the 'model' parameter."
+    },
+    "model": {
+      "type": "object",
+      "description": "JSON representation of a model. This should contain everything needed to fully run the model, including all rates/initial parameters/distributions/etc."
+    },
+    "properties": {
+      "type": "object",
+      "description": "(Optional) Information about the model that may be used during modification or execution of the model."
+    },
+    "metadata": {
+      "title": "ExtractionsCollection",
+      "description": "Represents a collection of extractions ",
+      "type": "object",
+      "properties": {
+        "variable_statements": {
+          "title": "Variable Statements",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VariableStatement"
+          }
+        }
+      },
+      "required": [
+        "variable_statements"
+      ],
+      "$id": "#/definitions/ExtractionsCollection",
+      "definitions": {
+        "VariableMetadata": {
+          "title": "VariableMetadata",
+          "description": "Represents some metadata about a variable instance ",
+          "type": "object",
+          "properties": {
+            "type": {
+              "title": "Type",
+              "type": "string"
+            },
+            "value": {
+              "title": "Value",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "$id": "#/definitions/VariableMetadata"
+        },
+        "DKGConcept": {
+          "title": "DKGConcept",
+          "description": "Represents a grounding to a DKG concept ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "score": {
+              "title": "Score",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ],
+          "$id": "#/definitions/DKGConcept"
+        },
+        "Dataset": {
+          "title": "Dataset",
+          "description": "Represents a dataset ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "metadata": {
+              "title": "Metadata",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ],
+          "$id": "#/definitions/Dataset"
+        },
+        "DataColumn": {
+          "title": "DataColumn",
+          "description": "Represents a column of a dataset ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "dataset": {
+              "$ref": "#/definitions/Dataset"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "dataset"
+          ],
+          "$id": "#/definitions/DataColumn"
+        },
+        "Paper": {
+          "title": "Paper",
+          "description": "Represents a paper from which an extraction comes ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "file_directory": {
+              "title": "File Directory",
+              "type": "string"
+            },
+            "doi": {
+              "title": "Doi",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "file_directory",
+            "doi"
+          ],
+          "$id": "#/definitions/Paper"
+        },
+        "Equation": {
+          "title": "Equation",
+          "description": "Represents an equation extraction ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "image": {
+              "title": "Image",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text"
+          ],
+          "$id": "#/definitions/Equation"
+        },
+        "Variable": {
+          "title": "Variable",
+          "description": "Represents an extracted variable/identifier ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "metadata": {
+              "title": "Metadata",
+              "default": [],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/VariableMetadata"
+              }
+            },
+            "dkg_groundings": {
+              "title": "Dkg Groundings",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DKGConcept"
+              }
+            },
+            "column": {
+              "title": "Column",
+              "default": [],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DataColumn"
+              }
+            },
+            "paper": {
+              "$ref": "#/definitions/Paper"
+            },
+            "equations": {
+              "title": "Equations",
+              "default": [],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Equation"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "dkg_groundings"
+          ],
+          "$id": "#/definitions/Variable"
+        },
+        "StatementValueType": {
+          "title": "StatementValueType",
+          "description": "Represents the type of the statement ",
+          "enum": [
+            "description",
+            "value",
+            "unit",
+            "unit_and_value",
+            "misc",
+            "<class 'askem_extractions.data_model.statement_value_type.StatementValueType.Config'>"
+          ],
+          "type": "string",
+          "$id": "#/definitions/StatementValueType"
+        },
+        "StatementValue": {
+          "title": "StatementValue",
+          "description": "Represents the contents of a statement about a variable ",
+          "type": "object",
+          "properties": {
+            "value": {
+              "title": "Value",
+              "type": "string"
+            },
+            "type": {
+              "$ref": "#/definitions/StatementValueType"
+            },
+            "dkg_grounding": {
+              "$ref": "#/definitions/DKGConcept"
+            }
+          },
+          "required": [
+            "value",
+            "type"
+          ],
+          "$id": "#/definitions/StatementValue"
+        },
+        "VariableStatementMetadata": {
+          "title": "VariableStatementMetadata",
+          "description": "Metadata associated to a specific variable statement ",
+          "type": "object",
+          "properties": {
+            "type": {
+              "title": "Type",
+              "type": "string"
+            },
+            "value": {
+              "title": "Value",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "$id": "#/definitions/VariableStatementMetadata"
+        },
+        "ProvenanceInfo": {
+          "title": "ProvenanceInfo",
+          "description": "Describes the provenance of an extraction ",
+          "type": "object",
+          "properties": {
+            "method": {
+              "title": "Method",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            }
+          },
+          "required": [
+            "method",
+            "description"
+          ],
+          "$id": "#/definitions/ProvenanceInfo"
+        },
+        "VariableStatement": {
+          "title": "VariableStatement",
+          "description": "Represents a statement about a variable ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "variable": {
+              "$ref": "#/definitions/Variable"
+            },
+            "value": {
+              "$ref": "#/definitions/StatementValue"
+            },
+            "metadata": {
+              "title": "Metadata",
+              "default": [],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/VariableStatementMetadata"
+              }
+            },
+            "provenance": {
+              "$ref": "#/definitions/ProvenanceInfo"
+            }
+          },
+          "required": [
+            "id",
+            "variable"
+          ],
+          "$id": "#/definitions/VariableStatement"
+        }
+      }
+    }
+  },
+  "required": ["name", "description", "schema", "model"]
+}  

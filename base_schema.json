@@ -24,7 +24,7 @@
         "description": "(Optional) Information about the model that may be used during modification or execution of the model."
       },
       "metadata": {
-        "type": "array",
+        "type": "object",
         "description": "(Optional) Information not useful for execution of the model, but that may be useful to some consumer in the future. E.g. creation timestamp or source paper's author."
       }
     },
