@@ -13,9 +13,11 @@ const baseSchemaFile = `${testPath}base_schema.json`;
 const metadataSchemaFile = `${testPath}metadata_schema.json`
 const schemaFiles = globSync(`${testPath}*/*.json`);
 
-const validate = (schemaFile, objectFile) => {
-    const object = JSON.parse(fs.readFileSync(objectFile));
+const validate = (schemaFile, objectFile, object) => {
     const schema = JSON.parse(fs.readFileSync(schemaFile));
+    if (object === undefined) {
+        object = JSON.parse(fs.readFileSync(objectFile));
+    }
     const validated = ajv.validate(schema, object);
     const passValue = validated ? "PASS" : "FAIL";
     console.log(`${objectFile} <- ${schemaFile} : ${passValue}`);
@@ -32,8 +34,9 @@ for (let schemaFile of schemaFiles) {
     );
     for (let exampleFile of exampleFiles) {
         testCount++;
+        const exampleObj = JSON.parse(fs.readFileSync(exampleFile));
         const baseSchemaPassed = validate(baseSchemaFile, exampleFile);
-        const metadataSchemaPassed = validate(metadataSchemaFile, exampleFile);
+        const metadataSchemaPassed = validate(metadataSchemaFile, exampleFile, {metadata: exampleObj["metadata"] || {}});
         const filePassed = validate(schemaFile, exampleFile);
         // The validation is true only if everything passes all the times. One failure and you're out!
         const testPassed = baseSchemaPassed & metadataSchemaPassed & filePassed;
