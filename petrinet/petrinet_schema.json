@@ -54,6 +54,10 @@
         },
         "additionalProperties": false,
         "required": ["states", "transitions", "parameters"]
+      },
+      "metadata": {
+        "type": "object",
+        "description": "(Optional) Information not useful for execution of the model, but that may be useful to some consumer in the future. E.g. creation timestamp or source paper's author."
       }
     },
     "$defs": {
@@ -102,7 +106,53 @@
         },
         "required": ["identifiers"],
         "additionalProperties": false
-      }
+      },
+      "provenance": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string"},
+          "value": {"type": "string"}
+        },
+        "required": ["type", "value"],
+        "additionalProperties": false
+      },      
+      "metadatum": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string"},
+          "value": {"type": "string"}
+        },
+        "required": ["type", "value"],
+        "additionalProperties": false
+      },
+      "dataset": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "column": {"type": "string"},
+          "metadata": {"type": "object"}
+        },
+        "required": ["id"],
+        "additionalProperties": false
+      },
+      "paper": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "doi": {"type": "string"},          
+          "name": {"type": "string"},
+          "equations": {
+            "type": "array", 
+            "items": {
+              "type": "object"
+              }
+          },
+          "metadata": {"type": "object"}
+        },
+        "required": ["id", "doi"],
+        "additionalProperties": false
+      }         
     },
     "additionalProperties": true,
     "required": ["name", "description", "schema", "model"]

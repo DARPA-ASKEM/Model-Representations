@@ -112,5 +112,63 @@
           "value": 0
         }
       ]
+    },
+    "metadata": {
+      "processed_at": 1682964953,
+      "processed_by": "mit:process-node1",
+      "variable_statements": [
+        {
+          "id": "v0",
+          "variable": {
+            "id": "v0",
+            "name": "VE",
+            "metadata": [
+              {
+                "type": "text_annotation",
+                "value": " Vaccine Effectiveness"
+              },
+              {
+                "type": "text_annotation",
+                "value": " Vaccine Effectiveness"
+              }
+            ],
+            "dkg_groundings": [],
+            "column": [
+              {
+                "id": "9-2",
+                "name": "new_persons_vaccinated",
+                "dataset": {
+                  "id": "9",
+                  "name": "usa-vaccinations.csv",
+                  "metadata": "https://github.com/DARPA-ASKEM/program-milestones/blob/main/6-month-milestone/evaluation/scenario_3/ta_1/google-health-data/usa-vaccinations.csv"
+                }
+              },
+              {
+                "id": "9-3",
+                "name": "cumulative_persons_vaccinated",
+                "dataset": {
+                  "id": "9",
+                  "name": "usa-vaccinations.csv",
+                  "metadata": "https://github.com/DARPA-ASKEM/program-milestones/blob/main/6-month-milestone/evaluation/scenario_3/ta_1/google-health-data/usa-vaccinations.csv"
+                }
+              }
+            ],
+            "paper": {
+              "id": "COVID-19 Vaccine Effectiveness by Product and Timing in New York State",
+              "file_directory": "https://www.medrxiv.org/content/10.1101/2021.10.08.21264595v1",
+              "doi": "10.1101/2021.10.08.21264595"
+            },
+            "equations": []
+          },
+
+          "metadata": []
+          ,
+          "provenance":
+            {
+              "method": "MIT annotation",
+              "description": "text, dataset, formula annotation (chunwei@mit.edu)"
+            }
+        }
+      ]
     }
   }
