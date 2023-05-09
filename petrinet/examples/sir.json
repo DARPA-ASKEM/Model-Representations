@@ -14,7 +14,7 @@
           "initial":
           {
             "expression": "S0",
-            "expression_mathml": "<mi>S0</mi>"
+            "expression_mathml": "<ci>S0</ci>"
           }
         },
         {
@@ -26,7 +26,7 @@
           "initial":
           {
             "expression": "I0",
-            "expression_mathml": "<mi>I0</mi>"
+            "expression_mathml": "<ci>I0</ci>"
           }
         },
         {
@@ -38,7 +38,7 @@
           "initial":
           {
             "expression": "R0",
-            "expression_mathml": "<mi>R0</mi>"
+            "expression_mathml": "<ci>R0</ci>"
           }
         }
       ],
