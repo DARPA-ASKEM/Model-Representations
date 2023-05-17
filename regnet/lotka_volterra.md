@@ -33,8 +33,6 @@ reproduce the behavior of the original system. This is the mantra of systems
 biology, which stresses that compositionality is no less important than
 reductionism in biology.
 
-[link to motifs]
-
 Signed Graphs are stored in Catlab using the following schemas:
 
 ```julia
@@ -80,7 +78,7 @@ CREATE TABLE "Edges" (
 
 CREATE TABLE "Vertices" (
 	"id"	INTEGER,
-  "vrate" NUMBER,
+ 	"vrate" NUMBER,
 	PRIMARY KEY("id")
 );
 
@@ -89,7 +87,7 @@ CREATE TABLE "Edges" (
 	"src"	INTEGER,
 	"tgt"	INTEGER,
 	"sign"	BOOL,
-  "erate" Number,
+ 	"erate" Number,
 	PRIMARY KEY("id"),
 	FOREIGN KEY("src") REFERENCES "Vertices"("id"),
 	FOREIGN KEY("tgt") REFERENCES "Vertices"("vid")
