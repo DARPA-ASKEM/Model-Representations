@@ -38,6 +38,13 @@ reductionism in biology.
 Signed Graphs are stored in Catlab using the following schemas:
 
 ```julia
+
+@present SchGraph(FreeSchema)
+  (V,E)::Ob
+  src::Hom(E,V)
+  tgt::Hom(E,V)
+end
+
 @present SchSignedGraph <: SchGraph begin
   Sign::AttrType
   sign::Attr(E,Sign)
@@ -49,6 +56,44 @@ end
   vrate::Attr(V,A)
   erate::Attr(E,A)
 end
+```
+
+These Catlab Schemas are equivalent to the following SQL
+
+```SQL
+CREATE TABLE "Vertices" (
+	"id"	INTEGER,
+	PRIMARY KEY("id")
+);
+
+CREATE TABLE "Edges" (
+	"id"	INTEGER,
+	"src"	INTEGER,
+	"tgt"	INTEGER,
+	"sign"	BOOL,
+	PRIMARY KEY("id"),
+	FOREIGN KEY("src") REFERENCES "Vertices"("id"),
+	FOREIGN KEY("tgt") REFERENCES "Vertices"("vid")
+);
+
+-- or with rates
+
+CREATE TABLE "Vertices" (
+	"id"	INTEGER,
+  "vrate" NUMBER,
+	PRIMARY KEY("id")
+);
+
+CREATE TABLE "Edges" (
+	"id"	INTEGER,
+	"src"	INTEGER,
+	"tgt"	INTEGER,
+	"sign"	BOOL,
+  "erate" Number,
+	PRIMARY KEY("id"),
+	FOREIGN KEY("src") REFERENCES "Vertices"("id"),
+	FOREIGN KEY("tgt") REFERENCES "Vertices"("vid")
+);
 ```
 
 The dynamics are given by the following julia program, which iterates over the vertices of the graph and then the neighbors of that vertex (incident edges).
