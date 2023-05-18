@@ -8,6 +8,7 @@
         {
           "id": "S",
           "name": "Susceptible",
+          "description": "Number of individuals relative to the total population that are 'susceptible' to a disease infection",
           "grounding": {
             "identifiers": {"ido": "0000514"}
           },
@@ -20,6 +21,7 @@
         {
           "id": "I",
           "name": "Infected",
+          "description": "Number of individuals relative to the total population that are 'infected' by a disease",
           "grounding": {
             "identifiers": {"ido": "0000511"}
           },
@@ -32,6 +34,7 @@
         {
           "id": "R",
           "name": "Recovered",
+          "description": "Number of individuals relative to the total population that have 'recovered' from a disease infection",
           "grounding": {
             "identifiers": {"ido": "0000592"}
           },
@@ -45,6 +48,8 @@
       "transitions": [
         {
           "id": "inf",
+          "name": "Infection",
+          "description": "Infective interaction between individuals",
           "input": ["S","I"],
           "output": ["I","I"],
           "properties": {
@@ -57,10 +62,11 @@
         },
         {
           "id": "rec",
+          "name": "Recovery",
+          "description": "Recovery interaction of a infected individual",
           "input": ["I"],
           "output": ["R"],
           "properties": {
-            "name": "Recovery",
             "rate": {
               "expression": "I*gamma",
               "expression_mathml": "<apply><times/><ci>I</ci><ci>gamma</ci></apply>"
@@ -71,7 +77,8 @@
       "parameters": [
         {
           "id": "beta",
-          "description": "infection rate",
+          "name": "β",
+          "description": "Rate of infection",
           "value": 0.027,
           "distribution": {
             "type": "StandardUniform1",
@@ -83,7 +90,8 @@
         },
         {
           "id": "gamma",
-          "description": "recovery rate",
+          "name": "γ",
+          "description": "Rate of recovery",
           "grounding": {
             "identifiers": {"askemo": "0000013"}
           },
@@ -98,17 +106,20 @@
         },
         {
           "id": "S0",
-          "description": "Total susceptible population at timestep 0",
+          "name": "S₀",
+          "description": "'Susceptible' population at timestep 0",
           "value": 1000
         },
         {
           "id": "I0",
-          "description": "Total infected population at timestep 0",
+          "name": "I₀",
+          "description": "'Infected' population at timestep 0",
           "value": 1
         },
         {
           "id": "R0",
-          "description": "Total recovered population at timestep 0",
+          "name": "R₀",
+          "description": "'Recovered' population at timestep 0",
           "value": 0
         }
       ]
