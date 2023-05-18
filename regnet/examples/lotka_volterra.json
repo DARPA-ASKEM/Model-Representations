@@ -8,6 +8,7 @@
       {
         "id": "R",
         "name": "Rabbits",
+        "description": "Number of rabbits",
         "grounding": {},
         "initial": "R0",
         "rate_constant": "alpha",
@@ -16,6 +17,7 @@
       {
         "id": "W",
         "name": "Wolves",
+        "description": "Number of wolves",
         "grounding": {},
         "initial": "W0",
         "rate_constant": "gamma",
@@ -25,6 +27,8 @@
     "edges": [
       {
         "id": "wolf_eats_rabbit",
+        "name": "β",
+        "description": "Effect of wolves on the rabbit population",
         "source": "W",
         "target": "R",
         "sign": false,
@@ -34,6 +38,8 @@
       },
       {
         "id": "rabbit_feeds_wolf",
+        "name": "δ",
+        "description": "Effect of rabbits on the wolf population",
         "source": "R",
         "target": "W",
         "sign": true,
@@ -45,31 +51,37 @@
     "parameters": [
       {
         "id": "R0",
+        "name": "R₀",
         "description": "Initial rabbit population",
         "value": 2
       },
       {
         "id": "W0",
+        "name": "W₀",
         "description": "Initial wolf population",
         "value": 1
       },
       {
         "id": "alpha",
+        "name": "α",
         "description": "Maximum per capita prey growth rate",
         "value": 0.667
       },
       {
         "id": "beta",
+        "name": "β",
         "description": "Effect of predators on prey",
         "value": 1.333
       },
       {
         "id": "gamma",
+        "name": "γ",
         "description": "Effect of prey on predators",
         "value": 1
       },
       {
         "id": "delta",
+        "name": "δ",
         "description": "Maximum per capita predator death rate",
         "value": 1
       }

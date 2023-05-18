@@ -8,6 +8,7 @@
       {
         "id": "R",
         "name": "Rabbits",
+        "description": "Number of rabbits",
         "grounding": {},
         "initial": "R0",
         "rate_constant": "alpha",
@@ -16,6 +17,7 @@
       {
         "id": "W",
         "name": "Wolves",
+        "description": "Number of wolves",
         "grounding": {},
         "initial": 1,
         "rate_constant": 0.2,
@@ -25,16 +27,19 @@
     "edges": [
       {
         "id": "rabbit_growth",
+        "name": "Rabbit growth",
+        "description": "Natural growth rate of a rabbit population",
         "source": "R",
         "target": "R",
         "sign": true,
         "properties": {
-          "name": "Rabbit growth",
           "rate_constant": 0.2
         }
       },
       {
         "id": "wolf_growth",
+        "name": "Wolf growth",
+        "description": "Natural growth rate of a wolf population",
         "source": "W",
         "target": "W",
         "sign": true,
@@ -44,6 +49,8 @@
       },
       {
         "id": "predation",
+        "name": "Predation",
+        "description": "Effect of wolves predating on rabbits",
         "source": "W",
         "target": "R",
         "sign": false,
@@ -53,16 +60,20 @@
     "parameters": [
       {
         "id": "R0",
-        "description": "Initial rabbit population",
+        "name": "R₀",
+        "description": "Number of rabbits at timestep 0",
         "value": 10
       },
       {
         "id": "alpha",
-        "description": "Natural decay of rabbits",
+        "name": "α",
+        "description": "Natural death rate of rabbits in number of individuals per unit time",
         "value": 0.01
       },
       {
         "id": "beta",
+        "name": "β",
+        "description": "Natural birth rate of wolves in number of individuals per unit time",
         "value": 0.02
       }
     ]
