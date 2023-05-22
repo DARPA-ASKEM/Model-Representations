@@ -1,0 +1,19 @@
+# Introduction {.unnumbered}
+
+This document compiles some of the informal contracts across different implementations of the ASKEM modeling framework, as broadly construed.
+
+Here we try to answer some questions like
+
+- What does a modeling framework consist of?
+- What is syntax for models?
+- How do we go from syntax to semantics?
+
+Obviously this is a work in progress; we're going to start by "working in the small" and specifying examples before getting to the bigger picture.
+
+## TODO
+
+- Comprehensive references for Petri nets
+  - Syntax
+  - Semantics
+- Comprehensive references for regulatory nets
+- Ontological overview of program

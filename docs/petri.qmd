@@ -1,0 +1,4 @@
+# Petri nets
+
+The best slow-paced reference on Petri nets is [@baez_quantum_2018]. It has a very intimidating title, but chapters 1 and 2 cover the rate equation (i.e. the mass-action semantics) and are purely ODE-based (zero category theory, zero probability theory, zero quantum mechanics).
+

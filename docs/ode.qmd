@@ -1,0 +1,13 @@
+# ODE Semantics
+
+There are various frameworks within ASKEM that have "ODE semantics". But what does this mean?
+
+It means that to each model, we can assign in a systematic way the following data.
+
+1. A finite set $X$ called the set of state variables. By this we mean a finite set of *names* for state variables. The fact that we think of these as state variables has no mathematical or technical meaning; this is just a set of names. These names could either be descriptive, or could be simply $\{1,\ldots,n\}$.
+2. A finite set $B$ called the set of parameter variables.
+3. A finite set $A$ called the set of output variables.
+4. A function $v \colon \mathbb{R}^X \times \mathbb{R}^B \to \mathbb{R}^X$ called the vector field. The associated differential equation to this is written as
+   $$ \dot{x} = v(x,u) $$
+   where $x \in \mathbb{R}^X$ and $u \in \mathbb{R}^B$
+5. A function $f \colon \mathbb{R}^X \to \mathbb{R}^A$ called the *output map*. This part is often neglected, because often $A = X$ and this is the identity map $f(x) = x$. But in cases where we need to do model comparison across models with different sets of state variables, this becomes important.
