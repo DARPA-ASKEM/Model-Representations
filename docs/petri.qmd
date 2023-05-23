@@ -1,4 +1,72 @@
 # Petri nets
 
-The best slow-paced reference on Petri nets is [@baez_quantum_2018]. It has a very intimidating title, but chapters 1 and 2 cover the rate equation (i.e. the mass-action semantics) and are purely ODE-based (zero category theory, zero probability theory, zero quantum mechanics).
+## What is a Petri net?
+
+TODO
+
+## ODE semantics
+
+There are two ODE semantics for Petri nets, which share much in common.
+
+1. A state variable for each species (representing the population of that species)
+2. A parameter variable for each transition (what this represents is different across the two semantics)
+3. An output variable for each species
+4. (different vector fields)
+5. An output function that is the identity.
+
+We now discuss what is different between the two semantics.
+
+### Push-pull network
+
+Note: I am not sure exactly what to name this semantics. I have settled on push-pull for now.
+
+In the push-pull network semantics for a Petri net, the parameter for a transition corresponds to the rate at which that transition converts its inputs to its outputs.
+
+Note that this gives no guarantee that populations will never go negative. If you have a Petri net with species $A$ and $B$ and one transition that has input $A$ and output $B$, and you set the rate of that transition to be a constant, then the population of $A$ will eventually go negative.
+
+Thus, the intended use of the push-pull semantics is to be used with a custom reparameterization that chooses some sensible rate laws.
+
+```julia
+"""
+  Computes the vector field for the push_pull_network semantics
+"""
+function push_pull_network(pn::PetriNet, _populations::Vector{Float64}, rates::Vector{Float64})
+  # TODO
+end
+```
+
+```python
+def push_pull_network(...):
+  """
+    Computes the vector field for the push_pull_network semantics
+  """
+  pass
+```
+
+### Mass-action
+
+One way of thinking about mass-action semantics is that it's a reparameterization of push-pull semantics in the simplest possible way in order to make sure that no population ever goes negative. However, it is a common reparameterization that can be derived uniformly from the structure of the Petri net itself, and thus it makes sense for it to be its own semantics.
+
+The basic idea is to multiply the rate of each transition by the product of the populations of the input species. This ensures that transitions slow down when the input is close to being depleted, in such a way that it doesn't force the input below zero.
+
+```julia
+"""
+  Computes the vector field for the mass_action semantics
+"""
+function mass_action(pn::PetriNet, populations::Vector{Float64}, rates::Vector{Float64})
+  # TODO
+end
+```
+
+```python
+def mass_action(...):
+  """
+    Computes the vector field for the mass_action semantics
+  """
+  pass
+```
+
+## References
+
+A good slow-paced reference on Petri nets is [@baez_quantum_2018]. It has an intimidating title, but chapters 1 and 2 cover the rate equation (i.e. the mass-action semantics) and are purely ODE-based (zero category theory, zero probability theory, zero quantum mechanics).
 

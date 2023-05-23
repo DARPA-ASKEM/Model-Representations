@@ -1,0 +1,9 @@
+# Regulatory networks
+
+## What is a regulatory network?
+
+A regulatory network is a signed graph (todo: expand this)
+
+## ODE semantics
+
+### Lotka-Volterra

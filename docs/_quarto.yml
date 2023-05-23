@@ -6,7 +6,9 @@ book:
   author: "The ASKEM Project"
   chapters:
     - index.qmd
+    - ode.qmd
     - petri.qmd
+    - regnet.qmd
     - references.qmd
 
 bibliography: references.bib

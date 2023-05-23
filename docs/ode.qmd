@@ -1,13 +1,38 @@
 # ODE Semantics
 
-There are various frameworks within ASKEM that have "ODE semantics". But what does this mean?
+There are various frameworks within ASKEM that have "ODE semantics". What does this mean?
 
-It means that to each model, we can assign in a systematic way the following data.
+Formally speaking, this has something to do with category theory, functors, etc. But we can get at the core of the matter in a fairly first-principles way.
+
+Before we get into the technical details, a review of notation/terminology.
+
+- A **finite set** is a collection of things. The two important questions a finite set answers are:
+
+  - How many things there are?
+  - How do we refer to those things?
+
+  Technically speaking, we could get away with only numbering things $1$ to $n$. But it's convenient to give things human-readable names instead.
+
+  Examples of finite sets: $\{1,2,3\}, \{S, I, R\}, \{\mathtt{susceptible}, \mathtt{infected}, \mathtt{recovered}\}$
+- $\mathbb{R}$ is the set (or type, if you prefer) of real numbers. On a computer, these are represented by floating point numbers.
+- If $I$ is a finite set, then $\mathbb{R}^I$ is the set (or type) of *assignments of a real number to each element of $I$*. So for instance, if $I = \{a,b,c\}$, then $\mathbb{R}^I$ is the set of three-dimensional vectors.
+
+Finally, we will talk about functions $\mathbb{R}^A \to \mathbb{R}^B$. We use "function" as a physicist would; we assume that the function is well-behaved enough to do what we want with it (i.e., solve an ODE). Functions are a tricky subject, because one cannot serialize in a language-independent way an arbitrary function; more on this later.
+
+With this out of the way, an ODE semantics for a modeling frameworks means a systematic way of assigning to each model the following data.
 
 1. A finite set $X$ called the set of state variables. By this we mean a finite set of *names* for state variables. The fact that we think of these as state variables has no mathematical or technical meaning; this is just a set of names. These names could either be descriptive, or could be simply $\{1,\ldots,n\}$.
-2. A finite set $B$ called the set of parameter variables.
+2. A finite set $B$ called the set of parameter variables. One thing to note is that calling these parameters doesn't mean that they are simply held fixed. They could just as well be dynamic and determined by the output of some other system.
 3. A finite set $A$ called the set of output variables.
 4. A function $v \colon \mathbb{R}^X \times \mathbb{R}^B \to \mathbb{R}^X$ called the vector field. The associated differential equation to this is written as
    $$ \dot{x} = v(x,u) $$
    where $x \in \mathbb{R}^X$ and $u \in \mathbb{R}^B$
 5. A function $f \colon \mathbb{R}^X \to \mathbb{R}^A$ called the *output map*. This part is often neglected, because often $A = X$ and this is the identity map $f(x) = x$. But in cases where we need to do model comparison across models with different sets of state variables, this becomes important.
+
+See (Petri net base semantics), (Petri net mass action semantics), (RegNet Lotka-Volterra semantics) for examples.
+
+After a certain ODE semantics has been applied to a model, we can perform certain operations at the level of just ODEs. These include
+
+1. Reparameterization.
+2. Modifying the output.
+3. Composition with other ODE models.
