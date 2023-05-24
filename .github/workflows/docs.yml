@@ -1,0 +1,33 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+name: Render Documentation
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+      - name: Intall LaTeX dependencies
+        run: |
+          sudo apt-get install graphviz pdf2svg
+          quarto install tinytex --update-path
+          tlmgr update --self
+          tlmgr install tikz-cd luatex85
+      - name: Render Quarto Project
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: docs
+      - name: Deploy to Production
+        if: github.event_name == 'push'
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FOLDER: docs/_book

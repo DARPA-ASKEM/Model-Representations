@@ -1,1 +1,9 @@
 /.quarto/
+/_site/
+/_book/
+_freeze/
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
