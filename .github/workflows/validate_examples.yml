@@ -15,4 +15,7 @@ jobs:
           npm test
   json-formatting:
     name: EditorConfig-Action
-    uses: zbeekman/EditorConfig-Action@v1.1.1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: zbeekman/EditorConfig-Action@v1.1.1
