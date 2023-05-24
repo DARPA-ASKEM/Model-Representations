@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "metadata":{
+    "metadata": {
       "title": "ExtractionsCollection",
       "description": "Represents a collection of extractions ",
       "type": "object",
@@ -314,4 +314,4 @@
     }
   },
   "required": []
-}  
+}
