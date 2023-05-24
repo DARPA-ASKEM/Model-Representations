@@ -86,65 +86,8 @@
       "type": "object",
       "description": "Information specific to a given semantics (e.g., ODEs) associated with a model.",
       "properties": {
-        "rates": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "target": {
-                "type": "string"
-              },
-              "expression": {
-                "type": "string"
-              },
-              "expression_mathml": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "initials": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "target": {
-                "type": "string"
-              },
-              "expression": {
-                "type": "string"
-              },
-              "expression_mathml": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "parameters": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "value": {
-                "type": "number"
-              },
-              "grounding": {
-                "$ref": "#/$defs/grounding"
-              },
-              "distribution": {
-                "$ref": "#/$defs/distribution"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          }
+        "ode": {
+          "$ref": "#/$defs/odeSemantics"
         }
       }
     },
@@ -280,6 +223,71 @@
         "doi"
       ],
       "additionalProperties": false
+    },
+    "odeSemantics": {
+      "type": "object",
+      "properties": {
+        "rates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "expression_mathml": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "initials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "expression_mathml": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "grounding": {
+                "$ref": "#/$defs/grounding"
+              },
+              "distribution": {
+                "$ref": "#/$defs/distribution"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      }
     }
   },
   "additionalProperties": true,
