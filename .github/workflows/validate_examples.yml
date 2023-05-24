@@ -13,3 +13,6 @@ jobs:
           cd validation
           npm ci
           npm test
+  json-formatting:
+    name: EditorConfig-Action
+    uses: zbeekman/EditorConfig-Action@v1.1.1
