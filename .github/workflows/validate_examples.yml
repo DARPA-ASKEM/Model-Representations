@@ -14,8 +14,9 @@ jobs:
           npm ci
           npm test
   json-formatting:
-    name: EditorConfig-Action
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: zbeekman/EditorConfig-Action@v1.1.1
+      - uses: actions/checkout@v2
+      - uses: editorconfig-checker/action-editorconfig-checker@main
+      - run: editorconfig-checker
+
