@@ -19,8 +19,6 @@
             ],
             "type": "object",
             "properties": {
-              "name": { "type": "string" },
-              "description": { "type": "string" },
               "initial": { "$ref": "#/$defs/param_or_number" }
             }
           }
@@ -33,8 +31,6 @@
             "properties": {
               "source": { "type": "string" },
               "target": { "type": "string" },
-              "name": { "type": "string" },
-              "description": { "type": "string" },
               "properties": { "$ref": "#/$defs/base_properties" }
             },
             "required": ["source", "target"]
@@ -82,6 +78,8 @@
     "base_properties": {
       "type": "object",
       "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
         "grounding": { "$ref": "#/$defs/grounding" },
         "rate_constant": { "$ref": "#/$defs/param_or_number" }
       }

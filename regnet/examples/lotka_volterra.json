@@ -27,23 +27,23 @@
     "edges": [
       {
         "id": "wolf_eats_rabbit",
-        "name": "β",
-        "description": "Effect of wolves on the rabbit population",
         "source": "W",
         "target": "R",
         "sign": false,
         "properties": {
+          "name": "β",
+          "description": "Effect of wolves on the rabbit population",
           "rate_constant": "beta"
         }
       },
       {
         "id": "rabbit_feeds_wolf",
-        "name": "δ",
-        "description": "Effect of rabbits on the wolf population",
         "source": "R",
         "target": "W",
         "sign": true,
         "properties": {
+          "name": "δ",
+          "description": "Effect of rabbits on the wolf population",
           "rate_constant": "delta"
         }
       }
