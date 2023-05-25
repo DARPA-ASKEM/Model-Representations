@@ -30,8 +30,6 @@
               "type": "object",
               "properties": {
                 "id": {"type": "string"},
-                "name": {"type": "string"},
-                "description": {"type": "string"},
                 "input": {"type": "array", "items": {"type": "string"}},
                 "output": {"type": "array", "items": {"type": "string"}},
                 "grounding": {"$ref": "#/$defs/grounding"},
@@ -77,6 +75,8 @@
       "properties": {
         "type": "object",
         "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
           "grounding": {"$ref": "#/$defs/grounding"},
           "rate": {"$ref": "#/$defs/rate"}
         },
