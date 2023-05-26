@@ -34,9 +34,6 @@
               },
               "grounding": {
                 "$ref": "#/$defs/grounding"
-              },
-              "initial": {
-                "$ref": "#/$defs/initial"
               }
             },
             "required": [
@@ -77,40 +74,22 @@
               "output"
             ]
           }
-        },
-        "parameters": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "value": {
-                "type": "number"
-              },
-              "grounding": {
-                "$ref": "#/$defs/grounding"
-              },
-              "distribution": {
-                "$ref": "#/$defs/distribution"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          }
         }
       },
       "additionalProperties": false,
       "required": [
         "states",
-        "transitions",
-        "parameters"
+        "transitions"
       ]
+    },
+    "semantics": {
+      "type": "object",
+      "description": "Information specific to a given semantics (e.g., ODEs) associated with a model.",
+      "properties": {
+        "ode": {
+          "$ref": "#/$defs/odeSemantics"
+        }
+      }
     },
     "metadata": {
       "type": "object",
@@ -118,22 +97,6 @@
     }
   },
   "$defs": {
-    "initial": {
-      "type": "object",
-      "properties": {
-        "expression": {
-          "type": "string"
-        },
-        "expression_mathml": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "expression",
-        "expression_mathml"
-      ],
-      "additionalProperties": true
-    },
     "properties": {
       "type": "object",
       "properties": {
@@ -142,30 +105,10 @@
         },
         "grounding": {
           "$ref": "#/$defs/grounding"
-        },
-        "rate": {
-          "$ref": "#/$defs/rate"
         }
       },
       "required": [
-        "name",
-        "rate"
-      ],
-      "additionalProperties": true
-    },
-    "rate": {
-      "type": "object",
-      "properties": {
-        "expression": {
-          "type": "string"
-        },
-        "expression_mathml": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "expression",
-        "expression_mathml"
+        "name"
       ],
       "additionalProperties": true
     },
@@ -280,6 +223,71 @@
         "doi"
       ],
       "additionalProperties": false
+    },
+    "odeSemantics": {
+      "type": "object",
+      "properties": {
+        "rates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "expression_mathml": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "initials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "expression_mathml": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "grounding": {
+                "$ref": "#/$defs/grounding"
+              },
+              "distribution": {
+                "$ref": "#/$defs/distribution"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      }
     }
   },
   "additionalProperties": true,
