@@ -173,10 +173,10 @@
                 "id": "Vaccine"
             },
             {
-                "id": "Infect",
+                "id": "Infect"
             },
             {
-                "id": "Disease",
+                "id": "Disease"
             },
             {
                 "id": "Strata"
@@ -215,7 +215,7 @@
                 "output": ["Disease"]
             }
         ]
-      }
+      },
     "semantics": {
       "ode": {
         "rates": [
