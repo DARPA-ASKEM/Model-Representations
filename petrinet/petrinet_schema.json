@@ -34,6 +34,9 @@
               },
               "grounding": {
                 "$ref": "#/$defs/grounding"
+              },
+              "typing": {
+                "type": "string"
               }
             },
             "required": [
@@ -101,6 +104,9 @@
       "type": "object",
       "properties": {
         "name": {
+          "type": "string"
+        },
+        "typing": {
           "type": "string"
         },
         "grounding": {
