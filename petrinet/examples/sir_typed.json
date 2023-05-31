@@ -67,155 +67,6 @@
             }
         ]
     },
-    "type_system": {
-        "states": [
-            {
-                "id": "Pop",
-                "name": "Pop",
-                "description": "Compartment of individuals in a human population"
-            },
-            {
-                "id": "Vaccine",
-                "name": "Vaccine",
-                "description": "Compartment of vaccine doses available for use in a vaccination campaign"
-            }
-        ],
-        "transitions": [
-            {
-                "id": "Infect",
-                "input": [
-                    "Pop",
-                    "Pop"
-                ],
-                "output": [
-                    "Pop",
-                    "Pop"
-                ],
-                "properties": {
-                    "name": "Infect",
-                    "description": "2-to-2 interaction that represents infectious contact between two human individuals"
-                }
-            },
-            {
-                "id": "Disease",
-                "input": [
-                    "Pop"
-                ],
-                "output": [
-                    "Pop"
-                ],
-                "properties": {
-                    "name": "Disease",
-                    "description": "1-to-1 interaction that represents a change in th edisease status of a human individual."
-                }
-            },
-            {
-                "id": "Strata",
-                "input": [
-                    "Pop"
-                ],
-                "output": [
-                    "Pop"
-                ],
-                "properties": {
-                    "name": "Strata",
-                    "description": "1-to-1 interaction that represents a change in the demographic division of a human individual."
-                }
-            },
-            {
-                "id": "Vaccinate",
-                "input": [
-                    "Pop",
-                    "Vaccine"
-                ],
-                "output": [
-                    "Pop"
-                ],
-                "properties": {
-                    "name": "Vaccinate",
-                    "description": "2-to-1 interaction that represents an human individual receiving a vaccine dose."
-                }
-            },
-            {
-                "id": "Produce_Vaccine",
-                "input": [],
-                "output": [
-                    "Vaccine"
-                ],
-                "properties": {
-                    "name": "Produce Vaccine",
-                    "description": "0-to-1 interaction that represents the production of a single vaccine dose."
-                }
-            }
-        ]
-      },
-      "typing": {
-        "states": [
-            {
-                "id": "S"
-            },
-            {
-                "id": "I"
-            },
-            {
-                "id": "R"
-            },
-            {
-                "id": "inf"
-            },
-            {
-                "id": "rec"
-            },
-            {
-                "id": "Pop"
-            },
-            {
-                "id": "Vaccine"
-            },
-            {
-                "id": "Infect"
-            },
-            {
-                "id": "Disease"
-            },
-            {
-                "id": "Strata"
-            },
-            {
-                "id": "Vaccinate"
-            },
-            {
-                "id": "Produce_Vaccine"
-            }
-        ],
-        "transition": [
-            {
-                "id": "0",
-                "input": ["S"],
-                "output": ["Pop"]
-            },
-            {
-                "id": "1",
-                "input": ["I"],
-                "output": ["Pop"]
-            },
-            {
-                "id": "2",
-                "input": ["R"],
-                "output": ["Pop"]
-            },
-            {
-                "id": "3",
-                "input": ["inf"],
-                "output": ["Infect"]
-            },
-            {
-                "id": "4",
-                "input": ["rec"],
-                "output": ["Disease"]
-            }
-        ]
-      },
     "semantics": {
       "ode": {
         "rates": [
@@ -292,6 +143,97 @@
             "description": "Total recovered population at timestep 0",
             "value": 0
           }
+        ]
+      },
+      "typing": {
+        "type_system": {
+          "states": [
+            {
+                "id": "Pop",
+                "name": "Pop",
+                "description": "Compartment of individuals in a human population"
+            },
+            {
+                "id": "Vaccine",
+                "name": "Vaccine",
+                "description": "Compartment of vaccine doses available for use in a vaccination campaign"
+            }
+          ],
+          "transitions": [
+            {
+                "id": "Infect",
+                "input": [
+                    "Pop",
+                    "Pop"
+                ],
+                "output": [
+                    "Pop",
+                    "Pop"
+                ],
+                "properties": {
+                    "name": "Infect",
+                    "description": "2-to-2 interaction that represents infectious contact between two human individuals"
+                }
+            },
+            {
+                "id": "Disease",
+                "input": [
+                    "Pop"
+                ],
+                "output": [
+                    "Pop"
+                ],
+                "properties": {
+                    "name": "Disease",
+                    "description": "1-to-1 interaction that represents a change in th edisease status of a human individual."
+                }
+            },
+            {
+                "id": "Strata",
+                "input": [
+                    "Pop"
+                ],
+                "output": [
+                    "Pop"
+                ],
+                "properties": {
+                    "name": "Strata",
+                    "description": "1-to-1 interaction that represents a change in the demographic division of a human individual."
+                }
+            },
+            {
+                "id": "Vaccinate",
+                "input": [
+                    "Pop",
+                    "Vaccine"
+                ],
+                "output": [
+                    "Pop"
+                ],
+                "properties": {
+                    "name": "Vaccinate",
+                    "description": "2-to-1 interaction that represents an human individual receiving a vaccine dose."
+                }
+            },
+            {
+                "id": "Produce_Vaccine",
+                "input": [],
+                "output": [
+                    "Vaccine"
+                ],
+                "properties": {
+                    "name": "Produce Vaccine",
+                    "description": "0-to-1 interaction that represents the production of a single vaccine dose."
+                }
+            }
+          ]
+        },
+        "type_map": [
+          ["S", "Pop"],
+          ["I", "Pop"],
+          ["R", "Pop"],
+          ["inf", "Infect"],
+          ["rec", "Disease"]
         ]
       }
     },
