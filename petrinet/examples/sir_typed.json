@@ -85,12 +85,12 @@
             {
                 "id": "Infect",
                 "input": [
-                "Pop",
-                "Pop"
+                    "Pop",
+                    "Pop"
                 ],
                 "output": [
-                "Pop",
-                "Pop"
+                    "Pop",
+                    "Pop"
                 ],
                 "properties": {
                     "name": "Infect",
@@ -100,10 +100,10 @@
             {
                 "id": "Disease",
                 "input": [
-                "Pop"
+                    "Pop"
                 ],
                 "output": [
-                "Pop"
+                    "Pop"
                 ],
                 "properties": {
                     "name": "Disease",
@@ -113,10 +113,10 @@
             {
                 "id": "Strata",
                 "input": [
-                "Pop"
+                    "Pop"
                 ],
                 "output": [
-                "Pop"
+                    "Pop"
                 ],
                 "properties": {
                     "name": "Strata",
@@ -126,11 +126,11 @@
             {
                 "id": "Vaccinate",
                 "input": [
-                "Pop",
-                "Vaccine"
+                    "Pop",
+                    "Vaccine"
                 ],
                 "output": [
-                "Pop"
+                    "Pop"
                 ],
                 "properties": {
                     "name": "Vaccinate",
@@ -141,7 +141,7 @@
                 "id": "Produce_Vaccine",
                 "input": [],
                 "output": [
-                "Vaccine"
+                    "Vaccine"
                 ],
                 "properties": {
                     "name": "Produce Vaccine",
