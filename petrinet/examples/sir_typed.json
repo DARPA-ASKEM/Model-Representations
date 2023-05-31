@@ -72,13 +72,12 @@
             {
                 "id": "Pop",
                 "name": "Pop",
-                "description": "Compartment of individuals in a human population",
-
+                "description": "Compartment of individuals in a human population"
             },
             {
                 "id": "Vaccine",
                 "name": "Vaccine",
-                "description": "Compartment of vaccine doses available for use in a vaccination campaign",
+                "description": "Compartment of vaccine doses available for use in a vaccination campaign"
             }
         ],
         "transitions": [
