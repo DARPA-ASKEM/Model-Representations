@@ -82,6 +82,136 @@
         "transitions"
       ]
     },
+    "type_system": {
+      "type": "object",
+      "description": "(Optional) A Petri net representing the 'type system' that is necessary to align states and transitions across different models during stratification.",
+      "properties": {
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "grounding": {
+                "$ref": "#/$defs/grounding"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "input": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "output": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "grounding": {
+                "$ref": "#/$defs/grounding"
+              },
+              "properties": {
+                "$ref": "#/$defs/properties"
+              }
+            },
+            "required": [
+              "id",
+              "input",
+              "output"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "states",
+        "transitions"
+      ]
+    },
+    "typing": {
+      "type": "object",
+      "description": "(Optional) A Petri net representing the assignment of model nodes to their corresponding node in the type system.",
+      "properties": {
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "grounding": {
+                "$ref": "#/$defs/grounding"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "input": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "output": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "grounding": {
+                "$ref": "#/$defs/grounding"
+              },
+              "properties": {
+                "$ref": "#/$defs/properties"
+              }
+            },
+            "required": [
+              "id",
+              "input",
+              "output"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "states",
+        "transitions"
+      ]
+    },
     "semantics": {
       "type": "object",
       "description": "Information specific to a given semantics (e.g., ODEs) associated with a model.",
