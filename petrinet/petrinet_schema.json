@@ -258,15 +258,12 @@
           ]
         },
         "type_map": {
-          "type": "object",
+          "type": "array",
           "description": "A map between the (state and transition) nodes of the model and the (state and transition) nodes of the type system",
-          "properties": {
+          "items": {
             "type": "array",
             "items": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "type": "string"
             }
           }
         }
