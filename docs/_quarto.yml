@@ -1,0 +1,29 @@
+project:
+  type: book
+
+book:
+  title: "ASKEM Model Documentation"
+  author: "The ASKEM Project"
+  chapters:
+    - index.qmd
+    - ode.qmd
+    - petri.qmd
+    - regnet.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+execute:
+  echo: true
+  output: false
+
+format:
+  html:
+    theme: cosmo
+    css: main.css
+    html-math-method: katex
+  pdf:
+    documentclass: scrreprt
+
+
+

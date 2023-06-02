@@ -1,22 +1,30 @@
-# Lotka-Volterra Semantics for Regnets
+# Regulatory networks
 
-This file explains how to interperet Regnets with Lotka-Volterra Semantics. 
-The key idea is that variables of the system are the vertices and interactions are edges.
+## What is a regulatory network?
 
-A *Lotka-Volterra system* of equations has the form
+A regulatory network is a signed graph (todo: expand this)
 
-\[
-  \dot x_i = \rho_i\, x_i + \sum_{j=1}^n \beta_{i,j}\, x_i\, x_j,
-  \qquad i = 1,\dots,n.
-\]
+## ODE semantics
+
+### Lotka-Volterra
+
+When interpreting Regnets with Lotka-Volterra semantics, variables of the
+system are the vertices and interactions are edges.
+
+A _Lotka-Volterra system_ of equations has the form
+
+$$
+\dot x*i = \rho_i\, x_i + \sum*{j=1}^n \beta\_{i,j}\, x_i\, x_j,
+\qquad i = 1,\dots,n.
+$$
 
 or equivalently, has logarithmic derivatives that are affine functions of the
 state variables:
 
-\[
-  \frac{d}{dt}[\log x_i(t)] = \rho_i + \sum_{j=1}^n \beta_{i,j}\, x_j(t),
-  \qquad i = 1,\dots,n.
-\]
+$$
+\frac{d}{dt}[\log x_i(t)] = \rho*i + \sum*{j=1}^n \beta\_{i,j}\, x_j(t),
+\qquad i = 1,\dots,n.
+$$
 
 The coefficients $\rho_i$ specify baseline rates of growth or decay, according
 to their sign, and the coefficients $\beta_{i,j}$ rates of activation or
@@ -122,3 +130,8 @@ function Catlab.Graphics.to_graphviz_property_graph(sg::AbstractSignedGraph; kw.
   pg
 end
 ```
+
+## References
+
+The Lotka-Volterra semantics described here are from *A compositional account of motifs, mechanisms, and dynamics in biochemical regulatory networks* [@aduddell_regnet_2023].
+
