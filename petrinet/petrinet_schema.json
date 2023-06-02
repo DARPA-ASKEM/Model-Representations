@@ -22,58 +22,10 @@
       "type": "object",
       "properties": {
         "states": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "grounding": {
-                "$ref": "#/$defs/grounding"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          }
+          "$ref": "#/$defs/states"
         },
         "transitions": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "input": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "output": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "grounding": {
-                "$ref": "#/$defs/grounding"
-              },
-              "properties": {
-                "$ref": "#/$defs/properties"
-              }
-            },
-            "required": [
-              "id",
-              "input",
-              "output"
-            ]
-          }
+          "$ref": "#/$defs/transitions"
         }
       },
       "additionalProperties": false,
@@ -88,6 +40,10 @@
       "properties": {
         "ode": {
           "$ref": "#/$defs/odeSemantics"
+        },
+        "typing": {
+          "description": "(Optional) Information for aligning models for stratification",
+          "$ref": "#/$defs/typingSemantics"
         }
       }
     },
@@ -97,6 +53,63 @@
     }
   },
   "$defs": {
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "grounding": {
+            "$ref": "#/$defs/grounding"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }      
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "input": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "grounding": {
+            "$ref": "#/$defs/grounding"
+          },
+          "properties": {
+            "$ref": "#/$defs/properties"
+          }
+        },
+        "required": [
+          "id",
+          "input",
+          "output"
+        ]
+      }
+    },
     "properties": {
       "type": "object",
       "properties": {
@@ -223,6 +236,38 @@
         "doi"
       ],
       "additionalProperties": false
+    },
+    "typingSemantics": {
+      "type": "object",
+      "properties": {
+        "type_system": {
+          "type": "object",
+          "description": "A Petri net representing the 'type system' that is necessary to align states and transitions across different models during stratification.",
+          "properties": {
+            "states": {
+              "$ref": "#/$defs/states"
+            },
+            "transitions": {
+              "$ref": "#/$defs/transitions"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "states",
+            "transitions"
+          ]
+        },
+        "type_map": {
+          "type": "array",
+          "description": "A map between the (state and transition) nodes of the model and the (state and transition) nodes of the type system",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "odeSemantics": {
       "type": "object",
