@@ -11,9 +11,24 @@
       "description": "A description of the model."
     },
     "schema": {
-      "type": "string",
-      "format": "uri",
-      "description": "URI of a JSON schema document that describes the model stored in the 'model' parameter."
+      "type": "object",
+      "description": "Object that describes the model stored in the 'model' parameter, including its schema, framework, and version.",
+      "properties": {
+          "schema_uri": {
+              "type": "string",
+              "format": "uri",
+              "description": "URI of a JSON schema document."
+          },
+          "framework": {
+              "type": "string",
+              "description": "Name of the framework."
+          },
+          "version": {
+              "type": "string",
+              "description": "Framework version."
+          }
+      },
+      "required": ["schema_uri", "framework", "version"]
     },
     "model": {
       "type": "object",
