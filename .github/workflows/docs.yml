@@ -29,5 +29,6 @@ jobs:
         if: github.event_name == 'push'
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
+          BRANCH: gh-pages
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FOLDER: docs/_book
