@@ -6,6 +6,7 @@ book:
   author: "The ASKEM Project"
   chapters:
     - index.qmd
+    - ontology.qmd
     - ode.qmd
     - petri.qmd
     - regnet.qmd
