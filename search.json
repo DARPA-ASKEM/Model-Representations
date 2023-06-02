@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ASKEM Model Documentation",
+    "section": "",
+    "text": "Introduction\nThis document compiles some of the informal contracts across different implementations of the ASKEM modeling framework, as broadly construed.\nHere we try to answer some questions like\nObviously this is a work in progress; we’re going to start by “working in the small” and specifying examples before getting to the bigger picture.\nThis document will contain some code samples, but the technical core will specified via mathematics rather than via implementation in any specific language. The reason for this is that the purpose of ASKEM is not just to develop libraries in specific languages for modeling work; the purpose is to understand how to create modeling abstractions that can work across many different tools. Thus, the core of ASKEM must rest on language-independent foundations, and mathematics is the lingua franca of formalization."
+  },
+  {
+    "objectID": "index.html#todo",
+    "href": "index.html#todo",
+    "title": "ASKEM Model Documentation",
+    "section": "TODO",
+    "text": "TODO\n\nComprehensive references for Petri nets\n\nSyntax\nSemantics\n\nComprehensive references for regulatory nets\nOntological overview of program"
+  },
+  {
+    "objectID": "ode.html",
+    "href": "ode.html",
+    "title": "1  ODE Semantics",
+    "section": "",
+    "text": "There are various frameworks within ASKEM that have “ODE semantics”. What does this mean?\nFormally speaking, this has something to do with category theory, functors, etc. But we can get at the core of the matter in a fairly first-principles way.\nBefore we get into the technical details, a review of notation/terminology.\n\nA finite set is a collection of things. The two important questions a finite set answers are:\n\nHow many things there are?\nHow do we refer to those things?\n\nTechnically speaking, we could get away with only numbering things 1 to n. But it’s convenient to give things human-readable names instead.\nExamples of finite sets: \\{1,2,3\\}, \\{S, I, R\\}, \\{\\mathtt{susceptible}, \\mathtt{infected}, \\mathtt{recovered}\\}\n\\mathbb{R} is the set (or type, if you prefer) of real numbers. On a computer, these are represented by floating point numbers.\nIf I is a finite set, then \\mathbb{R}^I is the set (or type) of assignments of a real number to each element of I. So for instance, if I = \\{a,b,c\\}, then \\mathbb{R}^I is the set of three-dimensional vectors.\n\nFinally, we will talk about functions \\mathbb{R}^A \\to \\mathbb{R}^B. We use “function” as a physicist would; we assume that the function is well-behaved enough to do what we want with it (i.e., solve an ODE). Functions are a tricky subject, because one cannot serialize in a language-independent way an arbitrary function; more on this later.\nWith this out of the way, an ODE semantics for a modeling frameworks means a systematic way of assigning to each model the following data.\n\nA finite set X called the set of state variables. By this we mean a finite set of names for state variables. The fact that we think of these as state variables has no mathematical or technical meaning; this is just a set of names. These names could either be descriptive, or could be simply \\{1,\\ldots,n\\}.\nA finite set B called the set of parameter variables. One thing to note is that calling these parameters doesn’t mean that they are simply held fixed. They could just as well be dynamic and determined by the output of some other system.\nA finite set A called the set of output variables.\nA function v \\colon \\mathbb{R}^X \\times \\mathbb{R}^B \\to \\mathbb{R}^X called the vector field. The associated differential equation to this is written as  \\dot{x} = v(x,u)  where x \\in \\mathbb{R}^X and u \\in \\mathbb{R}^B\nA function f \\colon \\mathbb{R}^X \\to \\mathbb{R}^A called the output map. This part is often neglected, because often A = X and this is the identity map f(x) = x. But in cases where we need to do model comparison across models with different sets of state variables, this becomes important.\n\nSee (Petri net base semantics), (Petri net mass action semantics), (RegNet Lotka-Volterra semantics) for examples.\nAfter a certain ODE semantics has been applied to a model, we can perform certain operations at the level of just ODEs. These include\n\nReparameterization.\nModifying the output.\nComposition with other ODE models."
+  },
+  {
+    "objectID": "petri.html#what-is-a-petri-net",
+    "href": "petri.html#what-is-a-petri-net",
+    "title": "2  Petri nets",
+    "section": "2.1 What is a Petri net?",
+    "text": "2.1 What is a Petri net?\nTODO"
+  },
+  {
+    "objectID": "petri.html#ode-semantics",
+    "href": "petri.html#ode-semantics",
+    "title": "2  Petri nets",
+    "section": "2.2 ODE semantics",
+    "text": "2.2 ODE semantics\nThere are two ODE semantics for Petri nets, which share much in common.\n\nA state variable for each species (representing the population of that species)\nA parameter variable for each transition (what this represents is different across the two semantics)\nAn output variable for each species\n(different vector fields)\nAn output function that is the identity.\n\nWe now discuss what is different between the two semantics.\n\n2.2.1 Push-pull network\nNote: I am not sure exactly what to name this semantics. I have settled on push-pull for now.\nIn the push-pull network semantics for a Petri net, the parameter for a transition corresponds to the rate at which that transition converts its inputs to its outputs.\nNote that this gives no guarantee that populations will never go negative. If you have a Petri net with species A and B and one transition that has input A and output B, and you set the rate of that transition to be a constant, then the population of A will eventually go negative.\nThus, the intended use of the push-pull semantics is to be used with a custom reparameterization that chooses some sensible rate laws.\n\"\"\"\n  Computes the vector field for the push_pull_network semantics\n\"\"\"\nfunction push_pull_network(pn::PetriNet, _populations::Vector{Float64}, rates::Vector{Float64})\n  # TODO\nend\ndef push_pull_network(...):\n  \"\"\"\n    Computes the vector field for the push_pull_network semantics\n  \"\"\"\n  pass\n\n\n2.2.2 Mass-action\nOne way of thinking about mass-action semantics is that it’s a reparameterization of push-pull semantics in the simplest possible way in order to make sure that no population ever goes negative. However, it is a common reparameterization that can be derived uniformly from the structure of the Petri net itself, and thus it makes sense for it to be its own semantics.\nThe basic idea is to multiply the rate of each transition by the product of the populations of the input species. This ensures that transitions slow down when the input is close to being depleted, in such a way that it doesn’t force the input below zero.\n\"\"\"\n  Computes the vector field for the mass_action semantics\n\"\"\"\nfunction mass_action(pn::PetriNet, populations::Vector{Float64}, rates::Vector{Float64})\n  # TODO\nend\ndef mass_action(...):\n  \"\"\"\n    Computes the vector field for the mass_action semantics\n  \"\"\"\n  pass"
+  },
+  {
+    "objectID": "petri.html#references",
+    "href": "petri.html#references",
+    "title": "2  Petri nets",
+    "section": "2.3 References",
+    "text": "2.3 References\nA good slow-paced reference on Petri nets is (Baez and Biamonte 2018). It has an intimidating title, but chapters 1 and 2 cover the rate equation (i.e. the mass-action semantics) and are purely ODE-based (zero category theory, zero probability theory, zero quantum mechanics).\n\n\n\n\nBaez, John, and Jacob D Biamonte. 2018. Quantum Techniques in Stochastic Mechanics. WORLD SCIENTIFIC. https://doi.org/10.1142/10623."
+  },
+  {
+    "objectID": "regnet.html#what-is-a-regulatory-network",
+    "href": "regnet.html#what-is-a-regulatory-network",
+    "title": "3  Regulatory networks",
+    "section": "3.1 What is a regulatory network?",
+    "text": "3.1 What is a regulatory network?\nA regulatory network is a signed graph (todo: expand this)"
+  },
+  {
+    "objectID": "regnet.html#ode-semantics",
+    "href": "regnet.html#ode-semantics",
+    "title": "3  Regulatory networks",
+    "section": "3.2 ODE semantics",
+    "text": "3.2 ODE semantics\n\n3.2.1 Lotka-Volterra\nWhen interpreting Regnets with Lotka-Volterra semantics, variables of the system are the vertices and interactions are edges.\nA Lotka-Volterra system of equations has the form\n\n\\dot x*i = \\rho_i\\, x_i + \\sum*{j=1}^n \\beta\\_{i,j}\\, x_i\\, x_j,\n\\qquad i = 1,\\dots,n.\n\nor equivalently, has logarithmic derivatives that are affine functions of the state variables:\n\n\\frac{d}{dt}[\\log x_i(t)] = \\rho*i + \\sum*{j=1}^n \\beta\\_{i,j}\\, x_j(t),\n\\qquad i = 1,\\dots,n.\n\nThe coefficients \\rho_i specify baseline rates of growth or decay, according to their sign, and the coefficients \\beta_{i,j} rates of activation or inhibition, according to their sign. We construct a functor that sends a signed graph (regulatory network) to a Lotka-Volterra model that constrains the signs of the rate coefficients By working with signed graphs, rather than merely graphs, we ensure that scientific knowledge about whether interactions are promoting or inhibiting is reflected in both the syntax and the quantitative semantics.\nIn order to comprehend complex biological systems, we must decompose them into small, readily understandable pieces and then compose them back together to reproduce the behavior of the original system. This is the mantra of systems biology, which stresses that compositionality is no less important than reductionism in biology.\nSigned Graphs are stored in Catlab using the following schemas:\n\n@present SchGraph(FreeSchema)\n  (V,E)::Ob\n  src::Hom(E,V)\n  tgt::Hom(E,V)\nend\n\n@present SchSignedGraph &lt;: SchGraph begin\n  Sign::AttrType\n  sign::Attr(E,Sign)\nend\n\n# when you want rates to be stored in the model\n@present SchRateSignedGraph &lt;: SchSignedGraph begin\n  A::AttrType\n  vrate::Attr(V,A)\n  erate::Attr(E,A)\nend\nThese Catlab Schemas are equivalent to the following SQL\nCREATE TABLE \"Vertices\" (\n    \"id\"    INTEGER,\n    PRIMARY KEY(\"id\")\n);\n\nCREATE TABLE \"Edges\" (\n    \"id\"    INTEGER,\n    \"src\"   INTEGER,\n    \"tgt\"   INTEGER,\n    \"sign\"  BOOL,\n    PRIMARY KEY(\"id\"),\n    FOREIGN KEY(\"src\") REFERENCES \"Vertices\"(\"id\"),\n    FOREIGN KEY(\"tgt\") REFERENCES \"Vertices\"(\"vid\")\n);\n\n-- or with rates\n\nCREATE TABLE \"Vertices\" (\n    \"id\"    INTEGER,\n    \"vrate\" NUMBER,\n    PRIMARY KEY(\"id\")\n);\n\nCREATE TABLE \"Edges\" (\n    \"id\"    INTEGER,\n    \"src\"   INTEGER,\n    \"tgt\"   INTEGER,\n    \"sign\"  BOOL,\n    \"erate\" Number,\n    PRIMARY KEY(\"id\"),\n    FOREIGN KEY(\"src\") REFERENCES \"Vertices\"(\"id\"),\n    FOREIGN KEY(\"tgt\") REFERENCES \"Vertices\"(\"vid\")\n);\nThe dynamics are given by the following julia program, which iterates over the vertices of the graph and then the neighbors of that vertex (incident edges).\nfunction vectorfield(sg::AbstractSignedGraph)\n  (u, p, t) -&gt; [\n    p[:vrate][i]*u[i] + sum(\n        (sg[e,:sign] ? 1 : -1)*p[:erate][e]*u[i]u[sg[e, :src]]\n      for e in incident(sg, i, :tgt); init=0.0)\n    for i in 1:nv(sg)\n  ]\nend\nAnd they can be drawn using Graphviz using the following snippet that draws positive edges as arrows and negative edges as tees.\nfunction Catlab.Graphics.to_graphviz_property_graph(sg::AbstractSignedGraph; kw...)\n  get_attr_str(attr, i) = String(has_subpart(sg, attr) ? subpart(sg, i, attr) : Symbol(i))\n  pg = PropertyGraph{Any}(;kw...)\n  map(parts(sg, :V)) do v\n    add_vertex!(pg, label=get_attr_str(:vname, v))\n  end\n  map(parts(sg, :E)) do e\n    add_edge!(pg, sg[e, :src], sg[e, :tgt], label=get_attr_str(:ename, e), arrowhead=(sg[e,:sign] ? \"normal\" : \"tee\"))\n  end\n  pg\nend"
+  },
+  {
+    "objectID": "regnet.html#references",
+    "href": "regnet.html#references",
+    "title": "3  Regulatory networks",
+    "section": "3.3 References",
+    "text": "3.3 References\nThe Lotka-Volterra semantics described here are from A compositional account of motifs, mechanisms, and dynamics in biochemical regulatory networks (Aduddell et al. 2023).\n\n\n\n\nAduddell, Rebekah, James Fairbanks, Amit Kumar, Pablo S. Ocal, Evan Patterson, and Brandon T. Shapiro. 2023. “A Compositional Account of Motifs, Mechanisms, and Dynamics in Biochemical Regulatory Networks.”"
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Aduddell, Rebekah, James Fairbanks, Amit Kumar, Pablo S. Ocal, Evan\nPatterson, and Brandon T. Shapiro. 2023. “A Compositional Account\nof Motifs, Mechanisms, and Dynamics in Biochemical Regulatory\nNetworks.”\n\n\nBaez, John, and Jacob D Biamonte. 2018. Quantum Techniques in\nStochastic Mechanics. WORLD SCIENTIFIC.\nhttps://doi.org/10.1142/10623."
+  }
+]
