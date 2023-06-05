@@ -26,6 +26,9 @@
         },
         "transitions": {
           "$ref": "#/$defs/transitions"
+        },
+        "observables": {
+          "$ref": "#/$defs/observables"
         }
       },
       "additionalProperties": false,
@@ -107,6 +110,35 @@
           "id",
           "input",
           "output"
+        ]
+      }
+    },
+    "observables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "grounding": {
+            "$ref": "#/$defs/grounding"
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id"
         ]
       }
     },
@@ -330,6 +362,23 @@
             "required": [
               "id"
             ]
+          }
+        },
+        "observables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "expression_mathml": {
+                "type": "string"
+              }
+            }
           }
         }
       }

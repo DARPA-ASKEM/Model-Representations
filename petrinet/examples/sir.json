@@ -60,6 +60,13 @@
           "name": "Recovery"
         }
       }
+    ],
+    "observables": [
+      {
+        "id": "noninf",
+        "name": "Non-infectious",
+        "states": ["S", "R"]
+      }
     ]
   },
   "semantics": {
@@ -137,6 +144,13 @@
           "id": "R0",
           "description": "Total recovered population at timestep 0",
           "value": 0
+        }
+      ],
+      "observables": [
+        {
+          "target": "noninf",
+          "expression": "S+R",
+          "expression_mathml": "<apply><plus/><ci>S</ci><ci>R</ci></apply>"
         }
       ]
     }
