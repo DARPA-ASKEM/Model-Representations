@@ -116,6 +116,9 @@
         "name": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
         "grounding": {
           "$ref": "#/$defs/grounding"
         }
