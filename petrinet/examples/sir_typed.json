@@ -10,9 +10,9 @@
                 "name": "Susceptible",
                 "description": "Number of individuals relative to the total population that are 'susceptible' to a disease infection",
                 "grounding": {
-                    "identifiers": {
+                  "identifiers": {
                     "ido": "0000514"
-                    }
+                  }
                 }
             },
             {
@@ -20,9 +20,9 @@
                 "name": "Infected",
                 "description": "Number of individuals relative to the total population that are 'infected' by a disease",
                 "grounding": {
-                    "identifiers": {
+                  "identifiers": {
                     "ido": "0000511"
-                    }
+                  }
                 }
             },
             {
@@ -30,40 +30,40 @@
                 "name": "Recovered",
                 "description": "Number of individuals relative to the total population that have 'recovered' from a disease infection",
                 "grounding": {
-                    "identifiers": {
+                  "identifiers": {
                     "ido": "0000592"
-                    }
+                  }
                 }
             }
         ],
         "transitions": [
             {
-                "id": "inf",
-                "input": [
-                    "S",
-                    "I"
-                ],
-                "output": [
-                    "I",
-                    "I"
-                ],
-                "properties": {
-                    "name": "Infection",
-                    "description": "Infective interaction between individuals"
-                }
+              "id": "inf",
+              "input": [
+                "S",
+                "I"
+              ],
+              "output": [
+                "I",
+                "I"
+              ],
+              "properties": {
+                "name": "Infection",
+                "description": "Infective interaction between individuals"
+              }
             },
             {
-                "id": "rec",
-                "input": [
-                    "I"
-                ],
-                "output": [
-                    "R"
-                ],
-                "properties": {
-                    "name": "Recovery",
-                    "description": "Recovery interaction of a infected individual"
-                }
+              "id": "rec",
+              "input": [
+                "I"
+              ],
+              "output": [
+                "R"
+              ],
+              "properties": {
+                "name": "Recovery",
+                "description": "Recovery interaction of a infected individual"
+              }
             }
         ]
     },
@@ -101,6 +101,7 @@
         "parameters": [
           {
             "id": "beta",
+            "name": "β",
             "description": "infection rate",
             "value": 0.027,
             "distribution": {
@@ -113,6 +114,7 @@
           },
           {
             "id": "gamma",
+            "name": "γ",
             "description": "recovery rate",
             "grounding": {
               "identifiers": {
@@ -130,16 +132,19 @@
           },
           {
             "id": "S0",
+            "name": "S₀",
             "description": "Total susceptible population at timestep 0",
             "value": 1000
           },
           {
             "id": "I0",
+            "name": "I₀",
             "description": "Total infected population at timestep 0",
             "value": 1
           },
           {
             "id": "R0",
+            "name": "R₀",
             "description": "Total recovered population at timestep 0",
             "value": 0
           }
@@ -163,67 +168,67 @@
             {
                 "id": "Infect",
                 "input": [
-                    "Pop",
-                    "Pop"
+                  "Pop",
+                  "Pop"
                 ],
                 "output": [
-                    "Pop",
-                    "Pop"
+                  "Pop",
+                  "Pop"
                 ],
                 "properties": {
-                    "name": "Infect",
-                    "description": "2-to-2 interaction that represents infectious contact between two human individuals"
+                  "name": "Infect",
+                  "description": "2-to-2 interaction that represents infectious contact between two human individuals"
                 }
             },
             {
                 "id": "Disease",
                 "input": [
-                    "Pop"
+                  "Pop"
                 ],
                 "output": [
-                    "Pop"
+                  "Pop"
                 ],
                 "properties": {
-                    "name": "Disease",
-                    "description": "1-to-1 interaction that represents a change in th edisease status of a human individual."
+                  "name": "Disease",
+                  "description": "1-to-1 interaction that represents a change in th edisease status of a human individual."
                 }
             },
             {
                 "id": "Strata",
                 "input": [
-                    "Pop"
+                  "Pop"
                 ],
                 "output": [
-                    "Pop"
+                  "Pop"
                 ],
                 "properties": {
-                    "name": "Strata",
-                    "description": "1-to-1 interaction that represents a change in the demographic division of a human individual."
+                  "name": "Strata",
+                  "description": "1-to-1 interaction that represents a change in the demographic division of a human individual."
                 }
             },
             {
                 "id": "Vaccinate",
                 "input": [
-                    "Pop",
-                    "Vaccine"
+                  "Pop",
+                  "Vaccine"
                 ],
                 "output": [
-                    "Pop"
+                  "Pop"
                 ],
                 "properties": {
-                    "name": "Vaccinate",
-                    "description": "2-to-1 interaction that represents an human individual receiving a vaccine dose."
+                  "name": "Vaccinate",
+                  "description": "2-to-1 interaction that represents an human individual receiving a vaccine dose."
                 }
             },
             {
                 "id": "Produce_Vaccine",
                 "input": [],
                 "output": [
-                    "Vaccine"
+                  "Vaccine"
                 ],
                 "properties": {
-                    "name": "Produce Vaccine",
-                    "description": "0-to-1 interaction that represents the production of a single vaccine dose."
+                  "name": "Produce Vaccine",
+                  "description": "0-to-1 interaction that represents the production of a single vaccine dose."
                 }
             }
           ]
