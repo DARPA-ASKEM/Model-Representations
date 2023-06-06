@@ -36,3 +36,16 @@ ASKEMPetriNets.update!(typed_askemnet)
 
 # Print new JSON
 JSON.print(typed_askemnet, 2)
+
+# Stratification Example
+# FIX: This currently doesn't work, potential Catlab bug
+
+using AlgebraicPetri.TypedPetri
+
+sir = typed_askemnet
+flux = ASKEMPetriNets.to_typed_petri("../../examples/flux_typed.json")
+
+augmented_sir = add_reflexives(sir.model, [[:Strata],[:Strata],[:Strata]], sir.model.codom)
+augmented_flux = add_reflexives(flux.model, [[:Infect,:Disease],[:Infect,:Disease]], flux.model.codom)
+
+stratified = typed_product(augmented_sir, augmented_flux)
