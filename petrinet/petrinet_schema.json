@@ -110,6 +110,41 @@
         ]
       }
     },
+    "observables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "grounding": {
+            "$ref": "#/$defs/grounding"
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expression": {
+            "type": "string"
+          },
+          "expression_mathml": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    },
     "properties": {
       "type": "object",
       "properties": {
