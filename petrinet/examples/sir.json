@@ -60,13 +60,6 @@
           "name": "Recovery"
         }
       }
-    ],
-    "observables": [
-      {
-        "id": "noninf",
-        "name": "Non-infectious",
-        "states": ["S", "R"]
-      }
     ]
   },
   "semantics": {
@@ -148,7 +141,9 @@
       ],
       "observables": [
         {
-          "target": "noninf",
+          "id": "noninf",
+          "name": "Non-infectious",
+          "states": ["S", "R"],
           "expression": "S+R",
           "expression_mathml": "<apply><plus/><ci>S</ci><ci>R</ci></apply>"
         }
