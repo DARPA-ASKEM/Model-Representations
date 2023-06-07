@@ -147,7 +147,7 @@
         "identifiers": {
           "type": "object"
         },
-        "context": {
+        "modifiers": {
           "type": "object"
         }
       },
