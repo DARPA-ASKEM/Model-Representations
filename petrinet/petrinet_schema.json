@@ -141,6 +141,18 @@
       ],
       "additionalProperties": true
     },
+    "unit": {
+      "type": "object",
+      "properties": {
+        "expression": {
+          "type": "string"
+        },
+        "expression_mathml": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
     "grounding": {
       "type": "object",
       "properties": {

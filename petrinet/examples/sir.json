@@ -12,6 +12,10 @@
           "identifiers": {
             "ido": "0000514"
           }
+        },
+        "units": {
+          "expression": "person",
+          "expression_mathml": "<ci>person</ci>"
         }
       },
       {
@@ -21,6 +25,10 @@
           "identifiers": {
             "ido": "0000511"
           }
+        },
+        "units": {
+          "expression": "person",
+          "expression_mathml": "<ci>person</ci>"
         }
       },
       {
@@ -30,6 +38,10 @@
           "identifiers": {
             "ido": "0000592"
           }
+        },
+        "units": {
+          "expression": "person",
+          "expression_mathml": "<ci>person</ci>"
         }
       }
     ],
@@ -97,12 +109,16 @@
         {
           "id": "beta",
           "description": "infection rate",
-          "value": 0.027,
+          "units": {
+            "expression": "1/(person*day)",
+            "expression_mathml": "<apply><divide/><cn>1</cn><apply><times/><ci>person</ci><ci>day</ci></apply></apply>"
+          },
+          "value": 2.7e-7,
           "distribution": {
             "type": "StandardUniform1",
             "parameters": {
-              "minimum": 0.026,
-              "maximum": 0.028
+              "minimum": 2.6e-7,
+              "maximum": 2.8e-7
             }
           }
         },
@@ -113,6 +129,10 @@
             "identifiers": {
               "askemo": "0000013"
             }
+          },
+          "units": {
+            "expression": "1/day",
+            "expression_mathml": "<apply><divide/><cn>1</cn><ci>day</ci></apply>"
           },
           "value": 0.14,
           "distribution": {
