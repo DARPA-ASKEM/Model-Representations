@@ -178,7 +178,10 @@
           "expression": "S+R",
           "expression_mathml": "<apply><plus/><ci>S</ci><ci>R</ci></apply>"
         }
-      ]
+      ],
+      "time": {
+        "id": "t"
+      }
     }
   },
   "metadata": {
