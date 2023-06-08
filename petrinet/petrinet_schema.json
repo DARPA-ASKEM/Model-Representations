@@ -405,7 +405,8 @@
             ]
           }
         }
-      }
+      },
+      "required": []
     }
   },
   "additionalProperties": true,
