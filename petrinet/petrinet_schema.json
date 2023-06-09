@@ -9,7 +9,7 @@
       "type": "string",
       "format": "uri"
     },
-    "framework": {
+    "schema_name": {
       "type": "string"
     },    
     "description": {

@@ -15,9 +15,9 @@
       "format": "uri",
       "description": "URI of a JSON schema document that describes the model stored in the 'model' parameter."
     },
-    "framework": {
+    "schema_name": {
       "type": "string",
-      "description": "The ID of the framework. E.g. `petrinet`"
+      "description": "The ID of the schema name. E.g. `petrinet`"
     },    
     "model": {
       "type": "object",
