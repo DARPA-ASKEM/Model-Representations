@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ASKEM Model Documentation - 3&nbsp; Regulatory networks</title>
+<title>ASKEM Model Documentation - 4&nbsp; Regulatory networks</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -144,7 +144,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./regnet.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regulatory networks</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./regnet.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regulatory networks</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -177,20 +177,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./ontology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modeling Ontology</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./ode.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">ODE Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">ODE Semantics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./petri.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Petri nets</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Petri nets</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./regnet.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regulatory networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regulatory networks</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -209,12 +215,12 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-a-regulatory-network" id="toc-what-is-a-regulatory-network" class="nav-link active" data-scroll-target="#what-is-a-regulatory-network"><span class="header-section-number">3.1</span> What is a regulatory network?</a></li>
-  <li><a href="#ode-semantics" id="toc-ode-semantics" class="nav-link" data-scroll-target="#ode-semantics"><span class="header-section-number">3.2</span> ODE semantics</a>
+  <li><a href="#what-is-a-regulatory-network" id="toc-what-is-a-regulatory-network" class="nav-link active" data-scroll-target="#what-is-a-regulatory-network"><span class="header-section-number">4.1</span> What is a regulatory network?</a></li>
+  <li><a href="#ode-semantics" id="toc-ode-semantics" class="nav-link" data-scroll-target="#ode-semantics"><span class="header-section-number">4.2</span> ODE semantics</a>
   <ul class="collapse">
-  <li><a href="#lotka-volterra" id="toc-lotka-volterra" class="nav-link" data-scroll-target="#lotka-volterra"><span class="header-section-number">3.2.1</span> Lotka-Volterra</a></li>
+  <li><a href="#lotka-volterra" id="toc-lotka-volterra" class="nav-link" data-scroll-target="#lotka-volterra"><span class="header-section-number">4.2.1</span> Lotka-Volterra</a></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">3.3</span> References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">4.3</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -223,7 +229,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regulatory networks</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regulatory networks</span></h1>
 </div>
 
 
@@ -238,14 +244,14 @@ div.csl-indent {
 
 </header>
 
-<section id="what-is-a-regulatory-network" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-a-regulatory-network"><span class="header-section-number">3.1</span> What is a regulatory network?</h2>
+<section id="what-is-a-regulatory-network" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="what-is-a-regulatory-network"><span class="header-section-number">4.1</span> What is a regulatory network?</h2>
 <p>A regulatory network is a signed graph (todo: expand this)</p>
 </section>
-<section id="ode-semantics" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="ode-semantics"><span class="header-section-number">3.2</span> ODE semantics</h2>
-<section id="lotka-volterra" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="lotka-volterra"><span class="header-section-number">3.2.1</span> Lotka-Volterra</h3>
+<section id="ode-semantics" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="ode-semantics"><span class="header-section-number">4.2</span> ODE semantics</h2>
+<section id="lotka-volterra" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="lotka-volterra"><span class="header-section-number">4.2.1</span> Lotka-Volterra</h3>
 <p>When interpreting Regnets with Lotka-Volterra semantics, variables of the system are the vertices and interactions are edges.</p>
 <p>A <em>Lotka-Volterra system</em> of equations has the form</p>
 <p><span class="math display">
@@ -335,8 +341,8 @@ div.csl-indent {
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="references" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="references"><span class="header-section-number">3.3</span> References</h2>
+<section id="references" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="references"><span class="header-section-number">4.3</span> References</h2>
 <p>The Lotka-Volterra semantics described here are from <em>A compositional account of motifs, mechanisms, and dynamics in biochemical regulatory networks</em> <span class="citation" data-cites="aduddell_regnet_2023">(<a href="references.html#ref-aduddell_regnet_2023" role="doc-biblioref">Aduddell et al. 2023</a>)</span>.</p>
 
 
@@ -584,7 +590,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./petri.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Petri nets</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Petri nets</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

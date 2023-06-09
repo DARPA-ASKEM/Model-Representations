@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ASKEM Model Documentation - 3&nbsp; Petri nets</title>
+<title>ASKEM Model Documentation - 1&nbsp; Modeling Ontology</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,60 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -83,8 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./regnet.html" rel="next">
-<link href="./ode.html" rel="prev">
+<link href="./ode.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -115,22 +62,6 @@ div.csl-indent {
   }
 }</script>
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
- var mathElements = document.getElementsByClassName("math");
- var macros = [];
- for (var i = 0; i < mathElements.length; i++) {
-  var texText = mathElements[i].firstChild;
-  if (mathElements[i].tagName == "SPAN") {
-   katex.render(texText.data, mathElements[i], {
-    displayMode: mathElements[i].classList.contains('display'),
-    throwOnError: false,
-    macros: macros,
-    fleqn: false
-   });
-}}});
-  </script>
-  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 
 <link rel="stylesheet" href="main.css">
 </head>
@@ -144,7 +75,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./petri.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Petri nets</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ontology.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modeling Ontology</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -177,7 +108,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ontology.html" class="sidebar-item-text sidebar-link">
+  <a href="./ontology.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modeling Ontology</span></span></a>
   </div>
 </li>
@@ -189,7 +120,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./petri.html" class="sidebar-item-text sidebar-link active">
+  <a href="./petri.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Petri nets</span></span></a>
   </div>
 </li>
@@ -215,13 +146,10 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-a-petri-net" id="toc-what-is-a-petri-net" class="nav-link active" data-scroll-target="#what-is-a-petri-net"><span class="header-section-number">3.1</span> What is a Petri net?</a></li>
-  <li><a href="#ode-semantics" id="toc-ode-semantics" class="nav-link" data-scroll-target="#ode-semantics"><span class="header-section-number">3.2</span> ODE semantics</a>
-  <ul class="collapse">
-  <li><a href="#push-pull-network" id="toc-push-pull-network" class="nav-link" data-scroll-target="#push-pull-network"><span class="header-section-number">3.2.1</span> Push-pull network</a></li>
-  <li><a href="#mass-action" id="toc-mass-action" class="nav-link" data-scroll-target="#mass-action"><span class="header-section-number">3.2.2</span> Mass-action</a></li>
-  </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">3.3</span> References</a></li>
+  <li><a href="#syntax" id="toc-syntax" class="nav-link active" data-scroll-target="#syntax"><span class="header-section-number">1.1</span> Syntax</a></li>
+  <li><a href="#semantics" id="toc-semantics" class="nav-link" data-scroll-target="#semantics"><span class="header-section-number">1.2</span> Semantics</a></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">1.3</span> Model</a></li>
+  <li><a href="#modeling-framework" id="toc-modeling-framework" class="nav-link" data-scroll-target="#modeling-framework"><span class="header-section-number">1.4</span> Modeling framework</a></li>
   </ul>
 </nav>
     </div>
@@ -230,7 +158,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Petri nets</span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modeling Ontology</span></h1>
 </div>
 
 
@@ -245,66 +173,42 @@ div.csl-indent {
 
 </header>
 
-<section id="what-is-a-petri-net" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="what-is-a-petri-net"><span class="header-section-number">3.1</span> What is a Petri net?</h2>
-<p>TODO</p>
-</section>
-<section id="ode-semantics" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="ode-semantics"><span class="header-section-number">3.2</span> ODE semantics</h2>
-<p>There are two ODE semantics for Petri nets, which share much in common.</p>
+<p>On this page, we define core terms for the ASKEM project, like “modeling framework”, “syntax”, and “semantics”.</p>
+<p>We start with syntax.</p>
+<section id="syntax" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="syntax"><span class="header-section-number">1.1</span> Syntax</h2>
+<p>The tricky thing about these definitions is that what they capture is not the “intrinsic” nature of what syntax is, but rather how syntax relates to other parts of the ontology.</p>
+<p>We can define an antelope to be an animal with certain genotypical and phenotypical attributes. However, we can’t define “manager” in the same way. Managers are defined by how they relate to other entities within a context, for instance other employees, purchase orders, the CEO, etc. Similarly we can’t define syntax to be a certain concrete thing; we define it by how it relates to other parts of the ontology. Of course, this results in necessarily circular definitions, because we must reference other parts of the ontology before they are built.</p>
+<p>We can “close this loop” by formalizing everything within some appropriate logical framework (such as category theory). However, this is meant to be a document that conveys an <em>intuitive</em> sense for what various words mean, and this intuitive sense is formalism-independent. That is, we might build different formalisms and identify parts of them as “syntax”. The ability to do this is predicated on a consistent understanding of the <em>role</em> that syntax plays, and as said before, defining roles requires of necessity reference to other roles which may not be defined yet.</p>
+<p>With that out of the way, I will attempt to define the syntax role.</p>
+<p>The role of syntax within the ASKEM paradigm is to <em>build</em> and <em>store</em> models. In order to perform this role, it must have the following characteristics.</p>
 <ol type="1">
-<li>A state variable for each species (representing the population of that species)</li>
-<li>A parameter variable for each transition (what this represents is different across the two semantics)</li>
-<li>An output variable for each species</li>
-<li>(different vector fields)</li>
-<li>An output function that is the identity.</li>
+<li>It must be serializable and deserializable in a programming-language independent way. This is because ASKEM is a multilingual program, and syntax has to be interpreted in (at least) Javascript, Python, and Julia. This rules out the possibility of simply writing Julia or Python code in a string, as is the current practice in industry for “saving” models.</li>
+<li>It must be formally structured, so that operations of composition and augmentation can be performed on it, and so it can be analysed without running a model (which is called “static analysis”).</li>
 </ol>
-<p>We now discuss what is different between the two semantics.</p>
-<section id="push-pull-network" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="push-pull-network"><span class="header-section-number">3.2.1</span> Push-pull network</h3>
-<p>Note: I am not sure exactly what to name this semantics. I have settled on push-pull for now.</p>
-<p>In the push-pull network semantics for a Petri net, the parameter for a transition corresponds to the rate at which that transition converts its inputs to its outputs.</p>
-<p>Note that this gives no guarantee that populations will never go negative. If you have a Petri net with species <span class="math inline">A</span> and <span class="math inline">B</span> and one transition that has input <span class="math inline">A</span> and output <span class="math inline">B</span>, and you set the rate of that transition to be a constant, then the population of <span class="math inline">A</span> will eventually go negative.</p>
-<p>Thus, the intended use of the push-pull semantics is to be used with a custom reparameterization that chooses some sensible rate laws.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Computes the vector field for the push_pull_network semantics</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">push_pull_network</span>(pn<span class="op">::</span><span class="dt">PetriNet</span>, _populations<span class="op">::</span><span class="dt">Vector{Float64}</span>, rates<span class="op">::</span><span class="dt">Vector{Float64}</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TODO</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> push_pull_network(...):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes the vector field for the push_pull_network semantics</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A particular “syntax” is a some data type that supports the relevant operations of serialization/deserialization, analysis, composition and augmentation. Within ASKEM we have many different syntaxes, and in fact we might also consider small variations on a syntax (for instance, allowing or disallowing custom rates) to define different syntaxes. Ideally, instead of having a fixed list of syntaxes and manually implementing every operation from scratch for each syntax, we can build the syntaxes we need by composing different features together. The degree of reuse that we can obtain in practice is yet to be discovered, however.</p>
 </section>
-<section id="mass-action" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="mass-action"><span class="header-section-number">3.2.2</span> Mass-action</h3>
-<p>One way of thinking about mass-action semantics is that it’s a reparameterization of push-pull semantics in the simplest possible way in order to make sure that no population ever goes negative. However, it is a common reparameterization that can be derived uniformly from the structure of the Petri net itself, and thus it makes sense for it to be its own semantics.</p>
-<p>The basic idea is to multiply the rate of each transition by the product of the populations of the input species. This ensures that transitions slow down when the input is close to being depleted, in such a way that it doesn’t force the input below zero.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">  Computes the vector field for the mass_action semantics</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mass_action</span>(pn<span class="op">::</span><span class="dt">PetriNet</span>, populations<span class="op">::</span><span class="dt">Vector{Float64}</span>, rates<span class="op">::</span><span class="dt">Vector{Float64}</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TODO</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mass_action(...):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes the vector field for the mass_action semantics</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="semantics" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="semantics"><span class="header-section-number">1.2</span> Semantics</h2>
+<p>A semantic for a given syntax is a way of turning instances of that syntax into some mathematical model. Each semantic has a mathematical specification, which should be written down somewhere (hopefully here), but we also may have one or more computer implementations of that mathematical specification.</p>
+<p>Because syntaxes are, by design, “just data”, there is not a canonical way to turn them into mathematical models. Of course, there might be a way that is natural for certain scientific or logical reasons, but that is an aesthetic judgment.</p>
+<p>One special case of a semantic might be compiling one syntax into another syntax! For instance, we could compile a Petri net into the syntax of a symbolic differential equation.</p>
 </section>
+<section id="model" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="model"><span class="header-section-number">1.3</span> Model</h2>
+<p>A model is a mathematical description of an abstracted part of nature. Models specify the <em>behavior</em> of a <em>system</em>. What this specifically means varies on the type of model. For instance:</p>
+<ol type="1">
+<li>A model might simply be a collection of propositions that must be satisfied: “either gene A or gene B is activated”</li>
+<li>A model might tell you how some state evolves over time, either discretely (i.e., the next step is X), or continuously (the derivative is X)</li>
+<li>A model could do 1 or 2 stochastically, in that we only get the probability that a certain law is satisfied, or that a state evolves in a certain way.</li>
+</ol>
+<p>Models are produced by the application of a semantic to a syntax.</p>
 </section>
-<section id="references" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="references"><span class="header-section-number">3.3</span> References</h2>
-<p>A good slow-paced reference on Petri nets is <span class="citation" data-cites="baez_quantum_2018">(<a href="references.html#ref-baez_quantum_2018" role="doc-biblioref">Baez and Biamonte 2018</a>)</span>. It has an intimidating title, but chapters 1 and 2 cover the rate equation (i.e.&nbsp;the mass-action semantics) and are purely ODE-based (zero category theory, zero probability theory, zero quantum mechanics).</p>
+<section id="modeling-framework" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="modeling-framework"><span class="header-section-number">1.4</span> Modeling framework</h2>
+<p>A modeling framework consists simply of a choice of a syntax and a semantic.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
-<div id="ref-baez_quantum_2018" class="csl-entry" role="listitem">
-Baez, John, and Jacob D Biamonte. 2018. <em>Quantum Techniques in Stochastic Mechanics</em>. <span>WORLD</span> <span>SCIENTIFIC</span>. <a href="https://doi.org/10.1142/10623">https://doi.org/10.1142/10623</a>.
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -543,13 +447,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./ode.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">ODE Semantics</span></span>
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./regnet.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Regulatory networks</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ode.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">ODE Semantics</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
