@@ -13,6 +13,9 @@
           "items": {
             "$ref": "#/definitions/VariableStatement"
           }
+        },
+        "annotations": {
+          "$ref": "#/definitions/Annotations"
         }
       },
       "required": [],
@@ -309,6 +312,82 @@
             "variable"
           ],
           "$id": "#/definitions/VariableStatement"
+        },
+        "Annotations": {
+          "title": "Annotations",
+          "description": "A metadata model for model-level annotations.\n\nExamples in this metadata model are taken from\nhttps://www.ebi.ac.uk/biomodels/BIOMD0000000956,\na well-annotated SIR model in the BioModels database.",
+          "type": "object",
+          "properties": {
+            "license": {
+              "title": "License",
+              "description": "Information about the licensing of the model artifact. Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, models from the BioModels databases are all licensed under the CC0 public attribution license.",
+              "example": "CC0",
+              "type": "string"
+            },
+            "authors": {
+              "title": "Authors",
+              "description": "A list of authors/creators of the model. This is not the same as the people who e.g., submitted the model to BioModels",
+              "example": [
+                {
+                  "name": "Andrea L Bertozzi"
+                },
+                {
+                  "name": "Elisa Franco"
+                },
+                {
+                  "name": "George Mohler"
+                },
+                {
+                  "name": "Martin B Short"
+                },
+                {
+                  "name": "Daniel Sledge"
+                }
+              ],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Author"
+              }
+            },
+            "references": {
+              "title": "References",
+              "description": "A list of CURIEs (i.e., <prefix>:<identifier>) corresponding to literature references that describe the model. Do **not** duplicate the same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
+              "example": [
+                "pubmed:32616574"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "model_types": {
+              "title": "Model Types",
+              "description": "This field describes the type(s) of the model using the Mathematical Modeling Ontology (MAMO), which has terms like 'ordinary differential equation  model', 'population model', etc. These should be annotated as CURIEs in the form of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
+              "example": [
+                "mamo:0000028",
+                "mamo:0000046"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "Author": {
+          "title": "Author",
+          "description": "A metadata model for an author. Could be expanded to include ORCID later.",
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "Name",
+              "description": "The name of the author",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
         }
       }
     }
