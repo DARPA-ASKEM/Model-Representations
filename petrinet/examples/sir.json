@@ -8,7 +8,7 @@
       {
         "id": "S",
         "name": "Susceptible",
-        "description": "Number of individuals relative to the total population that are 'susceptible' to a disease infection",
+        "description": "Number of individuals that are 'susceptible' to a disease infection",
         "grounding": {
           "identifiers": {
             "ido": "0000514"
@@ -18,7 +18,7 @@
       {
         "id": "I",
         "name": "Infected",
-        "description": "Number of individuals relative to the total population that are 'infected' by a disease",
+        "description": "Number of individuals that are 'infected' by a disease",
         "grounding": {
           "identifiers": {
             "ido": "0000511"
@@ -28,7 +28,7 @@
       {
         "id": "R",
         "name": "Recovered",
-        "description": "Number of individuals relative to the total population that have 'recovered' from a disease infection",
+        "description": "Number of individuals that have 'recovered' from a disease infection",
         "grounding": {
           "identifiers": {
             "ido": "0000592"
@@ -49,7 +49,7 @@
         ],
         "properties": {
           "name": "Infection",
-          "description": "Infective interaction between individuals"
+          "description": "Infective process between individuals"
         }
       },
       {
@@ -62,7 +62,7 @@
         ],
         "properties": {
           "name": "Recovery",
-          "description": "Recovery interaction of a infected individual"
+          "description": "Recovery process of a infected individual"
         }
       }
     ]
