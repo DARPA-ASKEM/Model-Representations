@@ -400,6 +400,9 @@
             "id": {
               "type": "string"
             },
+            "units": {
+              "$ref": "#/$defs/unit"
+            },
             "required": [
               "id"
             ]

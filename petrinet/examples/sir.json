@@ -180,7 +180,11 @@
         }
       ],
       "time": {
-        "id": "t"
+        "id": "t",
+        "units": {
+          "expression": "day",
+          "expression_mathml": "<ci>day</ci>"
+        }
       }
     }
   },
