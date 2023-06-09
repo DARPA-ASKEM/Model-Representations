@@ -154,6 +154,9 @@
         "name": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
         "grounding": {
           "$ref": "#/$defs/grounding"
         }
@@ -185,7 +188,7 @@
         "identifiers": {
           "type": "object"
         },
-        "context": {
+        "modifiers": {
           "type": "object"
         }
       },
@@ -350,6 +353,9 @@
             "type": "object",
             "properties": {
               "id": {
+                "type": "string"
+              },
+              "name": {
                 "type": "string"
               },
               "description": {

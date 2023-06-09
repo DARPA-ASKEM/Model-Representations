@@ -1,0 +1,44 @@
+# Modeling Ontology
+
+On this page, we define core terms for the ASKEM project, like "modeling framework", "syntax", and "semantics".
+
+We start with syntax.
+
+## Syntax
+
+The tricky thing about these definitions is that what they capture is not the "intrinsic" nature of what syntax is, but rather how syntax relates to other parts of the ontology.
+
+We can define an antelope to be an animal with certain genotypical and phenotypical attributes. However, we can't define "manager" in the same way. Managers are defined by how they relate to other entities within a context, for instance other employees, purchase orders, the CEO, etc. Similarly we can't define syntax to be a certain concrete thing; we define it by how it relates to other parts of the ontology. Of course, this results in necessarily circular definitions, because we must reference other parts of the ontology before they are built.
+
+We can "close this loop" by formalizing everything within some appropriate logical framework (such as category theory). However, this is meant to be a document that conveys an *intuitive* sense for what various words mean, and this intuitive sense is formalism-independent. That is, we might build different formalisms and identify parts of them as "syntax". The ability to do this is predicated on a consistent understanding of the *role* that syntax plays, and as said before, defining roles requires of necessity reference to other roles which may not be defined yet.
+
+With that out of the way, I will attempt to define the syntax role.
+
+The role of syntax within the ASKEM paradigm is to *build* and *store* models. In order to perform this role, it must have the following characteristics.
+
+1. It must be serializable and deserializable in a programming-language independent way. This is because ASKEM is a multilingual program, and syntax has to be interpreted in (at least) Javascript, Python, and Julia. This rules out the possibility of simply writing Julia or Python code in a string, as is the current practice in industry for "saving" models.
+2. It must be formally structured, so that operations of composition and augmentation can be performed on it, and so it can be analysed without running a model (which is called "static analysis").
+
+A particular "syntax" is a some data type that supports the relevant operations of serialization/deserialization, analysis, composition and augmentation. Within ASKEM we have many different syntaxes, and in fact we might also consider small variations on a syntax (for instance, allowing or disallowing custom rates) to define different syntaxes. Ideally, instead of having a fixed list of syntaxes and manually implementing every operation from scratch for each syntax, we can build the syntaxes we need by composing different features together. The degree of reuse that we can obtain in practice is yet to be discovered, however.
+
+## Semantics
+
+A semantic for a given syntax is a way of turning instances of that syntax into some mathematical model. Each semantic has a mathematical specification, which should be written down somewhere (hopefully here), but we also may have one or more computer implementations of that mathematical specification.
+
+Because syntaxes are, by design, "just data", there is not a canonical way to turn them into mathematical models. Of course, there might be a way that is natural for certain scientific or logical reasons, but that is an aesthetic judgment.
+
+One special case of a semantic might be compiling one syntax into another syntax! For instance, we could compile a Petri net into the syntax of a symbolic differential equation.
+
+## Model
+
+A model is a mathematical description of an abstracted part of nature. Models specify the *behavior* of a *system*. What this specifically means varies on the type of model. For instance:
+
+1. A model might simply be a collection of propositions that must be satisfied: "either gene A or gene B is activated"
+2. A model might tell you how some state evolves over time, either discretely (i.e., the next step is X), or continuously (the derivative is X)
+3. A model could do 1 or 2 stochastically, in that we only get the probability that a certain law is satisfied, or that a state evolves in a certain way.
+
+Models are produced by the application of a semantic to a syntax.
+
+## Modeling framework
+
+A modeling framework consists simply of a choice of a syntax and a semantic.
