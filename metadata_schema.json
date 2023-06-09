@@ -314,6 +314,7 @@
           "$id": "#/definitions/VariableStatement"
         },
         "Annotations": {
+          "$id": "#/definitions/Annotations",
           "title": "Annotations",
           "description": "A metadata model for model-level annotations.\n\nExamples in this metadata model are taken from\nhttps://www.ebi.ac.uk/biomodels/BIOMD0000000956,\na well-annotated SIR model in the BioModels database.",
           "type": "object",
@@ -375,6 +376,7 @@
           }
         },
         "Author": {
+          "$id": "#/definitions/Author",
           "title": "Author",
           "description": "A metadata model for an author. Could be expanded to include ORCID later.",
           "type": "object",
