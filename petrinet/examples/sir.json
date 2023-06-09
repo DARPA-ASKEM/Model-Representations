@@ -1,7 +1,7 @@
 {
   "name": "SIR Model",
   "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
-  "description": "SIR model created by Ben, Micah, Brandon",
+  "description": "SIR model",
   "model_version": "0.1",
   "model": {
     "states": [
@@ -203,6 +203,20 @@
           "description": "text, dataset, formula annotation (chunwei@mit.edu)"
         }
       }
-    ]
+    ],
+    "annotations": {
+      "license": "CC0",
+      "authors": [
+        {"name":  "Ben"},
+        {"name":  "Micah"},
+        {"name":  "Brandon"}
+      ],
+      "references": [
+        "doi:10.1101/2021.10.08.21264595"
+      ],
+      "model_types": [
+        "mamo:0000046"
+      ]
+    }
   }
 }
