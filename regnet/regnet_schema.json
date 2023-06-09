@@ -9,6 +9,9 @@
       "type": "string",
       "format": "uri"
     },
+    "framework": {
+      "type": "string"
+    },
     "description": {
       "type": "string"
     },
