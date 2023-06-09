@@ -9,6 +9,9 @@
       "type": "string",
       "format": "uri"
     },
+    "schema_name": {
+      "type": "string"
+    },
     "description": {
       "type": "string"
     },
