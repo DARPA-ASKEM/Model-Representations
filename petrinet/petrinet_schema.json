@@ -72,6 +72,9 @@
           },
           "grounding": {
             "$ref": "#/$defs/grounding"
+          },
+          "units": {
+            "$ref": "#/$defs/unit"
           }
         },
         "required": [
@@ -180,6 +183,18 @@
         "type",
         "parameters"
       ],
+      "additionalProperties": true
+    },
+    "unit": {
+      "type": "object",
+      "properties": {
+        "expression": {
+          "type": "string"
+        },
+        "expression_mathml": {
+          "type": "string"
+        }
+      },
       "additionalProperties": true
     },
     "grounding": {
@@ -369,6 +384,9 @@
               },
               "distribution": {
                 "$ref": "#/$defs/distribution"
+              },
+              "units": {
+                "$ref": "#/$defs/unit"
               }
             },
             "required": [
