@@ -149,7 +149,10 @@
           "description": "Total recovered population at timestep 0",
           "value": 0
         }
-      ]
+      ],
+      "time": {
+        "id": "t"
+      }
     },
     "typing": {
       "type_system": {
