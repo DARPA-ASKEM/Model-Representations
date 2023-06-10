@@ -402,11 +402,11 @@
             },
             "units": {
               "$ref": "#/$defs/unit"
-            },
-            "required": [
-              "id"
-            ]
-          }
+            }
+          },
+          "required": [
+            "id"
+          ]
         }
       },
       "required": []
