@@ -393,8 +393,23 @@
               "id"
             ]
           }
+        },
+        "time": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "units": {
+              "$ref": "#/$defs/unit"
+            }
+          },
+          "required": [
+            "id"
+          ]
         }
-      }
+      },
+      "required": []
     }
   },
   "additionalProperties": true,
