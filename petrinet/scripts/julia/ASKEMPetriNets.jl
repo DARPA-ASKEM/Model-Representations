@@ -1,6 +1,6 @@
 module ASKEMPetriNets
 
-export to_petri, to_typed_petri, update_properties!, update_json!, update!
+export to_petri, to_typed_petri, update_properties!, update_json!, update!, to_span_petri
 
 using AlgebraicPetri
 using Catlab.CategoricalAlgebra
@@ -19,6 +19,12 @@ struct TypedASKEMPetriNet <: AbstractASKEMPetriNet
   json::AbstractDict
 end
 
+struct SpanASKEMPetriNet <: AbstractASKEMPetriNet
+  model::Vector{ACSetTransformation}
+  json::AbstractDict
+end
+
+
 function extract_petri(model::AbstractDict)
   state_props = Dict(Symbol(s["id"]) => s for s in model["states"])
   states = [Symbol(s["id"]) for s in model["states"]]
@@ -34,6 +40,8 @@ function to_petri(file::AbstractString)
 end
 
 to_petri(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model.dom, typed_petri.json)
+
+# to_petri(span_petri::SpanASKEMPetriNet) = ASKEMPetriNet(span_petri.model[1].dom, span_petri.json)
 
 function to_typed_petri(petri::ASKEMPetriNet)
   typing = petri.json["semantics"]["typing"]
@@ -66,6 +74,43 @@ function to_typed_petri(petri::ASKEMPetriNet)
 end
 
 to_typed_petri(file::AbstractString) = to_typed_petri(to_petri(file))
+
+
+function to_span_petri(petri::ASKEMPetriNet)
+  feet = petri.json["semantics"]["span"]
+  legs = []
+  for foot in feet
+    type_system = extract_petri(foot["type_system"])
+    type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in foot["type_map"])
+    S = map(snames(petri.model)) do state
+      only(incident(type_system, type_map[state], :sname))
+    end
+    T = map(tnames(petri.model)) do transition
+      only(incident(type_system, type_map[transition], :tname))
+    end
+    type_its = Dict{Int,Vector{Int}}()
+    I = map(parts(petri.model, :I)) do i
+      type_transition = T[petri.model[i, :it]]
+      if !haskey(type_its, type_transition) || isempty(type_its[type_transition])
+        type_its[type_transition] = copy(incident(type_system, type_transition, :it))
+      end
+      popfirst!(type_its[type_transition])
+    end
+    type_ots = Dict{Int,Vector{Int}}()
+    O = map(parts(petri.model, :O)) do o
+      type_transition = T[petri.model[o, :ot]]
+      if !haskey(type_ots, type_transition) || isempty(type_ots[type_transition])
+        type_ots[type_transition] = copy(incident(type_system, type_transition, :ot))
+      end
+      popfirst!(type_ots[type_transition])
+    end
+    push!(legs,LooseACSetTransformation((S=S, T=T, I=I, O=O), (Name=x->nothing, Prop=x->nothing), petri.model, type_system))
+  end
+  SpanASKEMPetriNet(legs, petri.json)
+end
+
+to_span_petri(file::AbstractString) = to_span_petri(to_petri(file))
+
 
 function update!(pn::PropertyLabelledPetriNet)
   map(parts(pn, :S)) do s

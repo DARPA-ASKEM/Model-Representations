@@ -45,7 +45,33 @@ using AlgebraicPetri.TypedPetri
 sir = typed_askemnet
 flux = ASKEMPetriNets.to_typed_petri("../../examples/flux_typed.json")
 
+flux.model |> to_graphviz
+
+@assert is_natural(flux.model)
+
 augmented_sir = add_reflexives(sir.model, [[:Strata],[:Strata],[:Strata]], sir.model.codom)
 augmented_flux = add_reflexives(flux.model, [[:Infect,:Disease],[:Infect,:Disease]], flux.model.codom)
 
-stratified = typed_product(augmented_sir, augmented_flux)
+augmented_sir |> to_graphviz
+augmented_flux |> to_graphviz
+
+# stratified = typed_product(augmented_sir, augmented_flux)
+
+
+#***************
+# Span Example *
+#***************
+#=
+function strip_names(p::ACSetTransformation)
+    init = NamedTuple([k=>collect(v) for (k,v) in pairs(components(p))])
+    homomorphism(strip_names(dom(p)), strip_names(codom(p)), initial=init)
+end
+  
+function strip_names(p::AbstractLabelledPetriNet)
+    map(p, Name = name -> nothing)
+end
+=#
+
+sir_flux = ASKEMPetriNets.to_span_petri("../../examples/sir_flux_span.json")
+test = Span(sir_flux.model...)
+test.apex |> to_graphviz
