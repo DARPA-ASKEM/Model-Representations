@@ -112,6 +112,18 @@ end
 to_span_petri(file::AbstractString) = to_span_petri(to_petri(file))
 
 
+# function to_nested_petri(petri::ASKEMPetriNet)
+# dom = extract(petri.model)
+# if maps in petri.semantics
+#   for map in maps
+#     codom = to_nested_petri(map)
+#     form acsettransformation
+#   end
+# end
+# end
+
+# to_nested_petri(file::AbstractString) = to_nested_petri(to_petri(file))
+
 function update!(pn::PropertyLabelledPetriNet)
   map(parts(pn, :S)) do s
     pn[s, :sprop]["id"] = String(pn[s, :sname])
