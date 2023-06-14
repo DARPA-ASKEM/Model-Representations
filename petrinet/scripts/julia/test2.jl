@@ -41,6 +41,8 @@ aug_flux = add_reflexives(flux_typed.model, [[:Infect,:Disease],[:Infect,:Diseas
 flux_typed.model.codom == sir_typed.model.codom
 codom(aug_flux) ==  codom(aug_sir)
 
+# sir_flux = pullback(aug_sir, aug_flux; product_attrs=true)
+
 aug_sir2 = tppn_to_tlpn(aug_sir)
 aug_flux2 = tppn_to_tlpn(aug_flux)
 sir_flux = pullback(aug_sir2, aug_flux2; product_attrs=true)
