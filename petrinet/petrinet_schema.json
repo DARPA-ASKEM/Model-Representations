@@ -9,6 +9,9 @@
       "type": "string",
       "format": "uri"
     },
+    "schema_name": {
+      "type": "string"
+    },    
     "description": {
       "type": "string"
     },
@@ -69,6 +72,9 @@
           },
           "grounding": {
             "$ref": "#/$defs/grounding"
+          },
+          "units": {
+            "$ref": "#/$defs/unit"
           }
         },
         "required": [
@@ -151,6 +157,9 @@
         "name": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
         "grounding": {
           "$ref": "#/$defs/grounding"
         }
@@ -176,13 +185,25 @@
       ],
       "additionalProperties": true
     },
+    "unit": {
+      "type": "object",
+      "properties": {
+        "expression": {
+          "type": "string"
+        },
+        "expression_mathml": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
     "grounding": {
       "type": "object",
       "properties": {
         "identifiers": {
           "type": "object"
         },
-        "context": {
+        "modifiers": {
           "type": "object"
         }
       },
@@ -349,6 +370,9 @@
               "id": {
                 "type": "string"
               },
+              "name": {
+                "type": "string"
+              },
               "description": {
                 "type": "string"
               },
@@ -360,14 +384,32 @@
               },
               "distribution": {
                 "$ref": "#/$defs/distribution"
+              },
+              "units": {
+                "$ref": "#/$defs/unit"
               }
             },
             "required": [
               "id"
             ]
           }
+        },
+        "time": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "units": {
+              "$ref": "#/$defs/unit"
+            }
+          },
+          "required": [
+            "id"
+          ]
         }
-      }
+      },
+      "required": []
     }
   },
   "additionalProperties": true,

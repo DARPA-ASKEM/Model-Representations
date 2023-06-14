@@ -9,6 +9,9 @@
       "type": "string",
       "format": "uri"
     },
+    "schema_name": {
+      "type": "string"
+    },
     "description": {
       "type": "string"
     },
@@ -165,7 +168,7 @@
         "identifiers": {
           "type": "object"
         },
-        "context": {
+        "modifiers": {
           "type": "object"
         }
       },
