@@ -322,28 +322,32 @@
             "license": {
               "title": "License",
               "description": "Information about the licensing of the model artifact. Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, models from the BioModels databases are all licensed under the CC0 public attribution license.",
-              "example": "CC0",
+              "examples": [
+                "CC0"
+              ],
               "type": "string"
             },
             "authors": {
               "title": "Authors",
               "description": "A list of authors/creators of the model. This is not the same as the people who e.g., submitted the model to BioModels",
-              "example": [
-                {
-                  "name": "Andrea L Bertozzi"
-                },
-                {
-                  "name": "Elisa Franco"
-                },
-                {
-                  "name": "George Mohler"
-                },
-                {
-                  "name": "Martin B Short"
-                },
-                {
-                  "name": "Daniel Sledge"
-                }
+              "examples": [
+                [
+                  {
+                    "name": "Andrea L Bertozzi"
+                  },
+                  {
+                    "name": "Elisa Franco"
+                  },
+                  {
+                    "name": "George Mohler"
+                  },
+                  {
+                    "name": "Martin B Short"
+                  },
+                  {
+                    "name": "Daniel Sledge"
+                  }
+                ]
               ],
               "type": "array",
               "items": {
@@ -353,8 +357,10 @@
             "references": {
               "title": "References",
               "description": "A list of CURIEs (i.e., <prefix>:<identifier>) corresponding to literature references that describe the model. Do **not** duplicate the same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
-              "example": [
-                "pubmed:32616574"
+              "examples": [
+                [
+                  "pubmed:32616574"
+                ]
               ],
               "type": "array",
               "items": {
@@ -364,9 +370,11 @@
             "model_types": {
               "title": "Model Types",
               "description": "This field describes the type(s) of the model using the Mathematical Modeling Ontology (MAMO), which has terms like 'ordinary differential equation  model', 'population model', etc. These should be annotated as CURIEs in the form of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
-              "example": [
-                "mamo:0000028",
-                "mamo:0000046"
+              "examples": [
+                [
+                  "mamo:0000028",
+                  "mamo:0000046"
+                ]
               ],
               "type": "array",
               "items": {
