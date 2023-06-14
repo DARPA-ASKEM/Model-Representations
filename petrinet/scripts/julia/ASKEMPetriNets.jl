@@ -34,6 +34,18 @@ function extract_petri(model::AbstractDict)
   PropertyLabelledPetriNet{Dict}(LabelledPetriNet(states, transitions...), state_props, transition_props)
 end
 
+function to_amr(pn::PropertyLabelledPetriNet)
+  pn_schema = JSON.parsefile("../../petrinet_schema.json")
+  amr = Dict{String,Any}()
+  for field in filter(x -> x != "model", pn_schema["required"])
+    amr[field] = ""
+  end
+  amr["model"] = Dict{String,Any}()
+  amr["model"]["states"] = pn[:sprop]
+  amr["model"]["transitions"] = pn[:tprop]
+  return amr
+end
+
 function to_petri(file::AbstractString)
   json = JSON.parsefile(file)
   ASKEMPetriNet(extract_petri(json["model"]), json)
@@ -112,17 +124,34 @@ end
 to_span_petri(file::AbstractString) = to_span_petri(to_petri(file))
 
 
-# function to_nested_petri(petri::ASKEMPetriNet)
-# dom = extract(petri.model)
-# if maps in petri.semantics
-#   for map in maps
-#     codom = to_nested_petri(map)
-#     form acsettransformation
-#   end
-# end
+struct NestedASKEMPetriNet <: AbstractASKEMPetriNet
+  model::Union{ASKEMPetriNet,TypedASKEMPetriNet,SpanASKEMPetriNet}
+  semantics::AbstractDict
+  json::AbstractDict
+end
+
+# function to_nested_petri(petri::AbstractASKEMPetriNet)
 # end
 
-# to_nested_petri(file::AbstractString) = to_nested_petri(to_petri(file))
+# function to_nested_petri(json::AbstractDict)
+#   mdl = extract_petri(json["model"])
+#   if maps in petri.json["semantics"]
+#     for map in maps
+#       codom = to_nested_petri(map)
+#       form acsettransformation
+#     end
+#   else
+
+#   end
+#   
+#   ASKEMPetriNet(, json)
+# end
+#
+# function to_nested_petri(file::AbstractString)
+#   json = JSON.parsefile(file)
+#   to_nested_petri(json)
+# end
+#
 
 function update!(pn::PropertyLabelledPetriNet)
   map(parts(pn, :S)) do s
