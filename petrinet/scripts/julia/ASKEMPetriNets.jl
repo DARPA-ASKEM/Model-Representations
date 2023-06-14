@@ -46,6 +46,36 @@ function to_amr(pn::PropertyLabelledPetriNet)
   return amr
 end
 
+function to_amr(tpn::ACSetTransformation)
+  pn_schema = JSON.parsefile("../../petrinet_schema.json")
+  amr = Dict{String,Any}()
+  for field in filter(x -> x != "model", pn_schema["required"])
+    amr[field] = ""
+  end
+  amr["model"] = Dict{String,Any}()
+  amr["model"]["states"] = tpn.dom[:sprop]
+  amr["model"]["transitions"] = tpn.dom[:tprop]
+  amr["semantics"] = Dict{String,Any}()
+  amr["semantics"]["maps"] = []
+  # amr["semantics"]["maps"][1]["amr"]
+  # amr["semantics"]["maps"][1]["map"]
+  return amr
+end
+
+function tppn_to_tlpn(tppn::ACSetTransformation)
+  dom_petri = LabelledPetriNet(deepcopy(dom(tppn)))
+  codom_petri = LabelledPetriNet(deepcopy(codom(tppn)))
+  type_comps = Dict(k=>collect(v) for (k,v) in pairs(deepcopy(components(tppn))))
+  delete!(type_comps,:Prop)
+  LooseACSetTransformation(
+    type_comps,
+    # (Name=x->nothing),
+    (Name=x->nothing, (has_subpart(dom_petri, :rate) ? [:Rate=>x->nothing] : [])..., (has_subpart(dom_petri, :concentration) ? [:Concentration=>x->nothing] : [])...),
+    dom_petri,
+    codom_petri
+  )
+end
+
 function to_petri(file::AbstractString)
   json = JSON.parsefile(file)
   ASKEMPetriNet(extract_petri(json["model"]), json)
