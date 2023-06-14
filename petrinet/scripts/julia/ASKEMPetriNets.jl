@@ -24,6 +24,11 @@ struct SpanASKEMPetriNet <: AbstractASKEMPetriNet
   json::AbstractDict
 end
 
+struct StratASKEMPetriNet <: AbstractASKEMPetriNet
+  model::ACSetlimit
+  json::AbstractDict
+end
+
 
 function extract_petri(model::AbstractDict)
   state_props = Dict(Symbol(s["id"]) => s for s in model["states"])
@@ -47,20 +52,32 @@ function to_amr(pn::PropertyLabelledPetriNet)
 end
 
 function to_amr(tpn::ACSetTransformation)
-  pn_schema = JSON.parsefile("../../petrinet_schema.json")
-  amr = Dict{String,Any}()
-  for field in filter(x -> x != "model", pn_schema["required"])
-    amr[field] = ""
-  end
-  amr["model"] = Dict{String,Any}()
-  amr["model"]["states"] = tpn.dom[:sprop]
-  amr["model"]["transitions"] = tpn.dom[:tprop]
+  amr = to_amr(dom(tpn))
   amr["semantics"] = Dict{String,Any}()
-  amr["semantics"]["maps"] = []
-  # amr["semantics"]["maps"][1]["amr"]
-  # amr["semantics"]["maps"][1]["map"]
+  amr["semantics"]["typing"] = Dict{String,Any}()
+  # amr["semantics"]["typing"]["type_system"] = to_amr(codom(tpn))
+  # amr["semantics"]["typing"]["type_map"] = []
   return amr
 end
+
+function to_amr(spn::Vector{ACSetTransformation})
+  amr = to_amr(dom(spn[1]))
+  amr["semantics"] = Dict{String,Any}()
+  amr["semantics"]["span"] = []
+  # amr["semantics"]["span"][1]["amr"]
+  # amr["semantics"]["span"][1]["map"]
+  return amr
+end
+
+function to_amr(pb::ACSetLimit)
+  amr = to_amr(ob(pb))
+  amr["semantics"] = Dict{String,Any}()
+  amr["semantics"]["stratification"] = Dict{String,Any}()
+  # amr["semantics"]["stratification"]["typing"] = []
+  # amr["semantics"]["stratification"]["span"] = []
+  return amr
+end
+
 
 function tppn_to_tlpn(tppn::ACSetTransformation)
   dom_petri = LabelledPetriNet(deepcopy(dom(tppn)))
