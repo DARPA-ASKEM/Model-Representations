@@ -25,10 +25,53 @@ struct SpanASKEMPetriNet <: AbstractASKEMPetriNet
 end
 
 struct StratASKEMPetriNet <: AbstractASKEMPetriNet
-  model::ACSetlimit
+  pb::ACSetlimit
+  typed_apex::ACSetTransformation
+  typed_feet::Vector{TypedASKEMPetriNet}
   json::AbstractDict
 end
 
+StratASKEMPetriNet(pb::ACSetlimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet}) = 
+  StratASKEMPetriNet(
+    pb::ACSetlimit,
+    typed_apex::ACSetTransformation,
+    typed_feet::Vector{TypedASKEMPetriNet},
+    to_amr(pb::ACSetlimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet})
+  )
+
+function to_map(tpn::ACSetTransformation)
+  map_pairs = []
+  for (ii,s) in enumerate(dom(tpn)[:sname])
+    push!(map_pairs,[String(s),String(codom(tpn)[:sname][components(tpn)[:S](ii)])])
+  end
+  for (ii,t) in enumerate(dom(tpn)[:tname])
+    push!(map_pairs,[String(t),String(codom(tpn)[:tname][components(tpn)[:T](ii)])])
+  end
+  return map_pairs
+end
+
+function to_typing_semantics(tpn::ACSetTransformation)
+  semantics = Dict{String,Any}()
+  semantics["system"] = to_amr(codom(tpn))
+  semantics["map"] = to_map(tpn)
+end
+
+function to_span_semantics(span::Vector{ACSetTransformation})
+  semantics = Vector{Dict{String,Any}}
+  for leg in span
+    push!(semantics,to_typing_semantics(leg))
+  end
+end
+
+function to_amr(pb::ACSetlimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet})
+  tmp_ppn = PropertyLabelledPetriNet{Dict}()
+  amr = to_amr(copy_parts!(tmp_ppn,flatten_labels(apex(pb))))
+  amr["semantics"] = Dict{String,Any}()
+  amr["semantics"]["stratification"] = Dict{String,Any}()
+  amr["semantics"]["stratification"]["typing"] = to_typing_semantics(typed_apex)
+  amr["semantics"]["stratification"]["span"] = to_span_semantics(typed_feet)
+  return amr
+end
 
 function extract_petri(model::AbstractDict)
   state_props = Dict(Symbol(s["id"]) => s for s in model["states"])
@@ -70,11 +113,12 @@ function to_amr(spn::Vector{ACSetTransformation})
 end
 
 function to_amr(pb::ACSetLimit)
-  amr = to_amr(ob(pb))
+  tmp_ppn = PropertyLabelledPetriNet{Dict}()
+  amr = to_amr(copy_parts!(tmp_ppn,flatten_labels(apex(pb))))
   amr["semantics"] = Dict{String,Any}()
   amr["semantics"]["stratification"] = Dict{String,Any}()
-  # amr["semantics"]["stratification"]["typing"] = []
-  # amr["semantics"]["stratification"]["span"] = []
+  # amr["semantics"]["stratification"]["typing"] = to_typing()
+  # amr["semantics"]["stratification"]["span"] = to_span()
   return amr
 end
 
