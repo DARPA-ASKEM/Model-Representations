@@ -197,7 +197,7 @@
     "ode": {},
     "span": [
       {
-        "type_system": {
+        "system": {
           "states": [
             {
               "id": "S",
@@ -292,7 +292,7 @@
             }
           ]  
         },
-        "type_map": [
+        "map": [
           [
             "S1",
             "S"
@@ -360,7 +360,7 @@
         ]
       },
       {
-        "type_system": {
+        "system": {
           "states": [
             {
               "id": "Rgn_1",
@@ -454,7 +454,7 @@
             }
           ]
         },
-        "type_map": [
+        "map": [
           [
             "S1",
             "Rgn_1"

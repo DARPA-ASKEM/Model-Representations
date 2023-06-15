@@ -25,7 +25,7 @@ struct SpanASKEMPetriNet <: AbstractASKEMPetriNet
 end
 
 struct StratASKEMPetriNet <: AbstractASKEMPetriNet
-  pb::ACSetlimit
+  pb::ACSetLimit
   typed_apex::ACSetTransformation
   typed_feet::Vector{TypedASKEMPetriNet}
   json::AbstractDict
@@ -63,6 +63,23 @@ function to_span_semantics(span::Vector{ACSetTransformation})
   end
 end
 
+
+function stratify(cospan::Vector{TypedASKEMPetriNet})
+  aug_sir = add_reflexives(sir_typed.model, [[:Strata],[:Strata],[:Strata]], sir_typed.model.codom)
+  aug_flux = add_reflexives(flux_typed.model, [[:Infect,:Disease],[:Infect,:Disease]], flux_typed.model.codom)
+  
+  flux_typed.model.codom == sir_typed.model.codom
+  codom(aug_flux) ==  codom(aug_sir)
+  
+  # sir_flux = pullback(aug_sir, aug_flux; product_attrs=true)
+  
+  aug_sir2 = tppn_to_tlpn(aug_sir)
+  aug_flux2 = tppn_to_tlpn(aug_flux)
+  sir_flux = pullback(aug_sir2, aug_flux2; product_attrs=true)
+  
+end
+
+
 function to_amr(pb::ACSetlimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet})
   tmp_ppn = PropertyLabelledPetriNet{Dict}()
   amr = to_amr(copy_parts!(tmp_ppn,flatten_labels(apex(pb))))
@@ -82,6 +99,10 @@ function extract_petri(model::AbstractDict)
   PropertyLabelledPetriNet{Dict}(LabelledPetriNet(states, transitions...), state_props, transition_props)
 end
 
+
+
+
+
 function to_amr(pn::PropertyLabelledPetriNet)
   pn_schema = JSON.parsefile("../../petrinet_schema.json")
   amr = Dict{String,Any}()
@@ -98,8 +119,8 @@ function to_amr(tpn::ACSetTransformation)
   amr = to_amr(dom(tpn))
   amr["semantics"] = Dict{String,Any}()
   amr["semantics"]["typing"] = Dict{String,Any}()
-  # amr["semantics"]["typing"]["type_system"] = to_amr(codom(tpn))
-  # amr["semantics"]["typing"]["type_map"] = []
+  # amr["semantics"]["typing"]["system"] = to_amr(codom(tpn))
+  # amr["semantics"]["typing"]["map"] = []
   return amr
 end
 
@@ -148,8 +169,8 @@ to_petri(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model.dom,
 
 function to_typed_petri(petri::ASKEMPetriNet)
   typing = petri.json["semantics"]["typing"]
-  type_system = extract_petri(typing["type_system"])
-  type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in typing["type_map"])
+  type_system = extract_petri(typing["system"])
+  type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in typing["map"])
   S = map(snames(petri.model)) do state
     only(incident(type_system, type_map[state], :sname))
   end
@@ -183,8 +204,8 @@ function to_span_petri(petri::ASKEMPetriNet)
   feet = petri.json["semantics"]["span"]
   legs = []
   for foot in feet
-    type_system = extract_petri(foot["type_system"])
-    type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in foot["type_map"])
+    type_system = extract_petri(foot["system"])
+    type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in foot["map"])
     S = map(snames(petri.model)) do state
       only(incident(type_system, type_map[state], :sname))
     end
@@ -272,7 +293,7 @@ update!(askem_net::TypedASKEMPetriNet) = begin
   update!(askem_net.model.dom)
   update!(askem_net.model.codom)
   comps, pn, type_system = askem_net.model.components, askem_net.model.dom, askem_net.model.codom
-  askem_net.json["semantics"]["typing"]["type_map"] = vcat(
+  askem_net.json["semantics"]["typing"]["map"] = vcat(
     map(enumerate(comps.S.func)) do (state, type)
       [String(pn[state, :sname]), String(type_system[type, :sname])]
     end,

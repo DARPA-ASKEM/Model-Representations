@@ -155,7 +155,7 @@
       }
     },
     "typing": {
-      "type_system": {
+      "system": {
         "states": [
           {
               "id": "Pop",
@@ -237,7 +237,7 @@
           }
         ]
       },
-      "type_map": [
+      "map": [
         ["S", "Pop"],
         ["I", "Pop"],
         ["R", "Pop"],

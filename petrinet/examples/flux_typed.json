@@ -48,7 +48,7 @@
   "semantics": {
     "ode": {},
     "typing": {
-      "type_system": {
+      "system": {
         "states": [
           {
             "id": "Pop",
@@ -130,7 +130,7 @@
           }
         ]
       },
-      "type_map": [
+      "map": [
         [
           "Rgn_1",
           "Pop"
