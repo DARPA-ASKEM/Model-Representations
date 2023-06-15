@@ -5,6 +5,8 @@ export to_petri, to_typed_petri, update_properties!, update_json!, update!, to_s
 using AlgebraicPetri
 using Catlab.CategoricalAlgebra
 
+# import Catlab.CategoricalAlgebra.CSets: ACSetLimit
+
 import JSON
 
 abstract type AbstractASKEMPetriNet end
@@ -24,6 +26,7 @@ struct SpanASKEMPetriNet <: AbstractASKEMPetriNet
   json::AbstractDict
 end
 
+#=
 struct StratASKEMPetriNet <: AbstractASKEMPetriNet
   pb::ACSetLimit
   typed_apex::ACSetTransformation
@@ -31,14 +34,14 @@ struct StratASKEMPetriNet <: AbstractASKEMPetriNet
   json::AbstractDict
 end
 
-StratASKEMPetriNet(pb::ACSetlimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet}) = 
+StratASKEMPetriNet(pb::ACSetLimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet}) = 
   StratASKEMPetriNet(
-    pb::ACSetlimit,
+    pb::ACSetLimit,
     typed_apex::ACSetTransformation,
     typed_feet::Vector{TypedASKEMPetriNet},
-    to_amr(pb::ACSetlimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet})
+    to_amr(pb::ACSetLimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet})
   )
-
+=#
 function to_map(tpn::ACSetTransformation)
   map_pairs = []
   for (ii,s) in enumerate(dom(tpn)[:sname])
@@ -79,8 +82,8 @@ function stratify(cospan::Vector{TypedASKEMPetriNet})
   
 end
 
-
-function to_amr(pb::ACSetlimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet})
+#=
+function to_amr(pb::ACSetLimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet})
   tmp_ppn = PropertyLabelledPetriNet{Dict}()
   amr = to_amr(copy_parts!(tmp_ppn,flatten_labels(apex(pb))))
   amr["semantics"] = Dict{String,Any}()
@@ -89,6 +92,17 @@ function to_amr(pb::ACSetlimit,typed_apex::ACSetTransformation,typed_feet::Vecto
   amr["semantics"]["stratification"]["span"] = to_span_semantics(typed_feet)
   return amr
 end
+
+function to_amr(pb::ACSetLimit)
+  tmp_ppn = PropertyLabelledPetriNet{Dict}()
+  amr = to_amr(copy_parts!(tmp_ppn,flatten_labels(apex(pb))))
+  amr["semantics"] = Dict{String,Any}()
+  amr["semantics"]["stratification"] = Dict{String,Any}()
+  # amr["semantics"]["stratification"]["typing"] = to_typing()
+  # amr["semantics"]["stratification"]["span"] = to_span()
+  return amr
+end
+=#
 
 function extract_petri(model::AbstractDict)
   state_props = Dict(Symbol(s["id"]) => s for s in model["states"])
@@ -133,15 +147,7 @@ function to_amr(spn::Vector{ACSetTransformation})
   return amr
 end
 
-function to_amr(pb::ACSetLimit)
-  tmp_ppn = PropertyLabelledPetriNet{Dict}()
-  amr = to_amr(copy_parts!(tmp_ppn,flatten_labels(apex(pb))))
-  amr["semantics"] = Dict{String,Any}()
-  amr["semantics"]["stratification"] = Dict{String,Any}()
-  # amr["semantics"]["stratification"]["typing"] = to_typing()
-  # amr["semantics"]["stratification"]["span"] = to_span()
-  return amr
-end
+
 
 
 function tppn_to_tlpn(tppn::ACSetTransformation)

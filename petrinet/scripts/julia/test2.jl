@@ -10,7 +10,7 @@ sir_typed = ASKEMPetriNets.to_typed_petri("../../examples/sir_typed.json")
 type_sys = sir_typed.model.codom
 
 # Convert to AMR
-amr_ont = to_amr(type_sys)
+amr_ont = ASKEMPetriNets.to_amr(type_sys)
 # Read back in model
 rt_ont_from_amr = ASKEMPetriNets.extract_petri(amr_ont["model"])
 # Check
@@ -43,7 +43,7 @@ codom(aug_flux) ==  codom(aug_sir)
 
 # sir_flux = pullback(aug_sir, aug_flux; product_attrs=true)
 
-aug_sir2 = tppn_to_tlpn(aug_sir)
-aug_flux2 = tppn_to_tlpn(aug_flux)
+aug_sir2 = ASKEMPetriNets.tppn_to_tlpn(aug_sir)
+aug_flux2 = ASKEMPetriNets.tppn_to_tlpn(aug_flux)
 sir_flux = pullback(aug_sir2, aug_flux2; product_attrs=true)
   
