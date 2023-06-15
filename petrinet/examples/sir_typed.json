@@ -1,6 +1,6 @@
 {
   "name": "SIR Model",
-  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
   "schema_name": "petrinet",
   "description": "Typed SIR model created by Nelson, derived from the one by Ben, Micah, Brandon",
   "model_version": "0.1",
