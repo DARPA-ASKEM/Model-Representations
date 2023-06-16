@@ -65,53 +65,16 @@ amr_strat = ASKEMPetriNets.to_amr(prop_apex,prop_apex_typed,prop_legs)
 amr_strat["semantics"]["stratification"]["typing"]["system"] = sir_typed.json["semantics"]["typing"]["system"]
 amr_strat["semantics"]["stratification"]["span"][1]["system"] = sir_typed.json
 amr_strat["semantics"]["stratification"]["span"][2]["system"] = flux_typed.json
+open("test_strat.json","w") do f
+  JSON.print(f,amr_strat) 
+end
+rt_amr_from_file = ASKEMPetriNets.to_stratification("test_strat.json")
 
 
-#
-
+# Temporary lines to test lpn_to_ppn and extract_petri roundtrip
 test_json = ASKEMPetriNets.to_amr(prop_apex)
 test_extract = ASKEMPetriNets.extract_petri(test_json["model"])
 
 askemnet = ASKEMPetriNets.to_petri("../../examples/sir.json")
 askemnet.model == ASKEMPetriNets.extract_petri(ASKEMPetriNets.to_amr(askemnet.model)["model"])
 
-#=
-struct AMR{T}
-  name::String
-  schema::URL
-  schema_name::String
-  model::T
-  semantics::Semantics
-end
-
-struct Semantics
-  v::Vector{AbstractSemantic}
-end
-
-abstract type AbstractSemantic end
-
-struct ODESemantic <: AbstractSemantic
-  rates::Vector{}
-end
-
-struct Semantic{T}
-  name::String
-  payload::T
-end
-
-function AMR{PropertyLabelledPetriNet}(payload::AbstractDict)
-  AMR(
-    payload["name"]
-    payload["schema"]
-    payload["schema_name"]
-    extract_petri(payload["model"])
-    extract_semantics(payload["semantics"])
-  )
-
-  extract_semantics(payload::AbstractDict) = begin
-    for k in keys(payload)
-      if key == ode
-        Semantic{:ODE}
-    end
-  end
-  =#
