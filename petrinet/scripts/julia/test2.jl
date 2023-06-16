@@ -71,11 +71,4 @@ open("test_strat.json","w") do f
 end
 rt_amr_from_file = ASKEMPetriNets.to_stratification("test_strat.json")
 
-
-# Temporary lines to test lpn_to_ppn and extract_petri roundtrip
-test_json = ASKEMPetriNets.to_amr(prop_apex)
-test_extract = ASKEMPetriNets.extract_petri(test_json["model"])
-
-askemnet = ASKEMPetriNets.to_petri("../../examples/sir.json")
-askemnet.model == ASKEMPetriNets.extract_petri(ASKEMPetriNets.to_amr(askemnet.model)["model"])
-
+prop_apex == rt_amr_from_file.model
