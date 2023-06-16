@@ -5,7 +5,7 @@ export to_petri, to_typed_petri, update_properties!, update_json!, update!, to_s
 using AlgebraicPetri
 using Catlab.CategoricalAlgebra
 
-# import Catlab.CategoricalAlgebra.CSets: ACSetLimit
+import Catlab.CategoricalAlgebra.CSets: ACSetLimit
 
 import JSON
 
@@ -42,29 +42,7 @@ StratASKEMPetriNet(pb::ACSetLimit,typed_apex::ACSetTransformation,typed_feet::Ve
     to_amr(pb::ACSetLimit,typed_apex::ACSetTransformation,typed_feet::Vector{TypedASKEMPetriNet})
   )
 =#
-function to_map(tpn::ACSetTransformation)
-  map_pairs = []
-  for (ii,s) in enumerate(dom(tpn)[:sname])
-    push!(map_pairs,[String(s),String(codom(tpn)[:sname][components(tpn)[:S](ii)])])
-  end
-  for (ii,t) in enumerate(dom(tpn)[:tname])
-    push!(map_pairs,[String(t),String(codom(tpn)[:tname][components(tpn)[:T](ii)])])
-  end
-  return map_pairs
-end
 
-function to_typing_semantics(tpn::ACSetTransformation)
-  semantics = Dict{String,Any}()
-  semantics["system"] = to_amr(codom(tpn))
-  semantics["map"] = to_map(tpn)
-end
-
-function to_span_semantics(span::Vector{ACSetTransformation})
-  semantics = Vector{Dict{String,Any}}
-  for leg in span
-    push!(semantics,to_typing_semantics(leg))
-  end
-end
 
 
 function stratify(cospan::Vector{TypedASKEMPetriNet})
@@ -114,15 +92,81 @@ function extract_petri(model::AbstractDict)
 end
 
 
+function to_map(tpn::ACSetTransformation)
+  map_pairs = []
+  for (ii,s) in enumerate(dom(tpn)[:sname])
+    push!(map_pairs,[String(s),String(codom(tpn)[:sname][components(tpn)[:S](ii)])])
+  end
+  for (ii,t) in enumerate(dom(tpn)[:tname])
+    push!(map_pairs,[String(t),String(codom(tpn)[:tname][components(tpn)[:T](ii)])])
+  end
+  return map_pairs
+end
+
+function to_typing_semantics(tpn::ACSetTransformation)
+  semantics = Dict{String,Any}()
+  semantics["system"] = to_amr(codom(tpn))
+  semantics["map"] = to_map(tpn)
+  return semantics
+end
+
+function to_span_semantics(span::Vector{ACSetTransformation})
+  semantics = Vector{Dict{String,Any}}()
+  for leg in span
+    push!(semantics,to_typing_semantics(leg))
+  end
+  return semantics
+end
+
+#=function to_amr(lpn::AbstractLabelledPetriNet)
+  ppn = PropertyLabelledPetriNet{Dict}()
+  copy_parts!(ppn,flatten_labels(lpn))
+  update!(ppn)
+  @show ppn
+  to_amr(ppn)
+end
+=#
+
+function lpn_to_ppn(lpn::AbstractLabelledPetriNet)
+  ppn = PropertyLabelledPetriNet{Dict}()
+  copy_parts!(ppn, flatten_labels(lpn))
+  ppn[:sprop] = [Dict{String,Any}() for i in parts(ppn, :S)]
+  ppn[:tprop] = [Dict{String,Any}("input"=>[], "output"=>[]) for i in parts(ppn, :T)]
+  for t in parts(ppn, :T)
+    ppn[t, :tprop]["id"] = string(ppn[t, :tname])
+    ppn[t, :tprop]["input"] = string.(ppn[i,[:is, :sname]] for i in incident(ppn, t, :it))
+    ppn[t, :tprop]["output"] = string.(ppn[i,[:is, :sname]] for i in incident(ppn, t, :ot))
+  end
+  for s in parts(ppn, :S)
+    ppn[s, :sprop]["id"] = string(ppn[s, :sname])
+  end
+  # ASKEMPetriNet(ppn, Dict())
+  ppn
+end
 
 
+function to_amr(pn::PropertyLabelledPetriNet; 
+                name="A Petri Net", 
+                schema="https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json", 
+                description="A Petri net in AMR format",
+                version="0.1",
+                semantics=Dict{String,Any}(),
+                meta=Dict{String,Any}())
 
-function to_amr(pn::PropertyLabelledPetriNet)
-  pn_schema = JSON.parsefile("../../petrinet_schema.json")
+  # pn_schema = JSON.parsefile("../../petrinet_schema.json")
   amr = Dict{String,Any}()
+  #=
   for field in filter(x -> x != "model", pn_schema["required"])
     amr[field] = ""
   end
+  =#
+  amr["name"] = name
+  amr["schema"] = schema
+  amr["description"] = description
+  amr["model_version"] = version
+  amr["semantics"] = semantics
+  amr["metadata"] = meta
+  
   amr["model"] = Dict{String,Any}()
   amr["model"]["states"] = pn[:sprop]
   amr["model"]["transitions"] = pn[:tprop]
@@ -130,23 +174,27 @@ function to_amr(pn::PropertyLabelledPetriNet)
 end
 
 function to_amr(tpn::ACSetTransformation)
-  amr = to_amr(dom(tpn))
+  amr = to_amr(dom(tpn),name="A Typed Petri Net", description="A typed Petri net in AMR format")
   amr["semantics"] = Dict{String,Any}()
-  amr["semantics"]["typing"] = Dict{String,Any}()
-  # amr["semantics"]["typing"]["system"] = to_amr(codom(tpn))
-  # amr["semantics"]["typing"]["map"] = []
+  amr["semantics"]["typing"] = to_typing_semantics(tpn)
   return amr
 end
 
 function to_amr(spn::Vector{ACSetTransformation})
-  amr = to_amr(dom(spn[1]))
+  amr = to_amr(dom(spn[1]),name="A Span of Petri Nets", description="A span of Petri nets in AMR format")
   amr["semantics"] = Dict{String,Any}()
-  amr["semantics"]["span"] = []
-  # amr["semantics"]["span"][1]["amr"]
-  # amr["semantics"]["span"][1]["map"]
+  amr["semantics"]["span"] = to_span_semantics(spn)
   return amr
 end
 
+function to_amr(pn::PropertyLabelledPetriNet,tpn::ACSetTransformation,span::Vector{ACSetTransformation})
+  amr = to_amr(pn,name="A Stratified Petri Net", description="A stratified Petri net in AMR format")
+  amr["semantics"] = Dict{String,Any}()
+  amr["semantics"]["stratification"] = Dict{String,Any}()
+  amr["semantics"]["stratification"]["typing"] = to_typing_semantics(tpn)
+  amr["semantics"]["stratification"]["span"] = to_span_semantics(span)
+  return amr
+end
 
 
 
@@ -163,6 +211,20 @@ function tppn_to_tlpn(tppn::ACSetTransformation)
     codom_petri
   )
 end
+
+function tlpn_to_tppn(tlpn::ACSetTransformation)
+  dom_petri = lpn_to_ppn(deepcopy(dom(tlpn)))
+  codom_petri = lpn_to_ppn(deepcopy(codom(tlpn)))
+  type_comps = Dict(k=>collect(v) for (k,v) in pairs(deepcopy(components(tlpn))))
+  LooseACSetTransformation(
+    type_comps,
+    # (Name=x->nothing),
+    (Name=x->nothing, (has_subpart(dom_petri, :rate) ? [:Rate=>x->nothing] : [])..., (has_subpart(dom_petri, :concentration) ? [:Concentration=>x->nothing] : [])...),
+    dom_petri,
+    codom_petri
+  )
+end
+
 
 function to_petri(file::AbstractString)
   json = JSON.parsefile(file)
