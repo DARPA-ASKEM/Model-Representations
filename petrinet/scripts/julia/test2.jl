@@ -62,7 +62,8 @@ for tpn in legs(sir_flux)
 end
 
 amr_strat = ASKEMPetriNets.to_amr(prop_apex,prop_apex_typed,prop_legs)
-amr_strat["semantics"]["stratification"]["typing"]["system"] = sir_typed.json["semantics"]["typing"]["system"]
+# amr_strat["semantics"]["stratification"]["typing"]["system"] = sir_typed.json["semantics"]["typing"]["system"]
+amr_strat["semantics"]["stratification"]["typing"]["system"] = ASKEMPetriNets.to_amr(type_sys)
 amr_strat["semantics"]["stratification"]["span"][1]["system"] = sir_typed.json
 amr_strat["semantics"]["stratification"]["span"][2]["system"] = flux_typed.json
 open("test_strat.json","w") do f

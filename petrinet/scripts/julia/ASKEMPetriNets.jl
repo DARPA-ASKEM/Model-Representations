@@ -26,6 +26,14 @@ struct SpanASKEMPetriNet <: AbstractASKEMPetriNet
   json::AbstractDict
 end
 
+struct StratifiedASKEMPetriNet <: AbstractASKEMPetriNet
+  model::PropertyLabelledPetriNet # apex
+  typing::ACSetTransformation
+  legs::Vector{ACSetTransformation}
+  json::AbstractDict
+end
+
+
 #**********************************************************
 # Functions to extract Petri net structures from AMR JSON *
 #**********************************************************
@@ -116,11 +124,52 @@ end
 
 to_span_petri(file::AbstractString) = to_span_petri(to_petri(file))
 
+
+
+
+
+function from_typing_dict(dom,typing_dict)
+  type_system = extract_petri(typing_dict["system"]["model"])
+  type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in typing_dict["map"])
+  S = map(snames(dom)) do state
+    only(incident(type_system, type_map[state], :sname))
+  end
+  T = map(tnames(dom)) do transition
+    only(incident(type_system, type_map[transition], :tname))
+  end
+  type_its = Dict{Int,Vector{Int}}()
+  I = map(parts(dom, :I)) do i
+    type_transition = T[dom[i, :it]]
+    if !haskey(type_its, type_transition) || isempty(type_its[type_transition])
+      type_its[type_transition] = copy(incident(type_system, type_transition, :it))
+    end
+    popfirst!(type_its[type_transition])
+  end
+  type_ots = Dict{Int,Vector{Int}}()
+  O = map(parts(dom, :O)) do o
+    type_transition = T[dom[o, :ot]]
+    if !haskey(type_ots, type_transition) || isempty(type_ots[type_transition])
+      type_ots[type_transition] = copy(incident(type_system, type_transition, :ot))
+    end
+    popfirst!(type_ots[type_transition])
+  end
+  LooseACSetTransformation((S=S, T=T, I=I, O=O), (Name=x->nothing, Prop=x->nothing), dom, type_system)
+end
+
+function from_span_dict(apex,span_dict)
+  span = Vector{ACSetTransformation}()
+  for leg in span_dict
+    push!(span,from_typing_dict(apex,leg))
+  end
+  return span
+end
+
 function to_stratification(file::AbstractString) 
   tmp = to_petri(file)
   apex = tmp.model
-  # apex_typed = from_typing(tmp.json["semantics"]["stratification"]["span"])
-  # legs = from_span(tmp.json["semantics"]["stratification"]["span"])
+  typing = from_typing_dict(apex,tmp.json["semantics"]["stratification"]["typing"])
+  legs = from_span_dict(apex,tmp.json["semantics"]["stratification"]["span"])
+  StratifiedASKEMPetriNet(apex,typing,legs,tmp.json)
 end
 
 #***************************************************************
@@ -242,7 +291,7 @@ function lpn_to_ppn(lpn::AbstractLabelledPetriNet)
   for t in parts(ppn, :T)
     ppn[t, :tprop]["id"] = string(ppn[t, :tname])
     ppn[t, :tprop]["input"] = string.(ppn[i,[:is, :sname]] for i in incident(ppn, t, :it))
-    ppn[t, :tprop]["output"] = string.(ppn[i,[:is, :sname]] for i in incident(ppn, t, :ot))
+    ppn[t, :tprop]["output"] = string.(ppn[o,[:os, :sname]] for o in incident(ppn, t, :ot))
   end
   for s in parts(ppn, :S)
     ppn[s, :sprop]["id"] = string(ppn[s, :sname])
