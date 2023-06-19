@@ -2,33 +2,264 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "metadata": {
-      "title": "ExtractionsCollection",
-      "description": "Represents a collection of extractions ",
+    "metadata":{
+      "title": "AttributeCollection",
+      "description": "Represents a collection of attributes ",
       "type": "object",
       "properties": {
-        "variable_statements": {
-          "title": "Variable Statements",
+        "attributes": {
+          "title": "Attributes",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/VariableStatement"
+            "$ref": "#/definitions/Attribute"
           }
-        },
-        "annotations": {
-          "$ref": "#/definitions/Annotations"
         }
       },
       "required": [],
-      "$id": "#/definitions/ExtractionsCollection",
+      "$id": "#/definitions/AttributeCollection",
       "definitions": {
-        "VariableMetadata": {
-          "title": "VariableMetadata",
-          "description": "Represents some metadata about a variable instance ",
+        "AttributeType": {
+          "title": "AttributeType",
+          "description": "An enumeration.",
+          "enum": [
+            "anchored_extraction",
+            "document_collection",
+            "equation",
+            "fn_reference",
+            "scenario_context"
+          ],
+          "type": "string",
+          "$id": "#/definitions/AttributeType"
+        },
+        "ID": {
+          "title": "ID",
+          "description": "Represents an identifier such as a UUID, hash, or arbitrary string ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "$id": "#/definitions/ID"
+        },
+        "TextExtraction": {
+          "title": "TextExtraction",
+          "description": "Represents the origin or a text extraction ",
+          "type": "object",
+          "properties": {
+            "page": {
+              "title": "Page",
+              "type": "integer"
+            },
+            "block": {
+              "title": "Block",
+              "type": "integer"
+            },
+            "char_start": {
+              "title": "Char Start",
+              "type": "integer"
+            },
+            "char_end": {
+              "title": "Char End",
+              "type": "integer"
+            },
+            "document_reference": {
+              "$ref": "#/definitions/ID"
+            }
+          },
+          "required": [
+            "char_start",
+            "char_end",
+            "document_reference"
+          ],
+          "$id": "#/definitions/TextExtraction"
+        },
+        "Provenance": {
+          "title": "Provenance",
+          "description": "Represents the origin of a piece of information related to the extractions ",
+          "type": "object",
+          "properties": {
+            "method": {
+              "title": "Method",
+              "type": "string"
+            },
+            "timestamp": {
+              "title": "Timestamp",
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "method",
+            "timestamp"
+          ],
+          "$id": "#/definitions/Provenance"
+        },
+        "Name": {
+          "title": "Name",
+          "description": "A \"named\" concept ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/ID"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "extraction_source": {
+              "$ref": "#/definitions/TextExtraction"
+            },
+            "provenance": {
+              "$ref": "#/definitions/Provenance"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "provenance"
+          ],
+          "$id": "#/definitions/Name"
+        },
+        "Grounding": {
+          "title": "Grounding",
+          "description": "Grounding enables associating a DKG concept identifier with an extraction, along with what information was\nused as the basis for inferring a grounding (through the source list), what algorithm was used for the inference\n(through provenance), and a score estimating the confidence in the grounding (to be used for ranking among\ncandidate groundings).\n\nThere are a couple of different types of elements that may be grounded (this list might be expanded in the\nfuture) \u2013 current:\n\n    - AnchoredExtraction: grounding may be based on the Name(s) and/or Description(s) of the AnchoredExtraction.\n     In this case, the source list contains the IDs for any Name(s) or Description(s) used by the grounding\n     algorithm (most likely an embedding-based model; in embedding models, the order of the IDs indicates the order\n     in which Name(s) and/or Description(s) string were concatenated for the embedding input). In general, if\n     Description(s) are available, those will be used, with Name(s) as a fall-back when there is no Description.\n\n    - Value: Values may be optionally grounded; here the source is the id of the ValueSpec that the Value is a\n     member of: ValueSpec.value.\n\n    - Units: Units may be grounded; here the source is the id of the ValueSpec that the Units is a\n    member of: ValueSpec.unit.",
+          "type": "object",
+          "properties": {
+            "grounding_text": {
+              "title": "Grounding Text",
+              "type": "string"
+            },
+            "grounding_id": {
+              "title": "Grounding Id",
+              "type": "string"
+            },
+            "source": {
+              "title": "Source",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ID"
+              }
+            },
+            "score": {
+              "title": "Score",
+              "type": "number"
+            },
+            "provenance": {
+              "$ref": "#/definitions/Provenance"
+            }
+          },
+          "required": [
+            "grounding_text",
+            "grounding_id",
+            "source",
+            "score",
+            "provenance"
+          ],
+          "$id": "#/definitions/Grounding"
+        },
+        "Description": {
+          "title": "Description",
+          "description": "An extraction of a description string to be anchored to name(s) ",
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/ID"
+            },
+            "source": {
+              "title": "Source",
+              "type": "string"
+            },
+            "grounding": {
+              "title": "Grounding",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Grounding"
+              }
+            },
+            "extraction_source": {
+              "$ref": "#/definitions/TextExtraction"
+            },
+            "provenance": {
+              "$ref": "#/definitions/Provenance"
+            }
+          },
+          "required": [
+            "id",
+            "source",
+            "provenance"
+          ],
+          "$id": "#/definitions/Description"
+        },
+        "Value": {
+          "title": "Value",
+          "type": "object",
+          "properties": {
+            "source": {
+              "title": "Source",
+              "type": "string"
+            },
+            "grounding": {
+              "title": "Grounding",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Grounding"
+              }
+            },
+            "extraction_source": {
+              "$ref": "#/definitions/TextExtraction"
+            }
+          },
+          "required": [
+            "source"
+          ],
+          "$id": "#/definitions/Value"
+        },
+        "Units": {
+          "title": "Units",
+          "type": "object",
+          "properties": {
+            "source": {
+              "title": "Source",
+              "type": "string"
+            },
+            "grounding": {
+              "title": "Grounding",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Grounding"
+              }
+            },
+            "extraction_source": {
+              "$ref": "#/definitions/TextExtraction"
+            }
+          },
+          "required": [
+            "source"
+          ],
+          "$id": "#/definitions/Units"
+        },
+        "BoundType": {
+          "title": "BoundType",
+          "description": "An enumeration.",
+          "enum": [
+            "closed",
+            "open",
+            "unbounded"
+          ],
+          "type": "string",
+          "$id": "#/definitions/BoundType"
+        },
+        "Bound": {
+          "title": "Bound",
           "type": "object",
           "properties": {
             "type": {
-              "title": "Type",
-              "type": "string"
+              "$ref": "#/definitions/BoundType"
             },
             "value": {
               "title": "Value",
@@ -36,34 +267,54 @@
             }
           },
           "required": [
-            "type",
-            "value"
+            "type"
           ],
-          "$id": "#/definitions/VariableMetadata"
+          "$id": "#/definitions/Bound"
         },
-        "DKGConcept": {
-          "title": "DKGConcept",
-          "description": "Represents a grounding to a DKG concept ",
+        "ValueSpec": {
+          "title": "ValueSpec",
+          "description": "Value and unit extractions may come as a pair, and since there may be more than one such pair,\nwe provide a ValueSpec as a general structure that itself can contain either a Value, a Unit,\nor a paired Value and Unit",
           "type": "object",
           "properties": {
             "id": {
-              "title": "Id",
+              "$ref": "#/definitions/ID"
+            },
+            "value": {
+              "$ref": "#/definitions/Value"
+            },
+            "units": {
+              "$ref": "#/definitions/Units"
+            },
+            "type": {
+              "title": "Type",
               "type": "string"
             },
-            "name": {
-              "title": "Name",
-              "type": "string"
+            "bounds": {
+              "title": "Bounds",
+              "type": "array",
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "$ref": "#/definitions/Bound"
+                  },
+                  {
+                    "$ref": "#/definitions/Bound"
+                  }
+                ]
+              }
             },
-            "score": {
-              "title": "Score",
-              "type": "number"
+            "provenance": {
+              "$ref": "#/definitions/Provenance"
             }
           },
           "required": [
             "id",
-            "name"
+            "provenance"
           ],
-          "$id": "#/definitions/DKGConcept"
+          "$id": "#/definitions/ValueSpec"
         },
         "Dataset": {
           "title": "Dataset",
@@ -71,8 +322,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "title": "Id",
-              "type": "string"
+              "$ref": "#/definitions/ID"
             },
             "name": {
               "title": "Name",
@@ -89,14 +339,13 @@
           ],
           "$id": "#/definitions/Dataset"
         },
-        "DataColumn": {
-          "title": "DataColumn",
+        "DataColumnReference": {
+          "title": "DataColumnReference",
           "description": "Represents a column of a dataset ",
           "type": "object",
           "properties": {
             "id": {
-              "title": "Id",
-              "type": "string"
+              "$ref": "#/definitions/ID"
             },
             "name": {
               "title": "Name",
@@ -111,19 +360,68 @@
             "name",
             "dataset"
           ],
-          "$id": "#/definitions/DataColumn"
+          "$id": "#/definitions/DataColumnReference"
         },
-        "Paper": {
-          "title": "Paper",
+        "AnchoredExtraction": {
+          "title": "AnchoredExtraction",
+          "description": "Supports associations of various types of reading extractions associated with a \"named\" concept.\nThere could be more than one name for the same element.",
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/ID"
+            },
+            "names": {
+              "title": "Names",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Name"
+              }
+            },
+            "descriptions": {
+              "title": "Descriptions",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Description"
+              }
+            },
+            "value_specs": {
+              "title": "Value Specs",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ValueSpec"
+              }
+            },
+            "groundings": {
+              "title": "Groundings",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Grounding"
+              }
+            },
+            "data_columns": {
+              "title": "Data Columns",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DataColumnReference"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "names"
+          ],
+          "$id": "#/definitions/AnchoredExtraction"
+        },
+        "DocumentReference": {
+          "title": "DocumentReference",
           "description": "Represents a paper from which an extraction comes ",
           "type": "object",
           "properties": {
             "id": {
-              "title": "Id",
-              "type": "string"
+              "$ref": "#/definitions/ID"
             },
-            "file_directory": {
-              "title": "File Directory",
+            "source_file": {
+              "title": "Source File",
               "type": "string"
             },
             "doi": {
@@ -133,271 +431,226 @@
           },
           "required": [
             "id",
-            "file_directory",
+            "source_file",
             "doi"
           ],
-          "$id": "#/definitions/Paper"
+          "$id": "#/definitions/DocumentReference"
+        },
+        "DocumentCollection": {
+          "title": "DocumentCollection",
+          "type": "object",
+          "properties": {
+            "documents": {
+              "title": "Documents",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DocumentReference"
+              }
+            }
+          },
+          "required": [
+            "documents"
+          ],
+          "$id": "#/definitions/DocumentCollection"
+        },
+        "ImageExtraction": {
+          "title": "ImageExtraction",
+          "description": "Represents an image extracted by COSMOS or any document processing front-end ",
+          "type": "object",
+          "properties": {
+            "document_coordinate": {
+              "title": "Document Coordinate"
+            },
+            "document_reference": {
+              "$ref": "#/definitions/ID"
+            }
+          },
+          "required": [
+            "document_reference"
+          ],
+          "$id": "#/definitions/ImageExtraction"
         },
         "Equation": {
           "title": "Equation",
-          "description": "Represents an equation extraction ",
+          "description": "The following is generalized to support extraction of an equation from a document or other medium ",
           "type": "object",
           "properties": {
             "id": {
-              "title": "Id",
+              "$ref": "#/definitions/ID"
+            },
+            "source_text": {
+              "title": "Source Text",
               "type": "string"
             },
-            "text": {
-              "title": "Text",
+            "latex": {
+              "title": "Latex",
               "type": "string"
             },
-            "image": {
-              "title": "Image",
+            "p_mathml": {
+              "title": "P Mathml",
               "type": "string"
+            },
+            "c_mathml": {
+              "title": "C Mathml",
+              "type": "string"
+            },
+            "source_image": {
+              "title": "Source Image",
+              "type": "string"
+            },
+            "extraction_source": {
+              "$ref": "#/definitions/ImageExtraction"
+            },
+            "provenance": {
+              "$ref": "#/definitions/Provenance"
             }
           },
           "required": [
             "id",
-            "text"
+            "provenance"
           ],
           "$id": "#/definitions/Equation"
         },
-        "Variable": {
-          "title": "Variable",
-          "description": "Represents an extracted variable/identifier ",
+        "FNReference": {
+          "title": "FNReference",
+          "description": "Reference to one or more FN Paths in a Gromet Function Network Module Collection\nThe HMI does not need to resolve these, but these can be used by SKEMA to reach\nback to source FN structure(s) (and source code).",
+          "type": "object",
+          "properties": {
+            "paths": {
+              "title": "Paths",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source_file": {
+              "title": "Source File",
+              "type": "string"
+            }
+          },
+          "required": [
+            "paths",
+            "source_file"
+          ],
+          "$id": "#/definitions/FNReference"
+        },
+        "LocationContext": {
+          "title": "LocationContext",
+          "type": "object",
+          "properties": {
+            "location": {
+              "title": "Location",
+              "type": "string"
+            },
+            "provenance": {
+              "$ref": "#/definitions/Provenance"
+            },
+            "grounding": {
+              "$ref": "#/definitions/Grounding"
+            },
+            "extraction_source": {
+              "$ref": "#/definitions/TextExtraction"
+            }
+          },
+          "required": [
+            "location",
+            "provenance"
+          ],
+          "$id": "#/definitions/LocationContext"
+        },
+        "TemporalContext": {
+          "title": "TemporalContext",
+          "type": "object",
+          "properties": {
+            "datetime": {
+              "title": "Datetime",
+              "type": "string"
+            },
+            "start_datetime": {
+              "title": "Start Datetime",
+              "type": "string"
+            },
+            "end_datetime": {
+              "title": "End Datetime",
+              "type": "string"
+            },
+            "provenance": {
+              "$ref": "#/definitions/Provenance"
+            },
+            "grounding": {
+              "$ref": "#/definitions/Grounding"
+            }
+          },
+          "required": [
+            "provenance"
+          ],
+          "$id": "#/definitions/TemporalContext"
+        },
+        "ScenarioContext": {
+          "title": "ScenarioContext",
           "type": "object",
           "properties": {
             "id": {
-              "title": "Id",
-              "type": "string"
+              "$ref": "#/definitions/ID"
             },
-            "name": {
-              "title": "Name",
-              "type": "string"
-            },
-            "metadata": {
-              "title": "Metadata",
+            "extractions": {
+              "title": "Extractions",
               "default": [],
               "type": "array",
               "items": {
-                "$ref": "#/definitions/VariableMetadata"
+                "$ref": "#/definitions/ID"
               }
             },
-            "dkg_groundings": {
-              "title": "Dkg Groundings",
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/DKGConcept"
-              }
+            "location": {
+              "$ref": "#/definitions/LocationContext"
             },
-            "column": {
-              "title": "Column",
-              "default": [],
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/DataColumn"
-              }
-            },
-            "paper": {
-              "$ref": "#/definitions/Paper"
-            },
-            "equations": {
-              "title": "Equations",
-              "default": [],
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Equation"
-              }
+            "time": {
+              "$ref": "#/definitions/TemporalContext"
             }
           },
           "required": [
-            "id",
-            "name",
-            "dkg_groundings"
+            "id"
           ],
-          "$id": "#/definitions/Variable"
+          "$id": "#/definitions/ScenarioContext"
         },
-        "StatementValue": {
-          "title": "StatementValue",
-          "description": "Represents the contents of a statement about a variable ",
-          "type": "object",
-          "properties": {
-            "value": {
-              "title": "Value",
-              "type": "string"
-            },
-            "type": {
-              "title": "Type",
-              "type": "string"
-            },
-            "dkg_grounding": {
-              "$ref": "#/definitions/DKGConcept"
-            }
-          },
-          "required": [
-            "value",
-            "type"
-          ],
-          "$id": "#/definitions/StatementValue"
-        },
-        "VariableStatementMetadata": {
-          "title": "VariableStatementMetadata",
-          "description": "Metadata associated to a specific variable statement ",
+        "Attribute": {
+          "title": "Attribute",
+          "description": "A top-level generic Attribute container that can be typed\nAttributes are placed in the AMR \"metadata\" field (a JSON array), and may optional refer",
           "type": "object",
           "properties": {
             "type": {
-              "title": "Type",
+              "$ref": "#/definitions/AttributeType"
+            },
+            "amr_element_id": {
+              "title": "Amr Element Id",
               "type": "string"
             },
-            "value": {
-              "title": "Value",
-              "type": "string"
+            "payload": {
+              "title": "Payload",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/AnchoredExtraction"
+                },
+                {
+                  "$ref": "#/definitions/DocumentCollection"
+                },
+                {
+                  "$ref": "#/definitions/Equation"
+                },
+                {
+                  "$ref": "#/definitions/FNReference"
+                },
+                {
+                  "$ref": "#/definitions/ScenarioContext"
+                }
+              ]
             }
           },
           "required": [
             "type",
-            "value"
+            "payload"
           ],
-          "$id": "#/definitions/VariableStatementMetadata"
-        },
-        "ProvenanceInfo": {
-          "title": "ProvenanceInfo",
-          "description": "Describes the provenance of an extraction ",
-          "type": "object",
-          "properties": {
-            "method": {
-              "title": "Method",
-              "type": "string"
-            },
-            "description": {
-              "title": "Description",
-              "type": "string"
-            }
-          },
-          "required": [
-            "method",
-            "description"
-          ],
-          "$id": "#/definitions/ProvenanceInfo"
-        },
-        "VariableStatement": {
-          "title": "VariableStatement",
-          "description": "Represents a statement about a variable ",
-          "type": "object",
-          "properties": {
-            "id": {
-              "title": "Id",
-              "type": "string"
-            },
-            "variable": {
-              "$ref": "#/definitions/Variable"
-            },
-            "value": {
-              "$ref": "#/definitions/StatementValue"
-            },
-            "metadata": {
-              "title": "Metadata",
-              "default": [],
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/VariableStatementMetadata"
-              }
-            },
-            "provenance": {
-              "$ref": "#/definitions/ProvenanceInfo"
-            }
-          },
-          "required": [
-            "id",
-            "variable"
-          ],
-          "$id": "#/definitions/VariableStatement"
-        },
-        "Annotations": {
-          "$id": "#/definitions/Annotations",
-          "title": "Annotations",
-          "description": "A metadata model for model-level annotations.\n\nExamples in this metadata model are taken from\nhttps://www.ebi.ac.uk/biomodels/BIOMD0000000956,\na well-annotated SIR model in the BioModels database.",
-          "type": "object",
-          "properties": {
-            "license": {
-              "title": "License",
-              "description": "Information about the licensing of the model artifact. Ideally, given as an SPDX identifier like CC0 or CC-BY-4.0. For example, models from the BioModels databases are all licensed under the CC0 public attribution license.",
-              "examples": [
-                "CC0"
-              ],
-              "type": "string"
-            },
-            "authors": {
-              "title": "Authors",
-              "description": "A list of authors/creators of the model. This is not the same as the people who e.g., submitted the model to BioModels",
-              "examples": [
-                [
-                  {
-                    "name": "Andrea L Bertozzi"
-                  },
-                  {
-                    "name": "Elisa Franco"
-                  },
-                  {
-                    "name": "George Mohler"
-                  },
-                  {
-                    "name": "Martin B Short"
-                  },
-                  {
-                    "name": "Daniel Sledge"
-                  }
-                ]
-              ],
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Author"
-              }
-            },
-            "references": {
-              "title": "References",
-              "description": "A list of CURIEs (i.e., <prefix>:<identifier>) corresponding to literature references that describe the model. Do **not** duplicate the same publication with different CURIEs (e.g., using pubmed, pmc, and doi)",
-              "examples": [
-                [
-                  "pubmed:32616574"
-                ]
-              ],
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "model_types": {
-              "title": "Model Types",
-              "description": "This field describes the type(s) of the model using the Mathematical Modeling Ontology (MAMO), which has terms like 'ordinary differential equation  model', 'population model', etc. These should be annotated as CURIEs in the form of mamo:<local unique identifier>. For example, the Bertozzi 2020 model is a population model (mamo:0000028) and ordinary differential equation model (mamo:0000046)",
-              "examples": [
-                [
-                  "mamo:0000028",
-                  "mamo:0000046"
-                ]
-              ],
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "Author": {
-          "$id": "#/definitions/Author",
-          "title": "Author",
-          "description": "A metadata model for an author. Could be expanded to include ORCID later.",
-          "type": "object",
-          "properties": {
-            "name": {
-              "title": "Name",
-              "description": "The name of the author",
-              "type": "string"
-            }
-          },
-          "required": [
-            "name"
-          ]
+          "$id": "#/definitions/Attribute"
         }
       }
     }
