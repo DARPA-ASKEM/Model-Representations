@@ -33,7 +33,7 @@ typed_askemnet.typing.codom[1, :sname] = :People
 
 # Update the properties and JSON with new modifications to structure
 #****
-# ASKEMPetriNets.update!(typed_askemnet)
+ASKEMPetriNets.update!(typed_askemnet)
 #****
 
 # Print new JSON
@@ -77,3 +77,8 @@ end
 sir_flux = ASKEMPetriNets.SpanASKEMPetriNet("../../examples/sir_flux_span.json")
 test = Span(sir_flux.legs...)
 test.apex |> to_graphviz
+
+sir_flux.legs[1].dom[2,:sname] = :Mzzz
+sir_flux.model |> to_graphviz
+ASKEMPetriNets.update!(sir_flux)
+JSON.print(sir_flux, 2)

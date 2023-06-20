@@ -365,10 +365,11 @@ function update!(askem_net::ASKEMPetriNet)
   askem_net
 end
 
-update!(askem_net::TypedASKEMPetriNet) = begin
-  update!(askem_net.model.dom)
-  update!(askem_net.model.codom)
-  comps, pn, type_system = askem_net.model.components, askem_net.model.dom, askem_net.model.codom
+function update!(askem_net::TypedASKEMPetriNet)
+  update!(askem_net.model)
+  update!(askem_net.typing.dom)
+  update!(askem_net.typing.codom)
+  comps, pn, type_system = askem_net.typing.components, askem_net.typing.dom, askem_net.typing.codom
   askem_net.json["semantics"]["typing"]["map"] = vcat(
     map(enumerate(comps.S.func)) do (state, type)
       [String(pn[state, :sname]), String(type_system[type, :sname])]
@@ -379,6 +380,26 @@ update!(askem_net::TypedASKEMPetriNet) = begin
   )
   askem_net
 end
+
+function update!(askem_net::SpanASKEMPetriNet)
+  update!(askem_net.model)
+  for (ii, leg) in enumerate(askem_net.legs)
+    update!(leg.dom)
+    update!(leg.codom)
+    comps, pn, type_system = leg.components, leg.dom, leg.codom
+    askem_net.json["semantics"]["span"][ii]["map"] = vcat(
+      map(enumerate(comps.S.func)) do (state, type)
+        [String(pn[state, :sname]), String(type_system[type, :sname])]
+      end,
+      map(enumerate(comps.T.func)) do (transition, type)
+        [String(pn[transition, :tname]), String(type_system[type, :tname])]
+      end
+    )
+  end
+  askem_net
+end
+
+# update!(askem_net::StratifiedASKEMPetriNet)
 
 # JSON Interoperability
 #######################
