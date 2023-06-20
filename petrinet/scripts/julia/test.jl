@@ -6,6 +6,11 @@ using AlgebraicPetri
 using Catlab.CategoricalAlgebra, Catlab.Graphics
 using JSON
 
+
+#********************
+# Petri Net Example *
+#********************
+
 # Load a model
 askemnet = ASKEMPetriNets.ASKEMPetriNet("../../examples/sir.json")
 
@@ -21,6 +26,9 @@ ASKEMPetriNets.update!(askemnet)
 # Print new JSON
 JSON.print(askemnet, 2)
 
+#*****************
+# Typing Example *
+#*****************
 typed_askemnet = ASKEMPetriNets.TypedASKEMPetriNet("../../examples/sir_typed.json")
 
 typed_askemnet.typing |> to_graphviz
@@ -32,9 +40,7 @@ typed_askemnet.typing.dom[1, :tname] = :infect
 typed_askemnet.typing.codom[1, :sname] = :People
 
 # Update the properties and JSON with new modifications to structure
-#****
 ASKEMPetriNets.update!(typed_askemnet)
-#****
 
 # Print new JSON
 JSON.print(typed_askemnet, 2)
@@ -63,17 +69,6 @@ augmented_flux |> to_graphviz
 #***************
 # Span Example *
 #***************
-#=
-function strip_names(p::ACSetTransformation)
-    init = NamedTuple([k=>collect(v) for (k,v) in pairs(components(p))])
-    homomorphism(strip_names(dom(p)), strip_names(codom(p)), initial=init)
-end
-  
-function strip_names(p::AbstractLabelledPetriNet)
-    map(p, Name = name -> nothing)
-end
-=#
-
 sir_flux = ASKEMPetriNets.SpanASKEMPetriNet("../../examples/sir_flux_span.json")
 test = Span(sir_flux.legs...)
 test.apex |> to_graphviz

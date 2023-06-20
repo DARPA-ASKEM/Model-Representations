@@ -39,7 +39,6 @@ end
 #**********************************************************
 # Functions to extract Petri net structures from AMR JSON *
 #**********************************************************
-
 function extract_petri(model::AbstractDict)
   state_props = Dict(Symbol(s["id"]) => s for s in model["states"])
   states = [Symbol(s["id"]) for s in model["states"]]
@@ -85,6 +84,9 @@ function extract_span(apex::PropertyLabelledPetriNet,span_dict::Vector{Any}) # D
   return span
 end
 
+#***************************************************************************
+# Constructors for AbstractASKEMPetriNet's from file or base ASKEMPetriNet *
+#***************************************************************************
 ASKEMPetriNet(file::AbstractString) = begin
   json = JSON.parsefile(file)
   ASKEMPetriNet(extract_petri(json["model"]), json)
@@ -339,8 +341,11 @@ function AMR{PropertyLabelledPetriNet}(payload::AbstractDict)
         Semantic{:ODE}
     end
   end
-  =#
+=#
 
+#********************************************
+# Functions to update AbstractASKEMPetriNet *
+#********************************************
 function update!(pn::PropertyLabelledPetriNet)
   map(parts(pn, :S)) do s
     pn[s, :sprop]["id"] = String(pn[s, :sname])
@@ -365,8 +370,24 @@ function update!(askem_net::ASKEMPetriNet)
   askem_net
 end
 
+function update!(typing::ACSetTransformation,typ_dict::AbstractDict)
+  update!(typing.dom)
+  update!(typing.codom)
+  comps, pn, type_system = typing.components, typing.dom, typing.codom
+  typ_dict["map"] = vcat(
+    map(enumerate(comps.S.func)) do (state, type)
+      [String(pn[state, :sname]), String(type_system[type, :sname])]
+    end,
+    map(enumerate(comps.T.func)) do (transition, type)
+      [String(pn[transition, :tname]), String(type_system[type, :tname])]
+    end
+  )
+end
+
 function update!(askem_net::TypedASKEMPetriNet)
   update!(askem_net.model)
+  update!(askem_net.typing,askem_net.json["semantics"]["typing"])
+#=
   update!(askem_net.typing.dom)
   update!(askem_net.typing.codom)
   comps, pn, type_system = askem_net.typing.components, askem_net.typing.dom, askem_net.typing.codom
@@ -378,12 +399,15 @@ function update!(askem_net::TypedASKEMPetriNet)
       [String(pn[transition, :tname]), String(type_system[type, :tname])]
     end
   )
+=#
   askem_net
 end
 
 function update!(askem_net::SpanASKEMPetriNet)
   update!(askem_net.model)
   for (ii, leg) in enumerate(askem_net.legs)
+    update!(leg,askem_net.json["semantics"]["span"][ii])
+#=
     update!(leg.dom)
     update!(leg.codom)
     comps, pn, type_system = leg.components, leg.dom, leg.codom
@@ -395,15 +419,23 @@ function update!(askem_net::SpanASKEMPetriNet)
         [String(pn[transition, :tname]), String(type_system[type, :tname])]
       end
     )
+=#
   end
   askem_net
 end
 
-# update!(askem_net::StratifiedASKEMPetriNet)
+function update!(askem_net::StratifiedASKEMPetriNet)
+  update!(askem_net.model)
+  update!(askem_net.typing,askem_net.json["semantics"]["typing"])
+  for (ii, leg) in enumerate(askem_net.legs)
+    update!(leg,askem_net.json["semantics"]["span"][ii])
+  end
+  askem_net
+end
 
-# JSON Interoperability
-#######################
-
+#************************
+# JSON Interoperability *
+#************************
 JSON.json(askem_net::AbstractASKEMPetriNet) = JSON.json(askem_net.json)
 JSON.print(io::IO, askem_net::AbstractASKEMPetriNet) = JSON.print(io, askem_net.json)
 JSON.print(io::IO, askem_net::AbstractASKEMPetriNet, indent) = JSON.print(io, askem_net.json, indent)
