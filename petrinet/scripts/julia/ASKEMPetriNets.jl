@@ -17,12 +17,14 @@ struct ASKEMPetriNet <: AbstractASKEMPetriNet
 end
 
 struct TypedASKEMPetriNet <: AbstractASKEMPetriNet
-  model::ACSetTransformation
+  model::PropertyLabelledPetriNet
+  typing::ACSetTransformation
   json::AbstractDict
 end
 
 struct SpanASKEMPetriNet <: AbstractASKEMPetriNet
-  model::Vector{ACSetTransformation}
+  model::PropertyLabelledPetriNet
+  legs::Vector{ACSetTransformation}
   json::AbstractDict
 end
 
@@ -95,7 +97,7 @@ TypedASKEMPetriNet(petri::ASKEMPetriNet) = begin
   dom = petri.model
   typing = petri.json["semantics"]["typing"]
   tpn = extract_typing(dom,typing)
-  TypedASKEMPetriNet(tpn, petri.json)
+  TypedASKEMPetriNet(dom, tpn, petri.json)
 end
 TypedASKEMPetriNet(file::AbstractString) = TypedASKEMPetriNet(ASKEMPetriNet(file))
 
@@ -103,7 +105,7 @@ SpanASKEMPetriNet(petri::ASKEMPetriNet) = begin
   apex = petri.model
   feet = petri.json["semantics"]["span"]
   legs = extract_span(apex,feet)
-  SpanASKEMPetriNet(legs, petri.json)
+  SpanASKEMPetriNet(apex, legs, petri.json)
 end
 SpanASKEMPetriNet(file::AbstractString) = SpanASKEMPetriNet(ASKEMPetriNet(file))
 

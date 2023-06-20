@@ -8,7 +8,7 @@ using JSON
 sir_typed = ASKEMPetriNets.TypedASKEMPetriNet("../../examples/sir_typed_aug.json")
 
 # Read in petri type system
-type_sys = sir_typed.model.codom
+type_sys = sir_typed.typing.codom
 
 # Convert to AMR
 amr_ont = ASKEMPetriNets.form_amr(type_sys)
@@ -39,11 +39,11 @@ flux_typed = ASKEMPetriNets.TypedASKEMPetriNet("../../examples/flux_typed_aug.js
 # aug_sir = add_reflexives(sir_typed.model, [[:Strata],[:Strata],[:Strata]], sir_typed.model.codom)
 # aug_flux = add_reflexives(flux_typed.model, [[:Infect,:Disease],[:Infect,:Disease]], flux_typed.model.codom)
 
-flux_typed.model.codom == sir_typed.model.codom
+flux_typed.typing.codom == sir_typed.typing.codom
 # codom(aug_flux) ==  codom(aug_sir)
 
-aug_sir2 = ASKEMPetriNets.tppn_to_tlpn(sir_typed.model)
-aug_flux2 = ASKEMPetriNets.tppn_to_tlpn(flux_typed.model)
+aug_sir2 = ASKEMPetriNets.tppn_to_tlpn(sir_typed.typing)
+aug_flux2 = ASKEMPetriNets.tppn_to_tlpn(flux_typed.typing)
 sir_flux = pullback(aug_sir2, aug_flux2; product_attrs=true)
 
 

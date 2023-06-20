@@ -23,16 +23,18 @@ JSON.print(askemnet, 2)
 
 typed_askemnet = ASKEMPetriNets.TypedASKEMPetriNet("../../examples/sir_typed.json")
 
-typed_askemnet.model |> to_graphviz
+typed_askemnet.typing |> to_graphviz
 
-@assert is_natural(typed_askemnet.model)
+@assert is_natural(typed_askemnet.typing)
 
-typed_askemnet.model.dom[1, :sname] = :M
-typed_askemnet.model.dom[1, :tname] = :infect
-typed_askemnet.model.codom[1, :sname] = :People
+typed_askemnet.typing.dom[1, :sname] = :M
+typed_askemnet.typing.dom[1, :tname] = :infect
+typed_askemnet.typing.codom[1, :sname] = :People
 
 # Update the properties and JSON with new modifications to structure
-ASKEMPetriNets.update!(typed_askemnet)
+#****
+# ASKEMPetriNets.update!(typed_askemnet)
+#****
 
 # Print new JSON
 JSON.print(typed_askemnet, 2)
@@ -45,12 +47,12 @@ using AlgebraicPetri.TypedPetri
 sir = typed_askemnet
 flux = ASKEMPetriNets.TypedASKEMPetriNet("../../examples/flux_typed.json")
 
-flux.model |> to_graphviz
+flux.typing |> to_graphviz
 
-@assert is_natural(flux.model)
+@assert is_natural(flux.typing)
 
-augmented_sir = add_reflexives(sir.model, [[:Strata],[:Strata],[:Strata]], sir.model.codom)
-augmented_flux = add_reflexives(flux.model, [[:Infect,:Disease],[:Infect,:Disease]], flux.model.codom)
+augmented_sir = add_reflexives(sir.typing, [[:Strata],[:Strata],[:Strata]], sir.typing.codom)
+augmented_flux = add_reflexives(flux.typing, [[:Infect,:Disease],[:Infect,:Disease]], flux.typing.codom)
 
 augmented_sir |> to_graphviz
 augmented_flux |> to_graphviz
@@ -73,5 +75,5 @@ end
 =#
 
 sir_flux = ASKEMPetriNets.SpanASKEMPetriNet("../../examples/sir_flux_span.json")
-test = Span(sir_flux.model...)
+test = Span(sir_flux.legs...)
 test.apex |> to_graphviz
