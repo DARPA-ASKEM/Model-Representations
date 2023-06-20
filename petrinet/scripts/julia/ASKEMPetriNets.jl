@@ -47,88 +47,7 @@ function extract_petri(model::AbstractDict)
   PropertyLabelledPetriNet{Dict}(LabelledPetriNet(states, transitions...), state_props, transition_props)
 end
 
-function to_petri(file::AbstractString)
-  json = JSON.parsefile(file)
-  ASKEMPetriNet(extract_petri(json["model"]), json)
-end
-
-to_petri(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model.dom, typed_petri.json)
-
-# to_petri(span_petri::SpanASKEMPetriNet) = ASKEMPetriNet(span_petri.model[1].dom, span_petri.json)
-
-function to_typed_petri(petri::ASKEMPetriNet)
-  typing = petri.json["semantics"]["typing"]
-  type_system = extract_petri(typing["system"])
-  type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in typing["map"])
-  S = map(snames(petri.model)) do state
-    only(incident(type_system, type_map[state], :sname))
-  end
-  T = map(tnames(petri.model)) do transition
-    only(incident(type_system, type_map[transition], :tname))
-  end
-  type_its = Dict{Int,Vector{Int}}()
-  I = map(parts(petri.model, :I)) do i
-    type_transition = T[petri.model[i, :it]]
-    if !haskey(type_its, type_transition) || isempty(type_its[type_transition])
-      type_its[type_transition] = copy(incident(type_system, type_transition, :it))
-    end
-    popfirst!(type_its[type_transition])
-  end
-  type_ots = Dict{Int,Vector{Int}}()
-  O = map(parts(petri.model, :O)) do o
-    type_transition = T[petri.model[o, :ot]]
-    if !haskey(type_ots, type_transition) || isempty(type_ots[type_transition])
-      type_ots[type_transition] = copy(incident(type_system, type_transition, :ot))
-    end
-    popfirst!(type_ots[type_transition])
-  end
-
-  TypedASKEMPetriNet(LooseACSetTransformation((S=S, T=T, I=I, O=O), (Name=x->nothing, Prop=x->nothing), petri.model, type_system), petri.json)
-end
-
-to_typed_petri(file::AbstractString) = to_typed_petri(to_petri(file))
-
-
-function to_span_petri(petri::ASKEMPetriNet)
-  feet = petri.json["semantics"]["span"]
-  legs = []
-  for foot in feet
-    type_system = extract_petri(foot["system"])
-    type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in foot["map"])
-    S = map(snames(petri.model)) do state
-      only(incident(type_system, type_map[state], :sname))
-    end
-    T = map(tnames(petri.model)) do transition
-      only(incident(type_system, type_map[transition], :tname))
-    end
-    type_its = Dict{Int,Vector{Int}}()
-    I = map(parts(petri.model, :I)) do i
-      type_transition = T[petri.model[i, :it]]
-      if !haskey(type_its, type_transition) || isempty(type_its[type_transition])
-        type_its[type_transition] = copy(incident(type_system, type_transition, :it))
-      end
-      popfirst!(type_its[type_transition])
-    end
-    type_ots = Dict{Int,Vector{Int}}()
-    O = map(parts(petri.model, :O)) do o
-      type_transition = T[petri.model[o, :ot]]
-      if !haskey(type_ots, type_transition) || isempty(type_ots[type_transition])
-        type_ots[type_transition] = copy(incident(type_system, type_transition, :ot))
-      end
-      popfirst!(type_ots[type_transition])
-    end
-    push!(legs,LooseACSetTransformation((S=S, T=T, I=I, O=O), (Name=x->nothing, Prop=x->nothing), petri.model, type_system))
-  end
-  SpanASKEMPetriNet(legs, petri.json)
-end
-
-to_span_petri(file::AbstractString) = to_span_petri(to_petri(file))
-
-
-
-
-
-function from_typing_dict(dom,typing_dict)
+function from_typing_dict(dom,typing_dict::AbstractDict)
   type_system = extract_petri(typing_dict["system"]["model"])
   type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in typing_dict["map"])
   S = map(snames(dom)) do state
@@ -156,13 +75,40 @@ function from_typing_dict(dom,typing_dict)
   LooseACSetTransformation((S=S, T=T, I=I, O=O), (Name=x->nothing, Prop=x->nothing), dom, type_system)
 end
 
-function from_span_dict(apex,span_dict)
+function from_span_dict(apex,span_dict::Vector{Any}) # Dict{String,Any}})
   span = Vector{ACSetTransformation}()
   for leg in span_dict
     push!(span,from_typing_dict(apex,leg))
   end
   return span
 end
+
+function to_petri(file::AbstractString)
+  json = JSON.parsefile(file)
+  ASKEMPetriNet(extract_petri(json["model"]), json)
+end
+
+to_petri(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model.dom, typed_petri.json)
+
+# to_petri(span_petri::SpanASKEMPetriNet) = ASKEMPetriNet(span_petri.model[1].dom, span_petri.json)
+
+function to_typed_petri(petri::ASKEMPetriNet)
+  dom = petri.model
+  typing = petri.json["semantics"]["typing"]
+  tpn = from_typing_dict(dom,typing)
+  TypedASKEMPetriNet(tpn, petri.json)
+end
+
+to_typed_petri(file::AbstractString) = to_typed_petri(to_petri(file))
+
+function to_span_petri(petri::ASKEMPetriNet)
+  apex = petri.model
+  feet = petri.json["semantics"]["span"]
+  legs = from_span_dict(apex,feet)
+  SpanASKEMPetriNet(legs, petri.json)
+end
+
+to_span_petri(file::AbstractString) = to_span_petri(to_petri(file))
 
 function to_stratification(file::AbstractString) 
   tmp = to_petri(file)

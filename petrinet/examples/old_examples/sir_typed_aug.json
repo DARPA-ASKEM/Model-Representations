@@ -183,94 +183,86 @@
       },
       "typing": {
         "system": {
-          "name": "Ontology Model w/ Pop and Vax States",
-          "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
-          "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
-          "model_version": "0.1",
-          "model": {
-            "states": [
-              {
+          "states": [
+            {
                 "id": "Pop",
                 "name": "Pop",
                 "description": "Compartment of individuals in a human population"
-              },
-              {
+            },
+            {
                 "id": "Vaccine",
                 "name": "Vaccine",
                 "description": "Compartment of vaccine doses available for use in a vaccination campaign"
-              }
-            ],
-            "transitions": [
-              {
+            }
+          ],
+          "transitions": [
+            {
                 "id": "Infect",
                 "input": [
-                  "Pop",
-                  "Pop"
+                    "Pop",
+                    "Pop"
                 ],
                 "output": [
-                  "Pop",
-                  "Pop"
+                    "Pop",
+                    "Pop"
                 ],
                 "properties": {
-                  "name": "Infect",
-                  "description": "2-to-2 interaction that represents infectious contact between two human individuals"
+                    "name": "Infect",
+                    "description": "2-to-2 interaction that represents infectious contact between two human individuals"
                 }
-              },
-              {
+            },
+            {
                 "id": "Disease",
                 "input": [
-                  "Pop"
+                    "Pop"
                 ],
                 "output": [
-                  "Pop"
+                    "Pop"
                 ],
                 "properties": {
-                  "name": "Disease",
-                  "description": "1-to-1 interaction that represents a change in th edisease status of a human individual."
+                    "name": "Disease",
+                    "description": "1-to-1 interaction that represents a change in th edisease status of a human individual."
                 }
-              },
-              {
+            },
+            {
                 "id": "Strata",
                 "input": [
-                  "Pop"
+                    "Pop"
                 ],
                 "output": [
-                  "Pop"
+                    "Pop"
                 ],
                 "properties": {
-                  "name": "Strata",
-                  "description": "1-to-1 interaction that represents a change in the demographic division of a human individual."
+                    "name": "Strata",
+                    "description": "1-to-1 interaction that represents a change in the demographic division of a human individual."
                 }
-              },
-              {
+            },
+            {
                 "id": "Vaccinate",
                 "input": [
-                  "Pop",
-                  "Vaccine"
+                    "Pop",
+                    "Vaccine"
                 ],
                 "output": [
-                  "Pop"
+                    "Pop"
                 ],
                 "properties": {
-                  "name": "Vaccinate",
-                  "description": "2-to-1 interaction that represents an human individual receiving a vaccine dose."
+                    "name": "Vaccinate",
+                    "description": "2-to-1 interaction that represents an human individual receiving a vaccine dose."
                 }
-              },
-              {
+            },
+            {
                 "id": "Produce_Vaccine",
                 "input": [],
                 "output": [
-                  "Vaccine"
+                    "Vaccine"
                 ],
                 "properties": {
-                  "name": "Produce Vaccine",
-                  "description": "0-to-1 interaction that represents the production of a single vaccine dose."
+                    "name": "Produce Vaccine",
+                    "description": "0-to-1 interaction that represents the production of a single vaccine dose."
                 }
-              }
-            ]
-          },
-          "semantics": {},
-          "metadata": {}
+            }
+          ]
         },
         "map": [
           ["S", "Pop"],
