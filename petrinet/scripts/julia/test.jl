@@ -7,7 +7,7 @@ using Catlab.CategoricalAlgebra, Catlab.Graphics
 using JSON
 
 # Load a model
-askemnet = ASKEMPetriNets.to_petri("../../examples/sir.json")
+askemnet = ASKEMPetriNets.ASKEMPetriNet("../../examples/sir.json")
 
 askemnet.model |> to_graphviz
 
@@ -21,7 +21,7 @@ ASKEMPetriNets.update!(askemnet)
 # Print new JSON
 JSON.print(askemnet, 2)
 
-typed_askemnet = ASKEMPetriNets.to_typed_petri("../../examples/sir_typed.json")
+typed_askemnet = ASKEMPetriNets.TypedASKEMPetriNet("../../examples/sir_typed.json")
 
 typed_askemnet.model |> to_graphviz
 
@@ -43,7 +43,7 @@ JSON.print(typed_askemnet, 2)
 using AlgebraicPetri.TypedPetri
 
 sir = typed_askemnet
-flux = ASKEMPetriNets.to_typed_petri("../../examples/flux_typed.json")
+flux = ASKEMPetriNets.TypedASKEMPetriNet("../../examples/flux_typed.json")
 
 flux.model |> to_graphviz
 
@@ -72,6 +72,6 @@ function strip_names(p::AbstractLabelledPetriNet)
 end
 =#
 
-sir_flux = ASKEMPetriNets.to_span_petri("../../examples/sir_flux_span.json")
+sir_flux = ASKEMPetriNets.SpanASKEMPetriNet("../../examples/sir_flux_span.json")
 test = Span(sir_flux.model...)
 test.apex |> to_graphviz

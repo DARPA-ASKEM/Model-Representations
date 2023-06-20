@@ -1,6 +1,6 @@
 module ASKEMPetriNets
 
-export to_petri, to_typed_petri, update_properties!, update_json!, update!, to_span_petri
+export ASKEMPetriNet, TypedASKEMPetriNet, update_properties!, update_json!, update!, SpanASKEMPetriNet, StratifiedASKEMPetriNet
 
 using AlgebraicPetri
 using Catlab.CategoricalAlgebra
@@ -47,7 +47,7 @@ function extract_petri(model::AbstractDict)
   PropertyLabelledPetriNet{Dict}(LabelledPetriNet(states, transitions...), state_props, transition_props)
 end
 
-function from_typing_dict(dom,typing_dict::AbstractDict)
+function extract_typing(dom::PropertyLabelledPetriNet,typing_dict::AbstractDict)
   type_system = extract_petri(typing_dict["system"]["model"])
   type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in typing_dict["map"])
   S = map(snames(dom)) do state
@@ -75,53 +75,53 @@ function from_typing_dict(dom,typing_dict::AbstractDict)
   LooseACSetTransformation((S=S, T=T, I=I, O=O), (Name=x->nothing, Prop=x->nothing), dom, type_system)
 end
 
-function from_span_dict(apex,span_dict::Vector{Any}) # Dict{String,Any}})
+function extract_span(apex::PropertyLabelledPetriNet,span_dict::Vector{Any}) # Dict{String,Any}})
   span = Vector{ACSetTransformation}()
   for leg in span_dict
-    push!(span,from_typing_dict(apex,leg))
+    push!(span,extract_typing(apex,leg))
   end
   return span
 end
 
-function to_petri(file::AbstractString)
+ASKEMPetriNet(file::AbstractString) = begin
   json = JSON.parsefile(file)
   ASKEMPetriNet(extract_petri(json["model"]), json)
 end
 
-to_petri(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model.dom, typed_petri.json)
+# ASKEMPetriNet(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model.dom, typed_petri.json)
+# ASKEMPetriNet(span_petri::SpanASKEMPetriNet) = ASKEMPetriNet(span_petri.model[1].dom, span_petri.json)
 
-# to_petri(span_petri::SpanASKEMPetriNet) = ASKEMPetriNet(span_petri.model[1].dom, span_petri.json)
-
-function to_typed_petri(petri::ASKEMPetriNet)
+TypedASKEMPetriNet(petri::ASKEMPetriNet) = begin
   dom = petri.model
   typing = petri.json["semantics"]["typing"]
-  tpn = from_typing_dict(dom,typing)
+  tpn = extract_typing(dom,typing)
   TypedASKEMPetriNet(tpn, petri.json)
 end
+TypedASKEMPetriNet(file::AbstractString) = TypedASKEMPetriNet(ASKEMPetriNet(file))
 
-to_typed_petri(file::AbstractString) = to_typed_petri(to_petri(file))
-
-function to_span_petri(petri::ASKEMPetriNet)
+SpanASKEMPetriNet(petri::ASKEMPetriNet) = begin
   apex = petri.model
   feet = petri.json["semantics"]["span"]
-  legs = from_span_dict(apex,feet)
+  legs = extract_span(apex,feet)
   SpanASKEMPetriNet(legs, petri.json)
 end
+SpanASKEMPetriNet(file::AbstractString) = SpanASKEMPetriNet(ASKEMPetriNet(file))
 
-to_span_petri(file::AbstractString) = to_span_petri(to_petri(file))
-
-function to_stratification(file::AbstractString) 
-  tmp = to_petri(file)
+StratifiedASKEMPetriNet(tmp::ASKEMPetriNet) = begin
   apex = tmp.model
-  typing = from_typing_dict(apex,tmp.json["semantics"]["stratification"]["typing"])
-  legs = from_span_dict(apex,tmp.json["semantics"]["stratification"]["span"])
+  typing = extract_typing(apex,tmp.json["semantics"]["stratification"]["typing"])
+  legs = extract_span(apex,tmp.json["semantics"]["stratification"]["span"])
   StratifiedASKEMPetriNet(apex,typing,legs,tmp.json)
+end
+StratifiedASKEMPetriNet(file::AbstractString) = begin
+  tmp = ASKEMPetriNet(file)
+  StratifiedASKEMPetriNet(tmp)
 end
 
 #***************************************************************
 # Functions to form AMR semantic components of data structures *
 #***************************************************************
-function to_map(tpn::ACSetTransformation)
+function form_map_semantics(tpn::ACSetTransformation)
   map_pairs = []
   for (ii,s) in enumerate(dom(tpn)[:sname])
     push!(map_pairs,[String(s),String(codom(tpn)[:sname][components(tpn)[:S](ii)])])
@@ -132,17 +132,17 @@ function to_map(tpn::ACSetTransformation)
   return map_pairs
 end
 
-function to_typing_semantics(tpn::ACSetTransformation)
+function form_typing_semantics(tpn::ACSetTransformation)
   semantics = Dict{String,Any}()
-  semantics["system"] = to_amr(codom(tpn))
-  semantics["map"] = to_map(tpn)
+  semantics["system"] = form_amr(codom(tpn))
+  semantics["map"] = form_map_semantics(tpn)
   return semantics
 end
 
-function to_span_semantics(span::Vector{ACSetTransformation})
+function form_span_semantics(span::Vector{ACSetTransformation})
   semantics = Vector{Dict{String,Any}}()
   for leg in span
-    push!(semantics,to_typing_semantics(leg))
+    push!(semantics,form_typing_semantics(leg))
   end
   return semantics
 end
@@ -151,16 +151,16 @@ end
 # Functions to form AMR dictionary of data structures *
 #******************************************************
 
-#=function to_amr(lpn::AbstractLabelledPetriNet)
+#=function form_amr(lpn::AbstractLabelledPetriNet)
   ppn = PropertyLabelledPetriNet{Dict}()
   copy_parts!(ppn,flatten_labels(lpn))
   update!(ppn)
   @show ppn
-  to_amr(ppn)
+  form_amr(ppn)
 end
 =#
 
-function to_amr(pn::PropertyLabelledPetriNet; 
+function form_amr(pn::PropertyLabelledPetriNet; 
                 name="A Petri Net", 
                 schema="https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json", 
                 description="A Petri net in AMR format",
@@ -188,26 +188,26 @@ function to_amr(pn::PropertyLabelledPetriNet;
   return amr
 end
 
-function to_amr(tpn::ACSetTransformation)
-  amr = to_amr(dom(tpn),name="A Typed Petri Net", description="A typed Petri net in AMR format")
+function form_amr(tpn::ACSetTransformation)
+  amr = form_amr(dom(tpn),name="A Typed Petri Net", description="A typed Petri net in AMR format")
   amr["semantics"] = Dict{String,Any}()
-  amr["semantics"]["typing"] = to_typing_semantics(tpn)
+  amr["semantics"]["typing"] = form_typing_semantics(tpn)
   return amr
 end
 
-function to_amr(spn::Vector{ACSetTransformation})
-  amr = to_amr(dom(spn[1]),name="A Span of Petri Nets", description="A span of Petri nets in AMR format")
+function form_amr(spn::Vector{ACSetTransformation})
+  amr = form_amr(dom(spn[1]),name="A Span of Petri Nets", description="A span of Petri nets in AMR format")
   amr["semantics"] = Dict{String,Any}()
-  amr["semantics"]["span"] = to_span_semantics(spn)
+  amr["semantics"]["span"] = form_span_semantics(spn)
   return amr
 end
 
-function to_amr(pn::PropertyLabelledPetriNet,tpn::ACSetTransformation,span::Vector{ACSetTransformation})
-  amr = to_amr(pn,name="A Stratified Petri Net", description="A stratified Petri net in AMR format")
+function form_amr(pn::PropertyLabelledPetriNet,tpn::ACSetTransformation,span::Vector{ACSetTransformation})
+  amr = form_amr(pn,name="A Stratified Petri Net", description="A stratified Petri net in AMR format")
   amr["semantics"] = Dict{String,Any}()
   amr["semantics"]["stratification"] = Dict{String,Any}()
-  amr["semantics"]["stratification"]["typing"] = to_typing_semantics(tpn)
-  amr["semantics"]["stratification"]["span"] = to_span_semantics(span)
+  amr["semantics"]["stratification"]["typing"] = form_typing_semantics(tpn)
+  amr["semantics"]["stratification"]["span"] = form_span_semantics(span)
   return amr
 end
 
