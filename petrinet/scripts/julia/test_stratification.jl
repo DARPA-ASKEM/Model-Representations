@@ -67,7 +67,7 @@ amr_strat["semantics"]["stratification"]["typing"]["system"] = ASKEMPetriNets.fo
 amr_strat["semantics"]["stratification"]["span"][1]["system"] = sir_typed.json
 amr_strat["semantics"]["stratification"]["span"][2]["system"] = flux_typed.json
 open("test_strat.json","w") do f
-  JSON.print(f,amr_strat) 
+  JSON.print(f,amr_strat,2) 
 end
 # rt_amr_from_file = ASKEMPetriNets.to_stratification("test_strat.json")
 rt_amr_from_file = ASKEMPetriNets.StratifiedASKEMPetriNet("test_strat.json")
