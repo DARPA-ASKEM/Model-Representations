@@ -3,13 +3,14 @@
 
 include("./ASKEMPetriNets.jl")
 using AlgebraicPetri
-using Catlab.CategoricalAlgebra, Catlab.Graphics
+using Catlab
 using JSON
 
 # Load a model
 askemnet = ASKEMPetriNets.to_petri("../../examples/sir.json")
 
 askemnet.model |> to_graphviz
+ASKEMPetriNets.model(askemnet) |> to_graphviz
 
 # Do modifications to the model
 askemnet.model[1, :sname] = :M
@@ -23,7 +24,8 @@ JSON.print(askemnet, 2)
 
 typed_askemnet = ASKEMPetriNets.to_typed_petri("../../examples/sir_typed.json")
 
-typed_askemnet.model |> to_graphviz
+ASKEMPetriNets.model(typed_askemnet) |> to_graphviz
+ASKEMPetriNets.typed_model(typed_askemnet) |> to_graphviz
 
 @assert is_natural(typed_askemnet.model)
 
@@ -36,3 +38,11 @@ ASKEMPetriNets.update!(typed_askemnet)
 
 # Print new JSON
 JSON.print(typed_askemnet, 2)
+
+sir = ASKEMPetriNets.to_typed_petri("../../examples/sir_typed.json")
+flux = ASKEMPetriNets.to_typed_petri("../../examples/flux_typed.json")
+
+sir_flux = ASKEMPetriNets.to_stratified_petri(sir, flux)
+
+ASKEMPetriNets.model(sir_flux) |> to_graphviz
+ASKEMPetriNets.typed_model(sir_flux) |> to_graphviz

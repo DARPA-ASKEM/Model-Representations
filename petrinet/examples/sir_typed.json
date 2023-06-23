@@ -158,91 +158,106 @@
       "type_system": {
         "states": [
           {
-              "id": "Pop",
-              "name": "Pop",
-              "description": "Compartment of individuals in a human population"
+            "id": "Pop",
+            "name": "Pop",
+            "description": "Compartment of individuals in a human population"
           },
           {
-              "id": "Vaccine",
-              "name": "Vaccine",
-              "description": "Compartment of vaccine doses available for use in a vaccination campaign"
+            "id": "Vaccine",
+            "name": "Vaccine",
+            "description": "Compartment of vaccine doses available for use in a vaccination campaign"
           }
         ],
         "transitions": [
           {
-              "id": "Infect",
-              "input": [
-                "Pop",
-                "Pop"
-              ],
-              "output": [
-                "Pop",
-                "Pop"
-              ],
-              "properties": {
-                "name": "Infect",
-                "description": "2-to-2 process that represents infectious contact between two human individuals"
-              }
+            "id": "Infect",
+            "input": [
+              "Pop",
+              "Pop"
+            ],
+            "output": [
+              "Pop",
+              "Pop"
+            ],
+            "properties": {
+              "name": "Infect",
+              "description": "2-to-2 process that represents infectious contact between two human individuals"
+            }
           },
           {
-              "id": "Disease",
-              "input": [
-                "Pop"
-              ],
-              "output": [
-                "Pop"
-              ],
-              "properties": {
-                "name": "Disease",
-                "description": "1-to-1 process that represents a change in th edisease status of a human individual."
-              }
+            "id": "Disease",
+            "input": [
+              "Pop"
+            ],
+            "output": [
+              "Pop"
+            ],
+            "properties": {
+              "name": "Disease",
+              "description": "1-to-1 process that represents a change in th edisease status of a human individual."
+            }
           },
           {
-              "id": "Strata",
-              "input": [
-                "Pop"
-              ],
-              "output": [
-                "Pop"
-              ],
-              "properties": {
-                "name": "Strata",
-                "description": "1-to-1 process that represents a change in the demographic division of a human individual."
-              }
+            "id": "Strata",
+            "input": [
+              "Pop"
+            ],
+            "output": [
+              "Pop"
+            ],
+            "properties": {
+              "name": "Strata",
+              "description": "1-to-1 process that represents a change in the demographic division of a human individual."
+            }
           },
           {
-              "id": "Vaccinate",
-              "input": [
-                "Pop",
-                "Vaccine"
-              ],
-              "output": [
-                "Pop"
-              ],
-              "properties": {
-                "name": "Vaccinate",
-                "description": "2-to-1 process that represents an human individual receiving a vaccine dose."
-              }
+            "id": "Vaccinate",
+            "input": [
+              "Pop",
+              "Vaccine"
+            ],
+            "output": [
+              "Pop"
+            ],
+            "properties": {
+              "name": "Vaccinate",
+              "description": "2-to-1 process that represents an human individual receiving a vaccine dose."
+            }
           },
           {
-              "id": "Produce_Vaccine",
-              "input": [],
-              "output": [
-                "Vaccine"
-              ],
-              "properties": {
-                "name": "Produce Vaccine",
-                "description": "0-to-1 process that represents the production of a single vaccine dose."
-              }
+            "id": "Produce_Vaccine",
+            "input": [],
+            "output": [
+              "Vaccine"
+            ],
+            "properties": {
+              "name": "Produce Vaccine",
+              "description": "0-to-1 process that represents the production of a single vaccine dose."
+            }
           }
         ]
       },
       "type_map": [
-        ["S", "Pop"],
-        ["I", "Pop"],
-        ["R", "Pop"],
-        ["inf", "Infect"],
-        ["rec", "Disease"]
+        [
+          "S",
+          "Pop"
+        ],
+        [
+          "I",
+          "Pop"
+        ],
+        [
+          "R",
+          "Pop"
+        ],
+        [
+          "inf",
+          "Infect"
+        ],
+        [
+          "rec",
+          "Disease"
+        ]
       ]
     }
   },
@@ -702,4 +717,3 @@
     ]
   }
 }
-  

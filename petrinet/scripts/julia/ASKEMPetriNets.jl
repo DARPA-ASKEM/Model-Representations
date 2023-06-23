@@ -1,10 +1,12 @@
 module ASKEMPetriNets
 
-export to_petri, to_typed_petri, update_properties!, update_json!, update!
+export model, typed_model, to_petri, to_typed_petri, to_stratified_petri, update!
 
 using AlgebraicPetri
-using Catlab.CategoricalAlgebra
+using Catlab
+using Catlab.CategoricalAlgebra.CSets: ACSetLimit
 
+import AlgebraicPetri: PropertyLabelledPetriNet
 import JSON
 
 abstract type AbstractASKEMPetriNet end
@@ -19,13 +21,24 @@ struct TypedASKEMPetriNet <: AbstractASKEMPetriNet
   json::AbstractDict
 end
 
+struct StratifiedASKEMPetriNet <: AbstractASKEMPetriNet
+  model::ACSetLimit
+  json::AbstractDict
+end
+
+model(askem_net::ASKEMPetriNet) = askem_net.model
+model(askem_net::TypedASKEMPetriNet) = dom(askem_net.model)
+model(askem_net::StratifiedASKEMPetriNet) = apex(askem_net.model)
+typed_model(askem_net::TypedASKEMPetriNet) = askem_net.model
+typed_model(askem_net::StratifiedASKEMPetriNet) = first(legs(askem_net.model.cone)) ⋅ first(legs(askem_net.model.diagram))
+
 function extract_petri(model::AbstractDict)
   state_props = Dict(Symbol(s["id"]) => s for s in model["states"])
   states = [Symbol(s["id"]) for s in model["states"]]
   transition_props = Dict(Symbol(t["id"]) => t for t in model["transitions"])
   transitions = [Symbol(t["id"]) => (Symbol.(t["input"]) => Symbol.(t["output"])) for t in model["transitions"]]
 
-  PropertyLabelledPetriNet{Dict}(LabelledPetriNet(states, transitions...), state_props, transition_props)
+  PropertyLabelledPetriNet{Dict{String,Any}}(LabelledPetriNet(states, transitions...), state_props, transition_props)
 end
 
 function to_petri(file::AbstractString)
@@ -67,6 +80,15 @@ end
 
 to_typed_petri(file::AbstractString) = to_typed_petri(to_petri(file))
 
+function to_stratified_petri(pb::ACSetLimit, ps::AbstractVector{TypedASKEMPetriNet})
+  # TODO: Construct JSON from the pullback and original TypedASKEMPetriNets
+  json = Dict()
+  StratifiedASKEMPetriNet(pb, json)
+end
+
+to_stratified_petri(p1::TypedASKEMPetriNet, p2::TypedASKEMPetriNet) = to_stratified_petri(pullback(p1.model, p2.model; product_attrs=true), [p1, p2])
+to_stratified_petri(ps::AbstractVector{TypedASKEMPetriNet}) = to_stratified_petri(pullback(ps; product_attrs=true), ps)
+
 function update!(pn::PropertyLabelledPetriNet)
   map(parts(pn, :S)) do s
     pn[s, :sprop]["id"] = String(pn[s, :sname])
@@ -91,7 +113,7 @@ function update!(askem_net::ASKEMPetriNet)
   askem_net
 end
 
-update!(askem_net::TypedASKEMPetriNet) = begin
+function update!(askem_net::TypedASKEMPetriNet)
   update!(askem_net.model.dom)
   update!(askem_net.model.codom)
   comps, pn, type_system = askem_net.model.components, askem_net.model.dom, askem_net.model.codom
@@ -103,6 +125,11 @@ update!(askem_net::TypedASKEMPetriNet) = begin
       [String(pn[transition, :tname]), String(type_system[type, :tname])]
     end
   )
+  askem_net
+end
+
+function update!(askem_net::StratifiedASKEMPetriNet)
+  # TODO: Write update function for stratified ASKEMPetriNets
   askem_net
 end
 
