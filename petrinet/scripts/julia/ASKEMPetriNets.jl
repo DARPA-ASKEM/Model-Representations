@@ -1,23 +1,24 @@
 module ASKEMPetriNets
 
-export model, typed_model, to_petri, to_typed_petri, to_stratified_petri, update!
+export AbstractASKEMPetriNet, ASKEMPetriNet, TypedASKEMPetriNet, StratifiedASKEMPetriNet, model, typed_model, update!
 
 using AlgebraicPetri
 using Catlab
 using Catlab.CategoricalAlgebra.CSets: ACSetLimit
 
-import AlgebraicPetri: PropertyLabelledPetriNet
 import JSON
+
+const JSONPetri = PropertyLabelledPetriNet{Dict{String,Any}}
 
 abstract type AbstractASKEMPetriNet end
 
 struct ASKEMPetriNet <: AbstractASKEMPetriNet
-  model::PropertyLabelledPetriNet
+  model::JSONPetri
   json::AbstractDict
 end
 
 struct TypedASKEMPetriNet <: AbstractASKEMPetriNet
-  model::ACSetTransformation
+  model::ACSetTransformation{JSONPetri}
   json::AbstractDict
 end
 
@@ -31,27 +32,27 @@ model(askem_net::TypedASKEMPetriNet) = dom(askem_net.model)
 model(askem_net::StratifiedASKEMPetriNet) = apex(askem_net.model)
 typed_model(askem_net::TypedASKEMPetriNet) = askem_net.model
 typed_model(askem_net::StratifiedASKEMPetriNet) = first(legs(askem_net.model.cone)) ⋅ first(legs(askem_net.model.diagram))
-
+           
 function extract_petri(model::AbstractDict)
   state_props = Dict(Symbol(s["id"]) => s for s in model["states"])
   states = [Symbol(s["id"]) for s in model["states"]]
   transition_props = Dict(Symbol(t["id"]) => t for t in model["transitions"])
   transitions = [Symbol(t["id"]) => (Symbol.(t["input"]) => Symbol.(t["output"])) for t in model["transitions"]]
 
-  PropertyLabelledPetriNet{Dict{String,Any}}(LabelledPetriNet(states, transitions...), state_props, transition_props)
+  JSONPetri(LabelledPetriNet(states, transitions...), state_props, transition_props)
 end
 
-function to_petri(file::AbstractString)
+function ASKEMPetriNet(file::AbstractString)
   json = JSON.parsefile(file)
   ASKEMPetriNet(extract_petri(json["model"]), json)
 end
 
-to_petri(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model.dom, typed_petri.json)
+ASKEMPetriNet(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model.dom, typed_petri.json)
 
-function to_typed_petri(petri::ASKEMPetriNet)
+function TypedASKEMPetriNet(petri::ASKEMPetriNet)
   typing = petri.json["semantics"]["typing"]
-  type_system = extract_petri(typing["type_system"])
-  type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in typing["type_map"])
+  type_system = extract_petri(typing["system"]["model"])
+  type_map = Dict(Symbol(k)=>Symbol(v) for (k,v) in typing["map"])
   S = map(snames(petri.model)) do state
     only(incident(type_system, type_map[state], :sname))
   end
@@ -78,16 +79,16 @@ function to_typed_petri(petri::ASKEMPetriNet)
   TypedASKEMPetriNet(LooseACSetTransformation((S=S, T=T, I=I, O=O), (Name=x->nothing, Prop=x->nothing), petri.model, type_system), petri.json)
 end
 
-to_typed_petri(file::AbstractString) = to_typed_petri(to_petri(file))
+TypedASKEMPetriNet(file::AbstractString) = TypedASKEMPetriNet(ASKEMPetriNet(file))
 
-function to_stratified_petri(pb::ACSetLimit, ps::AbstractVector{TypedASKEMPetriNet})
+function StratifiedASKEMPetriNet(pb::ACSetLimit, ps::AbstractVector{TypedASKEMPetriNet})
   # TODO: Construct JSON from the pullback and original TypedASKEMPetriNets
   json = Dict()
   StratifiedASKEMPetriNet(pb, json)
 end
 
-to_stratified_petri(p1::TypedASKEMPetriNet, p2::TypedASKEMPetriNet) = to_stratified_petri(pullback(p1.model, p2.model; product_attrs=true), [p1, p2])
-to_stratified_petri(ps::AbstractVector{TypedASKEMPetriNet}) = to_stratified_petri(pullback(ps; product_attrs=true), ps)
+StratifiedASKEMPetriNet(p1::TypedASKEMPetriNet, p2::TypedASKEMPetriNet) = StratifiedASKEMPetriNet(pullback(p1.model, p2.model; product_attrs=true), [p1, p2])
+StratifiedASKEMPetriNet(ps::AbstractVector{TypedASKEMPetriNet}) = StratifiedASKEMPetriNet(pullback(ps; product_attrs=true), ps)
 
 function update!(pn::PropertyLabelledPetriNet)
   map(parts(pn, :S)) do s
@@ -117,7 +118,7 @@ function update!(askem_net::TypedASKEMPetriNet)
   update!(askem_net.model.dom)
   update!(askem_net.model.codom)
   comps, pn, type_system = askem_net.model.components, askem_net.model.dom, askem_net.model.codom
-  askem_net.json["semantics"]["typing"]["type_map"] = vcat(
+  askem_net.json["semantics"]["typing"]["map"] = vcat(
     map(enumerate(comps.S.func)) do (state, type)
       [String(pn[state, :sname]), String(type_system[type, :sname])]
     end,

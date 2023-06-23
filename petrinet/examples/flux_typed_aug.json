@@ -1,7 +1,7 @@
 {
   "name": "Two City Stratification Model",
   "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
-  "description": "Stratification spatially between two cities model created by Micah. Modified by Patrick.",
+  "description": "Stratification spatially between two cities model created by Micah",
   "model_version": "0.1",
   "model": {
     "states": [
@@ -17,6 +17,38 @@
       }
     ],
     "transitions": [
+      {
+        "id": "Rgn1_dis",
+        "input": ["Rgn_1"],
+        "output": ["Rgn_1"],
+        "properties": {
+          "name": "Rgn1_disease"
+        }
+      },
+      {
+        "id": "Rgn1_inf",
+        "input": ["Rgn_1", "Rgn_1"],
+        "output": ["Rgn_1", "Rgn_1"],
+        "properties": {
+          "name": "Rgn1_infection"
+        }
+      },
+      {
+        "id": "Rgn2_dis",
+        "input": ["Rgn_2"],
+        "output": ["Rgn_2"],
+        "properties": {
+          "name": "Rgn2_disease"
+        }
+      },
+      {
+        "id": "Rgn2_inf",
+        "input": ["Rgn_2", "Rgn_2"],
+        "output": ["Rgn_2", "Rgn_2"],
+        "properties": {
+          "name": "Rgn2_infection"
+        }
+      },
       {
         "id": "travel_1_2",
         "input": ["Rgn_1"],
@@ -112,6 +144,10 @@
       "map": [
         ["Rgn_1", "Pop"],
         ["Rgn_2", "Pop"],
+        ["Rgn1_dis", "Disease"],
+        ["Rgn1_inf", "Infect"],
+        ["Rgn2_dis", "Disease"],
+        ["Rgn2_inf", "Infect"],
         ["travel_1_2", "Strata"],
         ["travel_2_1", "Strata"]
       ]

@@ -52,14 +52,8 @@
     "transitions": [
       {
         "id": "inf",
-        "input": [
-          "S",
-          "I"
-        ],
-        "output": [
-          "I",
-          "I"
-        ],
+        "input": ["S", "I"],
+        "output": ["I", "I"],
         "properties": {
           "name": "Infection",
           "description": "Infective process between individuals"
@@ -67,12 +61,8 @@
       },
       {
         "id": "rec",
-        "input": [
-          "I"
-        ],
-        "output": [
-          "R"
-        ],
+        "input": ["I"],
+        "output": ["R"],
         "properties": {
           "name": "Recovery",
           "description": "Recovery process of a infected individual"
@@ -174,10 +164,7 @@
         {
           "id": "noninf",
           "name": "Non-infectious",
-          "states": [
-            "S",
-            "R"
-          ],
+          "states": ["S", "R"],
           "expression": "S+R",
           "expression_mathml": "<apply><plus/><ci>S</ci><ci>R</ci></apply>"
         }
