@@ -49,3 +49,5 @@ sir_flux = StratifiedASKEMPetriNet(sir, flux)
 
 model(sir_flux) |> to_graphviz
 typed_model(sir_flux) |> to_graphviz
+
+JSON.print(sir_flux, 2)
