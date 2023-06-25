@@ -3,7 +3,7 @@ module AMR
 export Math, MathML, ExpressionFormula, Unit, Distribution, Observable, Expression,
  Rate, Initial, Parameter, Time,
  StandardUniform, Uniform, StandardNormal, Normal, PointMass,
- Semantic, Header, ODERecord, ODEList, ASKEModel,
+ Semantic, Header, ODERecord, ODEList, Typing, ASKEModel,
  distro_string, amr_to_string
 
 using Reexport
@@ -53,7 +53,7 @@ end
   ODEList(statements::Vector{Expression})
   ODERecord(rates::Vector{Rate}, initials::Vector{Initial}, parameters::Vector{Parameter}, time::Time)
   # Metadata
-  # Typing
+  Typing(system::ACSetSpec, map::Vector{Pair})
   # Stratification
 end
 
@@ -81,7 +81,13 @@ function distro_string(d::Distribution)
   end
 end
 
+padlines(ss::Vector, n) = map(ss) do s
+  " "^n * s
+end
+padlines(s::String, n=2) = join(padlines(split(s, "\n"), n), "\n")
+
 function amr_to_string(amr)
+  @show typeof(amr)
   let ! = amr_to_string
     @match amr begin
       s::String       => s
@@ -95,11 +101,13 @@ function amr_to_string(amr)
       Observable(id, name, states, f) => "# $name\n$id::Observable = $(f.expression)($states)\n"
       Time(id, u) => "$id::Time{$(!u)}\n"
       Header(name, s, d, sn, mv) => "\"\"\"\nASKE Model Representation: $name@v$mv :: $sn \n   $s\n\n$d\n\"\"\""
-      m::ACSetSpec => "Model = quote\n$(ADTs.to_string(m))\nend"
-      vs::Vector{Semantic} => join(map(!, vs), "\n")
-      xs::Vector => map(!, xs)
-      ODEList(l) => "ODE Equations: begin\n" * join(map(!, l), "\n") * "\nend"
+      m::ACSetSpec => "Model = begin\n$(padlines(ADTs.to_string(m),2))\nend"
+      ODEList(l) => "ODE Equations: begin\n" * padlines(join(map(!, l), "\n")) * "\nend"
       ODERecord(rates, initials, parameters, time) => join(vcat(["ODE Record: begin\n"], !rates , !initials, !parameters, [!time, "end"]), "\n")
+      vs::Vector{Pair} => map(vs) do v; "$(v[1]) => $(v[2])," end |> x-> join(x, "\n") 
+      vs::Vector{Semantic} => join(map(!, vs), "\n\n")
+      xs::Vector => map(!, xs)
+      Typing(system, map) => "Typing: begin\n$(padlines(!system, 2))\nTypeMap = [\n$(padlines(!map, 2))]\nend"
       ASKEModel(h, m, s) => "$(!h)\n$(!m)\n\n$(!s)"
     end
   end

@@ -61,9 +61,42 @@ amr₁ = ASKEModel(header,
   [ode]
 )
 
+typesystem = acsetspec(:(LabelledPetriNet{Symbol}), quote
+  S(label=:Pop)
+
+  T(label=:inf)
+  T(label=:disease)
+  T(label=:strata)
+
+  I(is=:Pop, it=:inf)
+  I(is=:Pop, it=:inf)
+  I(is=:Pop, it=:disease)
+  I(is=:Pop, it=:strata)
+
+  O(os=:Pop, it=:inf)
+  O(os=:Pop, it=:inf)
+  O(os=:Pop, it=:disease)
+  O(os=:Pop, it=:strata)
+end) 
+
+
+typing = Typing(
+  typesystem,
+  [
+    (:S=>:Pop),
+    (:I=>:Pop),
+    (:R=>:Pop),
+    (:inf=>:inf),
+    (:rec=>:disease)
+  ]
+)
+
 amr₂ = ASKEModel(header,
   model,
-  [odelist]
+  [
+    odelist,
+    typing
+  ]
 )
 
 println()
