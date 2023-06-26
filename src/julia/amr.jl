@@ -73,11 +73,11 @@ end
 
 function distro_string(d::Distribution)
   @match d begin
-    StandardUniform => "U(0,1)"
+    StandardUniform   => "U(0,1)"
     Uniform(min, max) => "U($min,$max)"
-    StandardNormal => "N(0,1)"
-    Normal(mu, var) => "N($mu,$var)"
-    PointMass(value) => "δ(value)"
+    StandardNormal    => "N(0,1)"
+    Normal(mu, var)   => "N($mu,$var)"
+    PointMass(value)  => "δ(value)"
   end
 end
 
@@ -90,25 +90,25 @@ function amr_to_string(amr)
   @show typeof(amr)
   let ! = amr_to_string
     @match amr begin
-      s::String       => s
-      Math(s)         => !s
-      Presentation(s) => "<mathml> $s </mathml>"
-      u::Unit         => !u.expression
-      d::Distribution => distro_string(d)
-      Rate(t, f)      => "$t::Rate = $(f.expression)"
-      Initial(t, f)      => "$t::Initial = $(f.expression)"
-      Parameter(t, name, desc, units, value, distr)      => "\n# $name -- $desc\n$t::Parameter{$(!units)} = $value ~ $(!distr)\n"
-      Observable(id, name, states, f) => "# $name\n$id::Observable = $(f.expression)($states)\n"
-      Time(id, u) => "$id::Time{$(!u)}\n"
-      Header(name, s, d, sn, mv) => "\"\"\"\nASKE Model Representation: $name@v$mv :: $sn \n   $s\n\n$d\n\"\"\""
-      m::ACSetSpec => "Model = begin\n$(padlines(ADTs.to_string(m),2))\nend"
-      ODEList(l) => "ODE Equations: begin\n" * padlines(join(map(!, l), "\n")) * "\nend"
-      ODERecord(rates, initials, parameters, time) => join(vcat(["ODE Record: begin\n"], !rates , !initials, !parameters, [!time, "end"]), "\n")
-      vs::Vector{Pair} => map(vs) do v; "$(v[1]) => $(v[2])," end |> x-> join(x, "\n") 
-      vs::Vector{Semantic} => join(map(!, vs), "\n\n")
-      xs::Vector => map(!, xs)
-      Typing(system, map) => "Typing: begin\n$(padlines(!system, 2))\nTypeMap = [\n$(padlines(!map, 2))]\nend"
-      ASKEModel(h, m, s) => "$(!h)\n$(!m)\n\n$(!s)"
+      s::String                        => s
+      Math(s)                          => !s
+      Presentation(s)                  => "<mathml> $s </mathml>"
+      u::Unit                          => !u.expression
+      d::Distribution                  => distro_string(d)
+      Time(id, u)                      => "$id::Time{$(!u)}\n"
+      Rate(t, f)                       => "$t::Rate = $(f.expression)"
+      Initial(t, f)                    => "$t::Initial = $(f.expression)"
+      Observable(id, n, states, f)     => "# $n\n$id::Observable = $(f.expression)($states)\n"
+      Header(name, s, d, sn, mv)       => "\"\"\"\nASKE Model Representation: $name$mv :: $sn \n   $s\n\n$d\n\"\"\""
+      Parameter(t, n, d, u, v, dist)   => "\n# $n-- $d\n$t::Parameter{$(!u)} = $v ~ $(!dist)\n"
+      m::ACSetSpec                     => "Model = begin\n$(padlines(ADTs.to_string(m),2))\nend"
+      ODEList(l)                       => "ODE Equations: begin\n" * padlines(join(map(!, l), "\n")) * "\nend"
+      ODERecord(rts, init, para, time) => join(vcat(["ODE Record: begin\n"], !rts , !init, !para, [!time, "end"]), "\n")
+      vs::Vector{Pair}                 => map(vs) do v; "$(v[1]) => $(v[2])," end |> x-> join(x, "\n") 
+      vs::Vector{Semantic}             => join(map(!, vs), "\n\n")
+      xs::Vector                       => map(!, xs)
+      Typing(system, map)              => "Typing: begin\n$(padlines(!system, 2))\nTypeMap = [\n$(padlines(!map, 2))]\nend"
+      ASKEModel(h, m, s)               => "$(!h)\n$(!m)\n\n$(!s)"
     end
   end
 end
