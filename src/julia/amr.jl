@@ -81,6 +81,10 @@ function distro_string(d::Distribution)
   end
 end
 
+function distro_expr(d::Distribution)
+  return Base.Meta.parse(distro_string(d))
+end
+
 padlines(ss::Vector, n) = map(ss) do s
   " "^n * s
 end
@@ -109,6 +113,43 @@ function amr_to_string(amr)
       xs::Vector                       => map(!, xs)
       Typing(system, map)              => "Typing: begin\n$(padlines(!system, 2))\nTypeMap = [\n$(padlines(!map, 2))]\nend"
       ASKEModel(h, m, s)               => "$(!h)\n$(!m)\n\n$(!s)"
+    end
+  end
+end
+
+block(exprs) = begin
+  q = :(begin
+    
+  end)
+  append!(q.args, exprs)
+  return q
+end
+
+extract_acsetspec(s::String) = join(split(s, " ")[2:end], " ") |> Meta.parse
+
+function amr_to_expr(amr)
+  @show typeof(amr)
+  let ! = amr_to_expr
+    @match amr begin
+      s::String                        => s
+      Math(s)                          => :(Math($(!s)))
+      Presentation(s)                  => :(Presentation($(!s)))
+      u::Unit                          => u.expression
+      d::Distribution                  => distro_expr(d)
+      Time(id, u)                      => :($id::Time{$(!u)})
+      Rate(t, f)                       => :($t::Rate = $(f.expression))
+      Initial(t, f)                    => :($t::Initial = $(f.expression))
+      Observable(id, n, states, f)     => begin "$n"; :(@doc $x $id::Observable = $(f.expression)($states)) end
+      Header(name, s, d, sn, mv)       => begin x = "ASKE Model Representation: $name$mv :: $sn \n   $s\n\n$d"; :(@doc $x) end
+      Parameter(t, n, d, u, v, dist)   => begin x = "$n-- $d"; :(@doc $x  $t::Parameter{$(!u)} = $v ~ $(!dist)) end
+      m::ACSetSpec                     => :(Model = begin $(extract_acsetspec(ADTs.to_string(m))) end)
+      ODEList(l)                       => :(ODE_Equations = $(block(map(!, l))))
+      ODERecord(rts, init, para, time) => :(ODE_Record = (rates=$(!rts), initials=$(!init), parameters=$(!para), time=!time))
+      vs::Vector{Pair}                 => begin ys = map(vs) do v; :($(v[1]) => $(v[2])) end; block(ys) end
+      vs::Vector{Semantic}             => begin ys = map(!, vs); block(ys) end
+      xs::Vector                       => begin ys = map(!, xs); block(ys) end
+      Typing(system, map)              => :(Typing = $(!system); TypeMap = $(block(map)))
+      ASKEModel(h, m, s)               => :($(!h);$(!m);$(!s))
     end
   end
 end

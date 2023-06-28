@@ -103,4 +103,21 @@ println()
 println(amr_to_string(amr₁))
 println()
 println(amr_to_string(amr₂))
+# function sexp(amr)
+#   @match amr begin
+#     x::Number   => x
+#     s::String   => s
+#     s::Symbol   => s
+
+
+
+#   end
+# end
+AMR.amr_to_expr(amr₂.header) |> println
+AMR.amr_to_expr(amr₂.model) |> println
+map(AMR.amr_to_expr(amr₂.semantics[1]).args[2].args) do s; println(s) end
+AMR.amr_to_expr(amr₂.semantics[1]).args[2]
+AMR.amr_to_expr(amr₂.semantics[1])
+AMR.amr_to_expr(amr₂) |> println
+AMR.amr_to_expr(amr₁) |> println
 end
