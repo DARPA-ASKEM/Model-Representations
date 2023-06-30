@@ -77,7 +77,7 @@ function distro_string(d::Distribution)
     Uniform(min, max) => "U($min,$max)"
     StandardNormal    => "N(0,1)"
     Normal(mu, var)   => "N($mu,$var)"
-    PointMass(value)  => "δ(value)"
+    PointMass(value)  => "δ($value)"
   end
 end
 
@@ -91,7 +91,6 @@ end
 padlines(s::String, n=2) = join(padlines(split(s, "\n"), n), "\n")
 
 function amr_to_string(amr)
-  @show typeof(amr)
   let ! = amr_to_string
     @match amr begin
       s::String                        => s
@@ -128,7 +127,6 @@ end
 extract_acsetspec(s::String) = join(split(s, " ")[2:end], " ") |> Meta.parse
 
 function amr_to_expr(amr)
-  @show typeof(amr)
   let ! = amr_to_expr
     @match amr begin
       s::String                        => s
@@ -153,4 +151,124 @@ function amr_to_expr(amr)
     end
   end
 end
+
+optload(d, path, default=nothing) = begin
+  let ! = optload
+    @match path begin
+      s::Symbol => !(d, string(s), default)
+      s::String => get(d, s, default)
+      [addr] => !(d, addr, default)
+      [head, args...] => !(get(d, head, Dict()), args, default)
+      _=> error("Bad recursion in optload($d, $path)")
+    end
+  end
+end
+
+function petrispec(dict::AbstractDict)
+  findkwarg(kwarg::Symbol, d::AbstractDict, path, default=nothing) = Kwarg(kwarg, Value(optload(d, path, default)))
+  loadstate(s) = begin
+    Statement(:S, [findkwarg(k, s, p, :nothing) for (k,p) in [(:id, "id"), (:name, "name"), (:units, ["units", "expression"])]])
+  end
+  states = [loadstate(s) for s in dict["states"]]
+  transi = [
+    Statement(:T,
+    [Kwarg(:id, Value(Symbol(t["id"]))), Kwarg(:name, Value(t["properties"]["name"])), Kwarg(:desc, Value(t["properties"]["description"])) ]
+    ) for t in dict["transitions"]]
+
+  inputs = [[
+    Statement(:I,
+    [Kwarg(:is, Value(i)), Kwarg(:it, Value(t["id"]))]) for i in t["input"]] for t in dict["transitions"]
+  ] |> Base.Flatten |> collect
+  outputs = [[
+    Statement(:O,
+    [Kwarg(:os, Value(i)), Kwarg(:ot, Value(t["id"]))]) for i in t["output"]] for t in dict["transitions"]
+  ] |> Base.Flatten |> collect
+  ACSetSpec(:AMRPetriNet, vcat(states, transi, inputs, outputs))
+end
+
+function load(::Type{Unit}, d::AbstractDict)
+  ud = get(d, "units", Dict("expression"=>"", "expression_mathml"=>""))
+  u = Unit(ud["expression"], Presentation(ud["expression_mathml"]))
+end
+
+function load(::Type{Time}, t::AbstractDict)
+  Time(Symbol(t["id"]), load(Unit, t))
+end
+
+function load(::Type{Rate}, r::AbstractDict)
+  f = ExpressionFormula(r["expression"], Presentation(r["expression_mathml"]))
+  Rate(Symbol(r["target"]), f)
+end
+
+function load(::Type{Initial}, d::AbstractDict)
+  f = ExpressionFormula(d["expression"], Presentation(d["expression_mathml"]))
+  Initial(Symbol(d["target"]), f)
+end
+
+function load(::Type{Distribution}, d::AbstractDict)
+  @match d begin
+    Dict("type"=>"StandardUniform1")           => StandardUniform
+    Dict("type"=>"StandardNormal")             => StandardNormal
+    Dict("type"=>"Uniform", "parameters"=>p)   => Uniform(p["minimum"], p["maximum"])
+    Dict("type"=>"Uniform1", "parameters"=>p)  => Uniform(p["minimum"], p["maximum"])
+    Dict("type"=>"Normal", "parameters"=>p)    => Normal(p["mu"], p["var"])
+    Dict("type"=>"PointMass", "parameters"=>p) => PointMass(p["value"])
+  end
+end
+
+load(::Type{Distribution}, ::Nothing) = PointMass(missing)
+
+
+function load(::Type{Parameter}, d::AbstractDict)
+  u = load(Unit, d)
+  Parameter(
+    Symbol(d["id"]),
+    d["name"],
+    d["description"],
+    u,
+    d["value"],
+    load(Distribution, get(d,"distribution", nothing))
+    )
+end
+
+function load(::Type{ODERecord}, d::AbstractDict)
+  time = load(Time, d["time"])
+  rate(x) = load(Rate, x)
+  initial(x) = load(Initial, x)
+  parameter(x) = load(Parameter, x)
+  rates = rate.(d["rates"])
+  initials = initial.(d["initials"])
+  parameters = parameter.(d["parameters"])
+
+  ODERecord(rates, initials, parameters, time)
+end
+
+function load(::Type{Header}, d::AbstractDict)
+    @match d begin
+      Dict("name"=>n, "schema"=>s, "description"=>d, "schema_name"=>sn, "model_version"=>mv) => Header(n,s,d,sn,mv) 
+      _ => error("Information for Header was not found in $d")
+    end
+end
+
+function load(::Type{Typing}, d::AbstractDict)
+  @match d begin
+    Dict("type_system"=>s, "type_map"=>m) => begin @show m;  Typing(petrispec(s), [x[1]=> x[2] for x in m]) end 
+    _ => error("Typing judgement was not properly encoded in $d")
+  end
+end
+
+function load(::Type{ASKEModel}, d::AbstractDict)
+  hdr = load(Header, d)
+  hdr.schema_name == "petrinet" || error("only petrinet models are supported")
+  mdl = petrispec(d["model"])
+  sem = []
+  if haskey(d["semantics"], "ode")
+    push!(sem, load(ODERecord, d["semantics"]["ode"]))
+  end
+  if haskey(d["semantics"], "typing")
+    push!(sem, load(Typing, d["semantics"]["typing"]))
+  end
+  ASKEModel(hdr, mdl, sem)
+end
+
 end # module end
