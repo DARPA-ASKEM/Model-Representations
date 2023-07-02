@@ -333,4 +333,219 @@ sirmodel = AMR.load(Typing, semtyp) |> AMR.amr_to_string |> println
 
 sirmodel = AMR.load(ASKEModel, sirmodel_dict) 
 sirmodel |> AMR.amr_to_string |> println
+
+# Deserializing from Human readable strings
+
+
+@testset "Loading Time" begin
+  @test AMR.load(AMR.Time, Base.Meta.parse("t::Time{}")) == AMR.Time(:t, AMR.Unit("", nomath))
+  @test AMR.load(AMR.Time, Base.Meta.parse("t::Time{day}")) == AMR.Time(:t, AMR.Unit("day", nomath))
+  @test AMR.load(AMR.Time, Base.Meta.parse("t::Time{day^2}")) == AMR.Time(:t, AMR.Unit("day ^ 2", nomath))
+  @test_throws ErrorException AMR.load(AMR.Time, Base.Meta.parse("t::time{}"))
+  @test_throws ErrorException AMR.load(AMR.Time, Base.Meta.parse("t::time"))
+end
+
+@testset "Loading Rates" begin
+  infspec = Meta.parse("inf::Rate = S*I*beta")
+  @test AMR.load(AMR.Rate, infspec).target == :inf
+  @test AMR.load(AMR.Rate, infspec).f.expression == "S * I * beta"
+  infspec = Meta.parse("inf::Rate{persons/time} = S*I*beta")
+  @test AMR.load(AMR.Rate, infspec).target == :inf
+  @test AMR.load(AMR.Rate, infspec).f.expression == "S * I * beta"
+end
+@testset "Loading Initials" begin
+  infspec = Meta.parse("S0::Initial = S*I*beta")
+  @test AMR.load(AMR.Initial, infspec).target == :S0
+  @test AMR.load(AMR.Initial, infspec).f.expression == "S * I * beta"
+  infspec = Meta.parse("S0::Initial{persons/time} = S*I*beta")
+  @test AMR.load(AMR.Initial, infspec).target == :S0
+  @test AMR.load(AMR.Initial, infspec).f.expression == "S * I * beta"
+end
+
+@testset "Loading Parameters" begin
+  @testset "No Units" begin
+    paramstr = raw"""
+    \"\"\"
+    R₀ -- Total recovered population at timestep 0
+    \"\"\"
+    R0::Parameter{} = 0.0 ~ δ(missing)
+    """
+    paramexp = Meta.parse(paramstr)
+    param = AMR.load(Parameter, paramexp)
+    @test param.units == AMR.nounit
+    @test param.id == :R0
+  end
+  @testset "Units" begin
+
+    paramstr = raw"""
+    \"\"\"
+    R₀ -- Total recovered population at timestep 0
+    \"\"\"
+    R0::Parameter{persons/day} = 0.0 ~ δ(missing)
+    """
+    paramexp = Meta.parse(paramstr)
+    param = AMR.load(Parameter, paramexp)
+    @test param.id == :R0
+    @test param.units == Unit("persons / day", AMR.nomath)
+    @test param.distribution == PointMass(:missing)
+
+    paramstr = raw"""
+    \"\"\"
+    R₀ -- Total recovered population at timestep 0
+    \"\"\"
+    R0::Parameter{persons/day} = 0.0 ~ δ(0.0)
+    """
+    paramexp = Meta.parse(paramstr)
+    param = AMR.load(Parameter, paramexp)
+    @test param.id == :R0
+    @test param.units == Unit("persons / day", AMR.nomath)
+    @test param.distribution == PointMass(0.0)
+  end
+end
+
+odelist_expr = Meta.parse(raw"""
+ODE_Record = begin
+
+inf::Rate = S*I*beta
+rec::Rate = I*gamma
+S::Initial = S0
+I::Initial = I0
+R::Initial = R0
+
+\"\"\" β -- infection rate \"\"\"
+beta::Parameter{} = 0.027 ~ U(0,1)
+
+
+\"\"\" γ -- recovery rate \"\"\"
+gamma::Parameter{} = 0.14 ~ U(0,1)
+
+
+\"\"\" S₀ -- Total susceptible population at timestep 0 \"\"\"
+S0::Parameter{} = 1000.0 ~ δ(missing)
+
+
+\"\"\" I₀ -- Total infected population at timestep 0\"\"\"
+I0::Parameter{} = 1.0 ~ δ(missing)
+
+
+\"\"\" R₀ -- Total recovered population at timestep 0\"\"\"
+R0::Parameter{} = 0.0 ~ δ(missing)
+
+t::Time{day}
+end
+""")
+
+ol = AMR.load(ODEList, odelist_expr)
+AMR.amr_to_string(ol) |> println
+
+
+header_expr = Meta.parse(raw"""
+\"\"\"
+ASKE Model Representation: SIR Model@v0.1 :: petrinet 
+   https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json
+
+Typed SIR model created by Nelson, derived from the one by Ben, Micah, Brandon
+\"\"\"
+""")
+
+AMR.load(Header, header_expr)
+
+modelrep = raw"""
+begin
+\"\"\"
+ASKE Model Representation: SIR Model@0.1 :: petrinet 
+   https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json
+
+Typed SIR model created by Nelson, derived from the one by Ben, Micah, Brandon
+\"\"\"
+Model = begin
+  AMRPetriNet = begin
+    S(id=S,name=Susceptible,units=nothing)
+    S(id=I,name=Infected,units=nothing)
+    S(id=R,name=Recovered,units=nothing)
+    T(id=inf,name=Infection,desc="Infective process between individuals")
+    T(id=rec,name=Recovery,desc="Recovery process of a infected individual")
+    I(is=S,it=inf)
+    I(is=I,it=inf)
+    I(is=I,it=rec)
+    O(os=I,ot=inf)
+    O(os=I,ot=inf)
+    O(os=R,ot=rec)
+   end
+end
+
+ODE_Record = begin
+
+inf::Rate = S*I*beta
+rec::Rate = I*gamma
+S::Initial = S0
+I::Initial = I0
+R::Initial = R0
+
+\"\"\" β -- infection rate \"\"\"
+beta::Parameter{} = 0.027 ~ U(0,1)
+
+
+\"\"\" γ -- recovery rate \"\"\"
+gamma::Parameter{} = 0.14 ~ U(0,1)
+
+
+\"\"\" S₀ -- Total susceptible population at timestep 0 \"\"\"
+S0::Parameter{} = 1000.0 ~ δ(missing)
+
+
+\"\"\" I₀ -- Total infected population at timestep 0\"\"\"
+I0::Parameter{} = 1.0 ~ δ(missing)
+
+
+\"\"\" R₀ -- Total recovered population at timestep 0\"\"\"
+R0::Parameter{} = 0.0 ~ δ(missing)
+
+t::Time{day}
+end
+
+Typing = begin
+  Model = begin
+    AMRPetriNet = begin 
+      S(id=Pop,name=Pop,units=nothing)
+      S(id=Vaccine,name=Vaccine,units=nothing)
+      T(id=Infect,name=Infect,desc="2-to-2 process that represents infectious contact between two human individuals.")
+      T(id=Disease,name=Disease,desc="1-to-1 process that represents a change in th edisease status of a human individual.")
+      T(id=Strata,name=Strata,desc="1-to-1 process that represents a change in the demographic division of a human individual.")
+      T(id=Vaccinate,name=Vaccinate,desc="2-to-1 process that represents an human individual receiving a vaccine dose.")
+      T(id=Produce_Vaccine,name="Produce Vaccine",desc="0-to-1 process that represents the production of a single vaccine dose.")
+      I(is=Pop,it=Infect)
+      I(is=Pop,it=Infect)
+      I(is=Pop,it=Disease)
+      I(is=Pop,it=Strata)
+      I(is=Pop,it=Vaccinate)
+      I(is=Vaccine,it=Vaccinate)
+      O(os=Pop,ot=Infect)
+      O(os=Pop,ot=Infect)
+      O(os=Pop,ot=Disease)
+      O(os=Pop,ot=Strata)
+      O(os=Pop,ot=Vaccinate)
+      O(os=Vaccine,ot=Produce_Vaccine)
+     end
+  end
+  TypeMap = [
+    S => Pop,
+    I => Pop,
+    R => Pop,
+    inf => Infect,
+    rec => Disease,]
+end
+end
+"""
+println(modelrep)
+model_expr = Base.Meta.parse(modelrep)
+@test AMR.load(ASKEModel, model_expr).header isa Header
+@test AMR.load(ASKEModel, model_expr).model isa ACSetSpec
+@test length(AMR.load(ODEList, model_expr.args[4]).statements) == 8
+@test length(AMR.load(ASKEModel, model_expr).semantics[1].statements) == 8
+@test AMR.load(Typing, model_expr.args[6]).system isa ACSetSpec
+@test AMR.load(Typing, model_expr.args[6]).map isa Vector{Pair}
+println(AMR.amr_to_string(AMR.load(ASKEModel, model_expr)))
+@test_skip (AMR.amr_to_string(AMR.load(ASKEModel, model_expr))) == modelrep
+
 end

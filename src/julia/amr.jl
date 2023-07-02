@@ -17,6 +17,8 @@ using ACSets.ACSetInterface
   Presentation(String)
 end
 
+nomath = Math("")
+
 @as_record struct ExpressionFormula{T}
   expression::T
   expression_mathml::MathML
@@ -26,6 +28,9 @@ end
   expression::String
   expression_mathml::MathML
 end
+
+
+nounit = Unit("", nomath)
 
 @data Distribution begin
   StandardUniform
@@ -105,12 +110,12 @@ function amr_to_string(amr)
       Header(name, s, d, sn, mv)       => "\"\"\"\nASKE Model Representation: $name$mv :: $sn \n   $s\n\n$d\n\"\"\""
       Parameter(t, n, d, u, v, dist)   => "\n# $n-- $d\n$t::Parameter{$(!u)} = $v ~ $(!dist)\n"
       m::ACSetSpec                     => "Model = begin\n$(padlines(ADTs.to_string(m),2))\nend"
-      ODEList(l)                       => "ODE Equations: begin\n" * padlines(join(map(!, l), "\n")) * "\nend"
-      ODERecord(rts, init, para, time) => join(vcat(["ODE Record: begin\n"], !rts , !init, !para, [!time, "end"]), "\n")
+      ODEList(l)                       => "ODE_Equations = begin\n" * padlines(join(map(!, l), "\n")) * "\nend"
+      ODERecord(rts, init, para, time) => join(vcat(["ODE_Record = begin\n"], !rts , !init, !para, [!time, "end"]), "\n")
       vs::Vector{Pair}                 => map(vs) do v; "$(v[1]) => $(v[2])," end |> x-> join(x, "\n") 
       vs::Vector{Semantic}             => join(map(!, vs), "\n\n")
       xs::Vector                       => map(!, xs)
-      Typing(system, map)              => "Typing: begin\n$(padlines(!system, 2))\nTypeMap = [\n$(padlines(!map, 2))]\nend"
+      Typing(system, map)              => "Typing = begin\n$(padlines(!system, 2))\nTypeMap = [\n$(padlines(!map, 2))]\nend"
       ASKEModel(h, m, s)               => "$(!h)\n$(!m)\n\n$(!s)"
     end
   end
@@ -271,4 +276,141 @@ function load(::Type{ASKEModel}, d::AbstractDict)
   ASKEModel(hdr, mdl, sem)
 end
 
+using MLStyle.Modules.AST
+
+function load(::Type{Time}, ex::Expr)
+  @matchast ex quote
+    $a::Time{} => Time(a, Unit("", Math("")))
+    $a::Time{$b} => Time(a, load(Unit, b))
+    _ => error("Time was not properly encoded as Expr $ex")
+  end
+end
+
+function load(::Type{Unit}, ex::Union{Symbol, Expr})
+  Unit(string(ex), Math(""))
+end
+
+function load(::Type{ExpressionFormula}, ex::Expr)
+  ExpressionFormula(string(ex), Math(string(ex)))
+end
+
+function load(::Type{Rate}, ex::Expr)
+  @matchast ex quote
+    ($a::Rate = $ex) => Rate(a, load(ExpressionFormula, ex))
+    ($a::Rate{$u} = $ex) => Rate(a, load(ExpressionFormula, ex))
+    _ => error("Rate was not properly encoded as Expr $ex")
+  end
+end
+
+function load(::Type{Initial}, ex::Expr)
+  @matchast ex quote
+    ($a::Initial = $ex) => Rate(a, load(ExpressionFormula, ex))
+    ($a::Initial{$u} = $ex) => Rate(a, load(ExpressionFormula, ex))
+    _ => error("Rate was not properly encoded as Expr $ex")
+  end
+end
+
+function docval(exp::Expr)
+  s, ex = @match exp begin
+    Expr(:macrocall, var"@doc", _, s, ex) => (s,ex)
+    _ => error("Could not match documented value in $exp")
+  end
+  name, desc = split(s, "--")
+  return strip(name), strip(desc), ex
+end
+
+function load(d::Type{Distribution}, ex::Expr)
+  @matchast ex quote
+    U(0,1)        => StandardUniform   
+    U($min,$max)  => Uniform(min, max) 
+    N(0,1)        => StandardNormal    
+    N($mu,$var)   => Normal(mu, var)   
+    δ($value)     => PointMass(value)  
+    _ => error("Failed to find distribution in $ex")
+  end
+end
+
+
+function load(::Type{Parameter}, ex::Expr)
+  name, desc, ex = docval(ex)
+  id, u, val, dist = @matchast ex quote
+    ($id::Parameter{} = ($val ~ $d))    => (id, nounit, val, load(Distribution, d))
+    ($id::Parameter{$u} = ($val ~ $d))  => (id, load(Unit, u), val, load(Distribution, d))
+    ($id::Parameter{} = $val)           => (id, nounit, val, PointMass(missing))
+    ($id::Parameter{$u} = $val)         => (id, load(Unit, u), val, PointMass(missing))
+  end
+  Parameter(id, name, desc, u, val, dist)
+end
+
+function load(::Type{ODEList}, ex::Expr)
+  map(ex.args[2].args) do arg
+    try 
+      return load(Rate, arg)
+    catch ErrorException 
+      try 
+        return load(Initial, arg)
+      catch ErrorException 
+        try 
+          return load(Parameter, arg)
+        catch ErrorException 
+          try 
+            return load(Time, arg)
+          catch
+            return nothing
+          end
+        end
+      end
+    end
+  end |> x->filter(!isnothing, x) |> ODEList
+end
+
+function load(::Type{Header}, ex::String)
+  hdr, schema, _, desc, _ = split(ex, "\n")
+  hdr, schema_name = split(hdr, "::")
+  _, hdr = split(hdr, ":")
+  name, version = split(hdr, "@")
+  Header(strip(name), strip(schema), strip(desc), strip(schema_name), strip(version))
+end
+
+function load(::Type{ACSetSpec}, ex::Expr)
+  let ! = x->load(ACSetSpec, x)
+    @match ex begin
+      Expr(:(=), name, body) => @match body.args[2] begin
+        Expr(:(=), type, body) => acsetspec(type, body)
+      end
+      Expr(:block, lnn, body) => !(body)
+      _ => ex
+    end
+  end
+end
+
+function load(::Type{Typing}, ex::Expr)
+  let !(x) = load(Typing, x)
+    @match ex begin
+      Expr(:(=), :Model, body) => load(ACSetSpec, ex)
+      Expr(:(=), :TypeMap, list) => !list
+      Expr(:(=), :Typing, body) => Typing(!(body.args[2]), !(body.args[4]))
+      Expr(:vect, args...) => map(args) do arg
+        @match arg begin
+          Expr(:call, :(=>), a, b) => Pair(a,b)
+          _ => error("The type map is expected to be pairs defined with a => fa. Got $arg")
+        end
+      end
+      _ => error("Could not processing Typing assignment from $ex")
+    end
+  end
+end
+
+function load(::Type{ASKEModel}, ex::Expr)
+  elts = map(ex.args) do arg
+    @match arg begin
+      Expr(:macrocall, var"@doc", _, s, ex) => (load(Header, s), load(ACSetSpec, ex))
+      Expr(:(=), :ODE_Record, body) => load(ODEList, arg)
+      Expr(:(=), :ODE_Equations, body) => load(ODEList, arg)
+      Expr(:(=), :Typing, body) => load(Typing, arg)
+      _ => arg 
+      end
+  end
+  ASKEModel(elts[2][1], elts[2][2], [elts[4], elts[6]])
+end
 end # module end
