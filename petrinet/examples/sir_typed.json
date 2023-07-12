@@ -40,14 +40,8 @@
     "transitions": [
       {
         "id": "inf",
-        "input": [
-          "S",
-          "I"
-        ],
-        "output": [
-          "I",
-          "I"
-        ],
+        "input": ["S", "I"],
+        "output": ["I", "I"],
         "properties": {
           "name": "Infection",
           "description": "Infective process between individuals"
@@ -55,12 +49,8 @@
       },
       {
         "id": "rec",
-        "input": [
-          "I"
-        ],
-        "output": [
-          "R"
-        ],
+        "input": ["I"],
+        "output": ["R"],
         "properties": {
           "name": "Recovery",
           "description": "Recovery process of a infected individual"
@@ -155,89 +145,76 @@
       }
     },
     "typing": {
-      "type_system": {
-        "states": [
-          {
+      "system": {
+        "name": "Ontology Model w/ Pop and Vax States",
+        "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+        "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
+        "model_version": "0.1",
+        "model": {
+          "states": [
+            {
               "id": "Pop",
               "name": "Pop",
               "description": "Compartment of individuals in a human population"
-          },
-          {
+            },
+            {
               "id": "Vaccine",
               "name": "Vaccine",
               "description": "Compartment of vaccine doses available for use in a vaccination campaign"
-          }
-        ],
-        "transitions": [
-          {
+            }
+          ],
+          "transitions": [
+            {
               "id": "Infect",
-              "input": [
-                "Pop",
-                "Pop"
-              ],
-              "output": [
-                "Pop",
-                "Pop"
-              ],
+              "input": ["Pop", "Pop"],
+              "output": ["Pop", "Pop"],
               "properties": {
                 "name": "Infect",
-                "description": "2-to-2 process that represents infectious contact between two human individuals"
+                "description": "2-to-2 interaction that represents infectious contact between two human individuals"
               }
-          },
-          {
+            },
+            {
               "id": "Disease",
-              "input": [
-                "Pop"
-              ],
-              "output": [
-                "Pop"
-              ],
+              "input": ["Pop"],
+              "output": ["Pop"],
               "properties": {
                 "name": "Disease",
-                "description": "1-to-1 process that represents a change in th edisease status of a human individual."
+                "description": "1-to-1 interaction that represents a change in th edisease status of a human individual."
               }
-          },
-          {
+            },
+            {
               "id": "Strata",
-              "input": [
-                "Pop"
-              ],
-              "output": [
-                "Pop"
-              ],
+              "input": ["Pop"],
+              "output": ["Pop"],
               "properties": {
                 "name": "Strata",
-                "description": "1-to-1 process that represents a change in the demographic division of a human individual."
+                "description": "1-to-1 interaction that represents a change in the demographic division of a human individual."
               }
-          },
-          {
+            },
+            {
               "id": "Vaccinate",
-              "input": [
-                "Pop",
-                "Vaccine"
-              ],
-              "output": [
-                "Pop"
-              ],
+              "input": ["Pop", "Vaccine"],
+              "output": ["Pop"],
               "properties": {
                 "name": "Vaccinate",
-                "description": "2-to-1 process that represents an human individual receiving a vaccine dose."
+                "description": "2-to-1 interaction that represents an human individual receiving a vaccine dose."
               }
-          },
-          {
+            },
+            {
               "id": "Produce_Vaccine",
               "input": [],
-              "output": [
-                "Vaccine"
-              ],
+              "output": ["Vaccine"],
               "properties": {
                 "name": "Produce Vaccine",
-                "description": "0-to-1 process that represents the production of a single vaccine dose."
+                "description": "0-to-1 interaction that represents the production of a single vaccine dose."
               }
-          }
-        ]
+            }
+          ]
+        },
+        "semantics": {},
+        "metadata": {}
       },
-      "type_map": [
+      "map": [
         ["S", "Pop"],
         ["I", "Pop"],
         ["R", "Pop"],
@@ -702,4 +679,3 @@
     ]
   }
 }
-  
