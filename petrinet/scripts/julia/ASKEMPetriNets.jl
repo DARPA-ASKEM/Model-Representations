@@ -1,11 +1,13 @@
 module ASKEMPetriNets
 
-export AbstractASKEMPetriNet, ASKEMPetriNet, TypedASKEMPetriNet, StratifiedASKEMPetriNet, model, typed_model, update!
+export AbstractASKEMPetriNet, ASKEMPetriNet, TypedASKEMPetriNet, StratifiedASKEMPetriNet, model, typed_model, update!,
+  populate_parameters!
 
 using AlgebraicPetri
 using AlgebraicPetri: PropertyLabelledPetriNetUntyped
 using Catlab
 using Catlab.CategoricalAlgebra.CSets: ACSetLimit
+using MathML
 
 import JSON
 
@@ -304,5 +306,59 @@ end
 JSON.json(askem_net::AbstractASKEMPetriNet) = JSON.json(askem_net.json)
 JSON.print(io::IO, askem_net::AbstractASKEMPetriNet) = JSON.print(io, askem_net.json)
 JSON.print(io::IO, askem_net::AbstractASKEMPetriNet, indent) = JSON.print(io, askem_net.json, indent)
+
+function expression_strings(P)
+  map(parts(P, :T)) do t
+    inputs = P[incident(P, t, :it), [:is, :sname]]
+    tname = P[t, :tname]
+    symbols = append!([tname], inputs)
+    formula = string(:(*($(symbols...))))
+    return formula
+  end
+end
+
+parameter_blob(system) = get(system["semantics"]["ode"],"parameters", nothing)
+parameter_blobs(askemnet) = map(enumerate(askemnet.json["semantics"]["span"])) do (i,m)
+  i=>parameter_blob(m["system"])
+end
+
+
+function merge_parameter_blobs(blob_list, pad=false)
+  params = []
+  map(blob_list) do bl
+    if isnothing(bl[2])
+      return nothing
+    end
+    newblobs = map(bl[2]) do b
+      b′ = copy(b)
+      if pad
+        b′["id"] = join([b["id"], string(bl[1])], "_")
+      end
+      push!(params, b′)
+      return nothing
+    end
+    return nothing
+  end
+  return params
+end
+
+function add_stratified_parameter_blobs(model)
+  d = Dict{String,Any}()
+  model.json["semantics"]["ode"]=d
+  pbs = parameter_blobs(model)
+  parameters = merge_parameter_blobs(pbs)
+  model.json["semantics"]["ode"]["parameters"] = parameters
+  return model
+end
+
+function populate_parameters!(model)
+  add_stratified_parameter_blobs(model)#.json["semantics"]["ode"]["parameters"]
+  exprstrs = expression_strings(apex(model.model))
+  model.json["semantics"]["ode"]["rates"] = map(exprstrs) do x
+    @show x
+    mathmlexpr = string(to_MathML(Base.Meta.parse(x)))
+    Dict("expression" => x, "expression_mathml" => mathmlexpr)
+  end
+end
 
 end

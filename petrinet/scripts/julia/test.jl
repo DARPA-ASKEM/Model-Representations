@@ -7,6 +7,7 @@ using .ASKEMPetriNets
 using AlgebraicPetri
 using Catlab
 using JSON
+using MathML
 
 # Load a model
 askemnet = ASKEMPetriNet("../../examples/sir.json")
@@ -51,3 +52,15 @@ model(sir_flux) |> to_graphviz
 typed_model(sir_flux) |> to_graphviz
 
 JSON.print(sir_flux, 2)
+
+# parameter_blob(sir_flux.json["semantics"]["span"][1]["system"])
+
+
+P = sir_flux.model |> apex |> flatten_labels
+
+to_graphviz(P)
+populate_parameters!(sir_flux)
+sir_flux.json["semantics"]["ode"]["rates"]
+JSON.print(sir_flux, 2)
+
+# sir_flux.json["semantics"]["span"][1]["system"]["semantics"]["ode"]["rates"]
