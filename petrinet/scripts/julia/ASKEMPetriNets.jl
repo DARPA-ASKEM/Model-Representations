@@ -100,14 +100,12 @@ ASKEMPetriNet(typed_petri::TypedASKEMPetriNet) = ASKEMPetriNet(typed_petri.model
 
 ASKEMPetriNet(strat_petri::StratifiedASKEMPetriNet) = ASKEMPetriNet(apex(strat_petri.model), strat_petri.json)
 
-#=
 TypedASKEMPetriNet(petri::ASKEMPetriNet) = begin
   dom = petri.model
   typing = petri.json["semantics"]["typing"]
   tpn = extract_typing(dom,typing)
   TypedASKEMPetriNet(tpn, petri.json)
 end
-=#
 
 TypedASKEMPetriNet(json::AbstractDict) = begin
   dom = extract_petri(json["model"])
@@ -189,7 +187,7 @@ end
 function form_typing_semantics(tpn::ACSetTransformation)
   semantics = StringDict()
   semantics["system"] = form_amr(codom(tpn))
-  semantics["map"] = form_map_semantics(tpn)
+  semantics["map"] = type_map(tpn)
   return semantics
 end
 
@@ -205,8 +203,9 @@ end
 # Functions to form AMR dictionary of AbstractASKEMPetriNets *
 #*************************************************************
 
-function form_amr(pn::PropertyLabelledPetriNet; 
-  name="A Petri Net", 
+# function form_amr(pn::PropertyLabelledPetriNet; 
+function form_amr(pn::AbstractPetriNet; 
+    name="A Petri Net", 
   schema="https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json", 
   description="A Petri net in AMR format",
   version="0.1",
