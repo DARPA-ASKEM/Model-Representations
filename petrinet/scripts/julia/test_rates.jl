@@ -75,10 +75,6 @@ function form_rates(pb::ACSetLimit,ps::AbstractVector{TypedASKEMPetriNet};binop=
   end
 end
 
-function form_initial_values(pb::ACSetLimit,ps::AbstractVector{TypedASKEMPetriNet};binop="*")
-  inits = Vector{AbstractString}
-end
-
 # parameters --> concatenate
 # time --> ?
 # observables --> ?
@@ -89,8 +85,16 @@ function form_initial_values(pb::ACSetLimit,ps::AbstractVector{TypedASKEMPetriNe
   inits = Vector{Any}()
 end
 
-function form_ode_sematics()
-
+function form_ode_semantics(strat::StratifiedASKEMPetriNet)
+  semantics = Dict{String,Any}()
+  semantics["parameters"] = Vector{Any}()
+  for ii in 1:length(legs(strat.model))
+    foot = ASKEMPetriNet(strat.json["semantics"]["span"][ii]["system"])
+    println(ii)
+    if "parameters" in keys(foot.json["semantics"]["ode"])
+      push!(semantics["parameters"],foot.json["semantics"]["ode"]["parameters"]...)
+    end
+  end
 end
 
 
