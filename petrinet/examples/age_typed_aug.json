@@ -1,0 +1,173 @@
+{
+  "name": "Age Stratification Model",
+  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+  "description": "Model to stratify between two age groups created by Patrick",
+  "model_version": "0.1",
+  "model": {
+    "states": [
+      {
+        "id": "Age_1",
+        "name": "Age 1",
+        "description": "Number of individuals physically located in region 1 relative to the total population"
+      },
+      {
+        "id": "Age_2",
+        "name": "Age 2",
+        "description": "Number of individuals physically located in region 2 relative to the total population"
+      }
+    ],
+    "transitions": [
+      {
+        "id": "Age1_dis",
+        "input": ["Age_1"],
+        "output": ["Age_1"],
+        "properties": {
+          "name": "Age1_disease"
+        }
+      },
+      {
+        "id": "Age2_dis",
+        "input": ["Age_2"],
+        "output": ["Age_2"],
+        "properties": {
+          "name": "Age2_disease"
+        }
+      },
+      {
+        "id": "Age1_strata",
+        "input": ["Age_1"],
+        "output": ["Age_1"],
+        "properties": {
+          "name": "Age1_strata"
+        }
+      },
+      {
+        "id": "Age2_strata",
+        "input": ["Age_2"],
+        "output": ["Age_2"],
+        "properties": {
+          "name": "Age2_strata"
+        }
+      },
+      {
+        "id": "inf_Age1_Age1",
+        "input": ["Age_1", "Age_1"],
+        "output": ["Age_1", "Age_1"],
+        "properties": {
+          "name": "Age1_to_Age1_infection"
+        }
+      },
+      {
+        "id": "inf_Age2_Age2",
+        "input": ["Age_2", "Age_2"],
+        "output": ["Age_2", "Age_2"],
+        "properties": {
+          "name": "Age2_to_Age2_infection"
+        }
+      },
+      {
+        "id": "inf_Age1_Age2",
+        "input": ["Age_1", "Age_2"],
+        "output": ["Age_1", "Age_2"],
+        "properties": {
+          "name": "Age2_to_Age1_infection"
+        }
+      },
+      {
+        "id": "inf_Age2_Age1",
+        "input": ["Age_2", "Age_1"],
+        "output": ["Age_2", "Age_1"],
+        "properties": {
+          "name": "Age1_to_Age2_infection"
+        }
+      }
+    ]
+  },
+  "semantics": {
+    "ode": {},
+    "typing": {
+      "system": {
+        "name": "Ontology Model w/ Pop and Vax States",
+        "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+        "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
+        "model_version": "0.1",
+        "model": {
+          "states": [
+            {
+              "id": "Pop",
+              "name": "Pop",
+              "description": "Compartment of individuals in a human population"
+            },
+            {
+              "id": "Vaccine",
+              "name": "Vaccine",
+              "description": "Compartment of vaccine doses available for use in a vaccination campaign"
+            }
+          ],
+          "transitions": [
+            {
+              "id": "Infect",
+              "input": ["Pop", "Pop"],
+              "output": ["Pop", "Pop"],
+              "properties": {
+                "name": "Infect",
+                "description": "2-to-2 interaction that represents infectious contact between two human individuals"
+              }
+            },
+            {
+              "id": "Disease",
+              "input": ["Pop"],
+              "output": ["Pop"],
+              "properties": {
+                "name": "Disease",
+                "description": "1-to-1 interaction that represents a change in th edisease status of a human individual."
+              }
+            },
+            {
+              "id": "Strata",
+              "input": ["Pop"],
+              "output": ["Pop"],
+              "properties": {
+                "name": "Strata",
+                "description": "1-to-1 interaction that represents a change in the demographic division of a human individual."
+              }
+            },
+            {
+              "id": "Vaccinate",
+              "input": ["Pop", "Vaccine"],
+              "output": ["Pop"],
+              "properties": {
+                "name": "Vaccinate",
+                "description": "2-to-1 interaction that represents an human individual receiving a vaccine dose."
+              }
+            },
+            {
+              "id": "Produce_Vaccine",
+              "input": [],
+              "output": ["Vaccine"],
+              "properties": {
+                "name": "Produce Vaccine",
+                "description": "0-to-1 interaction that represents the production of a single vaccine dose."
+              }
+            }
+          ]
+        },
+        "semantics": {},
+        "metadata": {}
+      },
+      "map": [
+        ["Age_1", "Pop"],
+        ["Age_2", "Pop"],
+        ["Age1_dis", "Disease"],
+        ["Age2_dis", "Disease"],
+        ["Age1_strata", "Strata"],
+        ["Age2_strata", "Strata"],
+        ["inf_Age1_Age1", "Infect"],
+        ["inf_Age2_Age2", "Infect"],
+        ["inf_Age1_Age2", "Infect"],
+        ["inf_Age2_Age1", "Infect"]
+      ]
+    }
+  },
+  "metadata": {}
+}
