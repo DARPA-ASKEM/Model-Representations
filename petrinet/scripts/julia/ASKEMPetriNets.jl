@@ -353,12 +353,20 @@ end
 
 function populate_parameters!(model)
   add_stratified_parameter_blobs(model)#.json["semantics"]["ode"]["parameters"]
-  exprstrs = expression_strings(apex(model.model))
+  exprstrs = expression_strings(flatten_labels(apex(model.model)))
   model.json["semantics"]["ode"]["rates"] = map(exprstrs) do x
-    @show x
     mathmlexpr = string(to_MathML(Base.Meta.parse(x)))
     Dict("expression" => x, "expression_mathml" => mathmlexpr)
   end
 end
+
+# function populate_initials!(model)
+#   add_stratified_parameter_blobs(model)#.json["semantics"]["ode"]["parameters"]
+#   exprstrs = expression_strings(flatten_labels(apex(model.model)))
+#   model.json["semantics"]["ode"]["rates"] = map(exprstrs) do x
+#     mathmlexpr = string(to_MathML(Base.Meta.parse(x)))
+#     Dict("expression" => x, "expression_mathml" => mathmlexpr)
+#   end
+# end
 
 end

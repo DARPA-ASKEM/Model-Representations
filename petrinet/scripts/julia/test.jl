@@ -8,6 +8,7 @@ using AlgebraicPetri
 using Catlab
 using JSON
 using MathML
+using Test
 
 # Load a model
 askemnet = ASKEMPetriNet("../../examples/sir.json")
@@ -56,11 +57,24 @@ JSON.print(sir_flux, 2)
 # parameter_blob(sir_flux.json["semantics"]["span"][1]["system"])
 
 
-P = sir_flux.model |> apex |> flatten_labels
+# P = sir_flux.model |> apex |> flatten_labels
+to_graphviz(apex(sir_flux.model))
 
-to_graphviz(P)
 populate_parameters!(sir_flux)
 sir_flux.json["semantics"]["ode"]["rates"]
-JSON.print(sir_flux, 2)
 
 # sir_flux.json["semantics"]["span"][1]["system"]["semantics"]["ode"]["rates"]
+
+@testset "stratified parameters" begin
+  @test all(keys(sir_flux.json["semantics"]["ode"]) .== ["parameters", "rates"])
+  @test sir_flux.json["semantics"]["ode"]["rates"][1]["expression"] == "rec_Rgn1_dis * I_Rgn_1"
+  @test sir_flux.json["semantics"]["ode"]["rates"][1]["expression_mathml"] =="<apply><ci>rec_Rgn1_dis</ci><ci>I_Rgn_1</ci></apply>"
+  @test sir_flux.json["model"]["states"][1]["id"] == "S_Rgn_1"
+  @test sir_flux.json["model"]["transitions"][1]["id"] == "rec_Rgn1_dis"
+end
+
+sir_flux.json["semantics"]["span"][1]["system"]["semantics"]["ode"]["initials"]
+sir_flux.json["semantics"]["span"][1]["system"]["semantics"]["ode"]["rates"]
+sir_flux.json["semantics"]["span"][1]["system"]["semantics"]["ode"]["parameters"]
+sir_flux.json["semantics"]["ode"]["parameters"]
+sir_flux.json["semantics"]["ode"]["rates"]
