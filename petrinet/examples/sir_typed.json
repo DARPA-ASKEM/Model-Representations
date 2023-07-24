@@ -96,7 +96,7 @@
           "description": "infection rate",
           "value": 0.027,
           "distribution": {
-            "type": "StandardUniform1",
+            "type": "Uniform1",
             "parameters": {
               "minimum": 0.026,
               "maximum": 0.028
@@ -114,7 +114,7 @@
           },
           "value": 0.14,
           "distribution": {
-            "type": "StandardUniform1",
+            "type": "Uniform1",
             "parameters": {
               "minimum": 0.1,
               "maximum": 0.18
