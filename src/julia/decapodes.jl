@@ -12,10 +12,10 @@ using MLStyle
 end
 
 
-h = AMR.Header("diffusion",
-  "modelreps.io/DEC",
-  "The diffusion equation in DEC",
-  "DEC",
+h = AMR.Header("harmonic_oscillator",
+  "modelreps.io/DecaExpr",
+  "A Simple Harmonic Oscillator as a Diagrammatic Equation",
+  "DecaExpr",
   "v1.0")
 
 dexpr = Decapodes.parse_decapode(quote
@@ -34,4 +34,15 @@ end
 
 using JSON
 using Decapodes
-JSON.print(ASKEMDecapodes.m, 2)
+
+m = ASKEMDecapodes.m
+
+JSON.print(m, 2)
+
+d = Decapodes.SummationDecapode(m.model)
+
+using ACSets
+using ACSets.JSONACSets
+
+JSON.print(generate_json_acset(d),2)
+
