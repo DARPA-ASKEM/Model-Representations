@@ -19,10 +19,10 @@ h = AMR.Header("diffusion",
   "v1.0")
 
 dexpr = Decapodes.parse_decapode(quote
-  X::Form0
-  V::Form0
+  X::Form0{Point}
+  V::Form0{Point}
 
-  k::Constant
+  k::Constant{Point}
 
   ∂ₜ(X) == V
   ∂ₜ(V) == -1*k*(X)
