@@ -8,6 +8,16 @@ using Catlab.RelationalPrograms
 using Catlab.WiringDiagrams
 using Catlab.Graphics
 
+# This example follows what in current catlab would be given as
+
+#=
+@relation (x:X, z:Z) where y:Y begin
+  R(x,y)
+  S(y,z)
+  T(z,y,u)
+end
+=#
+
 v1 = Typed(:x, :X)
 v2 = Typed(:y, :Y)
 v3 = Typed(:z, :Z)
