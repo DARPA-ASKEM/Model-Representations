@@ -11,20 +11,24 @@ using MLStyle
 Stores the syntactic expression of a Decapode Expression with the
 model metadata for ASKEM AMR conformance.
 """
-@as_record struct ASKEMDecaExpr
+struct ASKEMDecaExpr
   header::AMR.Header
   model::Decapodes.DecaExpr
 end
+
+@as_record ASKEMDecaExpr
 
 """    ASKEMDecapode
 
 Stores the combinatorial representation of a Decapode with the
 model metadata for ASKEM AMR conformance.
 """
-@as_record struct ASKEMDecapode
+struct ASKEMDecapode
   header::AMR.Header
   model::Decapodes.SummationDecapode
 end
+
+@as_record ASKEMDecapode
 
 # Build the heder object describing the model.
 
