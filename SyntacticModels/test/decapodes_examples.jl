@@ -60,5 +60,5 @@ write_json_model(mexpr)
 
 # We could also use the JSON serialization built into Catlab
 # to serialize the resulting combinatorial representation
-write_json_acset(mpode.model, "$(mpode.header.name)-acset")
+sm_write_json_acset(mpode.model, "$(mpode.header.name)-acset")
 # end

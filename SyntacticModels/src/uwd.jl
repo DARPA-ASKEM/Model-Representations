@@ -1,7 +1,7 @@
 module ASKEMUWDs
 
 # include("amr.jl")
-export Var, Typed, Untyped, Statement, UWDExpr, UWDModel, UWDTerm
+export Var, Typed, Untyped, Statement, UWDExpr, UWDModel, UWDTerm, context
 
 using ..AMR
 
@@ -16,7 +16,7 @@ using Catlab.WiringDiagrams
 end
 
 @data UWDTerm begin
-  Statement(relation::Symbol, args::Vector{Var})
+  Statement(relation::Symbol, variables::Vector{Var})
   UWDExpr(context::Vector{Var}, statements::Vector{Statement})
   UWDModel(header::AMR.Header, uwd::UWDExpr)
 end
@@ -29,6 +29,12 @@ end
 vartype(v::Var) = @match v begin
   Typed(v, t) => t
   Untyped(v) => :untyped
+end
+
+context(t::UWDTerm) = @match t begin
+  Statement(R, xs) => xs
+  UWDExpr(context, statements) => context
+  UWDModel(h, uwd) => context(uwd)
 end
 
 
@@ -51,7 +57,7 @@ function construct(::Type{RelationDiagram}, ex::UWDExpr)
   # then for each statement we add a box, and its ports
   for s in ex.statements
     b = add_part!(uwd, :Box, name=s.relation)
-    for a in s.args
+    for a in s.variables
       # if a junction is missing, we have to add it. This is for nonexported variables
       if !(varname(a) ∈ keys(junctions))
         k = add_part!(uwd, :Junction, variable=varname(a), junction_type=vartype(a))

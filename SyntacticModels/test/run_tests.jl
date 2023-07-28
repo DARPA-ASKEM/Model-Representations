@@ -8,7 +8,7 @@ write_json_model(m, prefix=joinpath(@__DIR__, "json")) = open(joinpath(prefix, "
   JSON.print(fp, m, 2)
 end
 
-write_json_acset(X, fname, prefix=joinpath(@__DIR__, "json")) = open(joinpath(prefix, "$(fname).json"), "w") do fp
+sm_write_json_acset(X, fname, prefix=joinpath(@__DIR__, "json")) = open(joinpath(prefix, "$(fname).json"), "w") do fp
   JSON.print(fp, generate_json_acset(X), 2)
 end
 

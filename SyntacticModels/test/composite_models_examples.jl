@@ -63,11 +63,12 @@ d2 = ASKEMDecaExpr(
 
 # Now we can assemble this bad boi:
 h = AMR.Header("composite_physics", "modelreps.io/Composite", "A composite model", "CompositeModelExpr", "v0.0")
-m = CompositeModelExpr(h, u, [d1,d2], [[:X, :Ẋ], [:V, :Q]])
+m = CompositeModelExpr(h, u, [OpenModel(d1, [:X, :Ẋ]), OpenModel(d2, [:V, :Q])])
+interface(m) == [:X, :Q]
 write_json_model(m) # you can see from this little model (two coupled odes even) that the jsons will not be human editable. 
 
 # now we can interpret this big data structure to execute a composition!
 composite = oapply(m)
-display(composite |> apex)
-to_graphviz(apex(composite))
-write_json_acset(apex(composite),"$(m.header.name)-acset")
+display(composite)
+to_graphviz(composite)
+sm_write_json_acset(composite,"$(m.header.name)-acset")
