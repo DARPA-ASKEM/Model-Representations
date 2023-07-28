@@ -1,7 +1,9 @@
 module ASKEMUWDs
 
 # include("amr.jl")
-export Var, Typed, Untyped, Statement, UWDExpr, UWDTerm
+export Var, Typed, Untyped, Statement, UWDExpr, UWDModel, UWDTerm
+
+using ..AMR
 
 using MLStyle
 using Catlab
@@ -16,6 +18,7 @@ end
 @data UWDTerm begin
   Statement(relation::Symbol, args::Vector{Var})
   UWDExpr(context::Vector{Var}, statements::Vector{Statement})
+  UWDModel(header::AMR.Header, uwd::UWDExpr)
 end
 
 varname(v::Var) = @match v begin
@@ -61,3 +64,5 @@ function construct(::Type{RelationDiagram}, ex::UWDExpr)
   return uwd
 end
 end
+
+# construct(t::Type{RelationDiagram}, ex::UWDModel) = construct(t, ex.uwd)

@@ -1,4 +1,5 @@
 using ..SyntacticModels
+using ..SyntacticModels.AMR
 using ..SyntacticModels.ASKEMUWDs
 
 using JSON
@@ -27,9 +28,9 @@ s = [Statement(:R, [v1,v2]),
 u = UWDExpr(c, s)
 uwd = ASKEMUWDs.construct(RelationDiagram, u)
 
+h = AMR.Header("rst_relation", "modelreps.io/UWD", "A demo UWD showing generic relation composition", "UWDExpr", "v0.1")
 
-println(u)
-JSON.print(u, 2)
+write_json_model(UWDModel(h, u))
 
 to_graphviz(uwd, box_labels=:name, junction_labels=:variable)
 

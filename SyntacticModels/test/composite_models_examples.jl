@@ -1,5 +1,3 @@
-module CompositesExamples
-
 using ..SyntacticModels.AMR
 using ..SyntacticModels.ASKEMDecapodes
 using ..SyntacticModels.ASKEMUWDs
@@ -12,7 +10,6 @@ using Catlab
 using Catlab.RelationalPrograms
 using Catlab.WiringDiagrams
 
-Statement = ASKEMUWDs.Statement
 
 
 x = Typed(:X, :Form0)
@@ -45,10 +42,10 @@ end
 )
 
 # That gave us the first model
-d1 = ASKEMDecapodes.ASKEMDecaExpr(h, dexpr)
+d1 = ASKEMDecaExpr(h, dexpr)
 
 # The second model is:
-d2 = ASKEMDecapodes.ASKEMDecaExpr(
+d2 = ASKEMDecaExpr(
   AMR.Header("fricative_heating",
    "modelreps.io/SummationDecapode",
    "Velocity makes it get hot, but you dissipate heat away from Q₀",
@@ -67,11 +64,10 @@ d2 = ASKEMDecapodes.ASKEMDecaExpr(
 # Now we can assemble this bad boi:
 h = AMR.Header("composite_physics", "modelreps.io/Composite", "A composite model", "CompositeModelExpr", "v0.0")
 m = CompositeModelExpr(h, u, [d1,d2], [[:X, :Ẋ], [:V, :Q]])
-JSON.print(m, 2) # you can see from this little model (two coupled odes even) that the jsons will not be human editable. 
+write_json_model(m) # you can see from this little model (two coupled odes even) that the jsons will not be human editable. 
 
 # now we can interpret this big data structure to execute a composition!
 composite = oapply(m)
 display(composite |> apex)
 to_graphviz(apex(composite))
-JSON.print(generate_json_acset(apex(composite)),2)
-end
+write_json_acset(apex(composite),"$(m.header.name)-acset")
