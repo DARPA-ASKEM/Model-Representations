@@ -116,16 +116,15 @@ superposition = ASKEMDecaExpr(
   end)
 )
 
+h = AMR.Header("hierarchical_composite", "modelreps.io/Composite", "A hierarchical composite model of frictional heating", "CompositeModelExpr", "v0.1")
 m = CompositeModelExpr(h,u, [OpenModel(d1, [:X, :Ẋ]),
       CompositeModelExpr(AMR.Header("heating_dynamics", "modelreps.io/Composite", "A formula for heating - cooling", "CompositeModelExpr", "v0.1"),
         uwdʰ, [OpenModel(drag, [:V, :Q₊]), OpenModel(cooling, [:Q₋, :Q]), OpenModel(superposition, [:X, :Y, :T])])
 ])
+write_json_model(m)
 
 dh = apex(oapply(m))
 
-display(dh)
-
-to_graphviz(dh)
-
-
-OpenDecapode(m)
+composite = OpenDecapode(m)
+hf = composite.model.header
+write_json_model(ASKEMDecapode(Header("flattened_composite", hf.schema, "A flattened version of the composite_physics model.", hf.schema_name, hf.model_version), composite.model.model))
