@@ -1,2 +1,5 @@
 **/node_modules/
 /docs/_book
+/SyntacticModels/test/json
+Manifest.toml
+.DS_Store
