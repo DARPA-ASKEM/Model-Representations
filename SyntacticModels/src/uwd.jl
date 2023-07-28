@@ -14,7 +14,6 @@ using Catlab.WiringDiagrams
 end
 
 @data UWDTerm begin
-  # Context(judgements::Vector{Var})
   Statement(relation::Symbol, args::Vector{Var})
   UWDExpr(context::Vector{Var}, statements::Vector{Statement})
 end

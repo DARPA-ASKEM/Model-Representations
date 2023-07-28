@@ -1,5 +1,3 @@
-module UWDExamples
-
 using ..SyntacticModels
 using ..SyntacticModels.ASKEMUWDs
 
@@ -36,4 +34,3 @@ JSON.print(u, 2)
 to_graphviz(uwd, box_labels=:name, junction_labels=:variable)
 
 display(uwd)
-end

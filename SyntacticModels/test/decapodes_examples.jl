@@ -1,4 +1,4 @@
-module ASKEMDecapodesExamples
+# module ASKEMDecapodesExamples
 
 using ..SyntacticModels
 using ..SyntacticModels.ASKEMDecapodes
@@ -32,7 +32,7 @@ end
 )
 
 # Bundle the DecaExpr with the header metadata.
-mexpr = ASKEMDecapodes.ASKEMDecaExpr(h, dexpr)
+mexpr = ASKEMDecaExpr(h, dexpr)
 
 # Convert a the DecaExpr to a SummationDecapode which is the
 # combinatorial representation. The converter lives in Decapodes/src/language.jl.
@@ -50,17 +50,15 @@ h = AMR.Header("harmonic_oscillator",
   "A Simple Harmonic Oscillator as a Diagrammatic Equation",
   "SummationDecapode",
   "v1.0")
-mpode = ASKEMDecapodes.ASKEMDecapode(h, d)
+mpode = ASKEMDecapode(h, d)
 
 
-function main()
-  # The syntactic representation can be serialized as JSON.
-  # The resulting structure is like a parse tree of the syntactic
-  # representation of the DecaExpr
-  JSON.print(mexpr, 2)
+# The syntactic representation can be serialized as JSON.
+# The resulting structure is like a parse tree of the syntactic
+# representation of the DecaExpr
+write_json_model(mexpr)
 
-  # We could also use the JSON serialization built into Catlab
-  # to serialize the resulting combinatorial representation
-  JSON.print(generate_json_acset(mpode.model),2)
-end
-end
+# We could also use the JSON serialization built into Catlab
+# to serialize the resulting combinatorial representation
+write_json_acset(mpode.model, "$(mpode.header.name)-acset")
+# end

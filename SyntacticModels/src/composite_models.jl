@@ -6,10 +6,6 @@ using MLStyle
 using Catlab
 using Decapodes
 
-# include("amr.jl")
-# include("decapodes.jl")
-# include("uwd.jl")
-
 using ..AMR
 using ..ASKEMDecapodes
 using ..ASKEMUWDs
@@ -21,8 +17,7 @@ using ..ASKEMUWDs
   interfaces::Vector{Vector{Symbol}}
 end
 
-
-function Catlab.oapply(m::Composites.CompositeModelExpr)
+function Catlab.oapply(m::CompositeModelExpr)
   open(d, interface) = Open(SummationDecapode(d.model), interface)
   # First we have to construct the decapode from the decaexpr
   uwd = ASKEMUWDs.construct(RelationDiagram, m.composition_pattern)
