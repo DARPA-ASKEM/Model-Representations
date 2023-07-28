@@ -109,7 +109,7 @@ function amr_to_string(amr)
       Observable(id, n, states, f)     => "# $n\n$id::Observable = $(f.expression)($states)\n"
       Header(name, s, d, sn, mv)       => "\"\"\"\nASKE Model Representation: $name$mv :: $sn \n   $s\n\n$d\n\"\"\""
       Parameter(t, n, d, u, v, dist)   => "\n# $n-- $d\n$t::Parameter{$(!u)} = $v ~ $(!dist)\n"
-      m::ACSetSpec                     => "Model = begin\n$(padlines(ADTs.to_string(m),2))\nend"
+      m::ACSetSpec                     => "Model = begin\n$(padlines(sprint(show, m),2))\nend"
       ODEList(l)                       => "ODE_Equations = begin\n" * padlines(join(map(!, l), "\n")) * "\nend"
       ODERecord(rts, init, para, time) => join(vcat(["ODE_Record = begin\n"], !rts , !init, !para, [!time, "end"]), "\n")
       vs::Vector{Pair}                 => map(vs) do v; "$(v[1]) => $(v[2])," end |> x-> join(x, "\n") 
@@ -145,7 +145,7 @@ function amr_to_expr(amr)
       Observable(id, n, states, f)     => begin "$n"; :(@doc $x $id::Observable = $(f.expression)($states)) end
       Header(name, s, d, sn, mv)       => begin x = "ASKE Model Representation: $name$mv :: $sn \n   $s\n\n$d"; :(@doc $x) end
       Parameter(t, n, d, u, v, dist)   => begin x = "$n-- $d"; :(@doc $x  $t::Parameter{$(!u)} = $v ~ $(!dist)) end
-      m::ACSetSpec                     => :(Model = begin $(extract_acsetspec(ADTs.to_string(m))) end)
+      m::ACSetSpec                     => :(Model = begin $(extract_acsetspec(sprint(show, m))) end)
       ODEList(l)                       => :(ODE_Equations = $(block(map(!, l))))
       ODERecord(rts, init, para, time) => :(ODE_Record = (rates=$(!rts), initials=$(!init), parameters=$(!para), time=!time))
       vs::Vector{Pair}                 => begin ys = map(vs) do v; :($(v[1]) => $(v[2])) end; block(ys) end

@@ -1,15 +1,35 @@
-module ASKEMDecapodesExamples
+module ASKEMDecapodes
 
-include("decapodes.jl")
+# include("amr.jl")
+using ..AMR
 
-using .ASKEMDecapodes
-
-using MLStyle
-using JSON
-using Catlab
-using ACSets
-using ACSets.JSONACSets
 using Decapodes
+using Catlab
+using MLStyle
+
+"""    ASKEMDecaExpr
+
+Stores the syntactic expression of a Decapode Expression with the
+model metadata for ASKEM AMR conformance.
+"""
+struct ASKEMDecaExpr
+  header::AMR.Header
+  model::Decapodes.DecaExpr
+end
+
+@as_record ASKEMDecaExpr
+
+"""    ASKEMDecapode
+
+Stores the combinatorial representation of a Decapode with the
+model metadata for ASKEM AMR conformance.
+"""
+struct ASKEMDecapode
+  header::AMR.Header
+  model::Decapodes.SummationDecapode
+end
+
+@as_record ASKEMDecapode
 
 # Build the heder object describing the model.
 
@@ -52,15 +72,22 @@ h = AMR.Header("harmonic_oscillator",
   "v1.0")
 mpode = ASKEMDecapode(h, d)
 
-
-function main()
-  # The syntactic representation can be serialized as JSON.
-  # The resulting structure is like a parse tree of the syntactic
-  # representation of the DecaExpr
-  JSON.print(mexpr, 2)
-
-  # We could also use the JSON serialization built into Catlab
-  # to serialize the resulting combinatorial representation
-  JSON.print(generate_json_acset(mpode.model),2)
 end
-end
+
+using JSON
+using Decapodes
+using ACSets
+using ACSets.JSONACSets
+
+m = ASKEMDecapodes.mexpr
+
+# The syntactic representation can be serialized as JSON.
+# The resulting structure is like a parse tree of the syntactic
+# representation of the DecaExpr
+JSON.print(m, 2)
+
+p = ASKEMDecapodes.mpode
+
+# We could also use the JSON serialization built into Catlab
+# to serialize the resulting combinatorial representation
+JSON.print(generate_json_acset(p.model),2)

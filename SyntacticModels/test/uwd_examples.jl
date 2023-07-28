@@ -1,7 +1,7 @@
 module UWDExamples
 
-include("uwd.jl")
-using .ASKEMUWDs
+using ..SyntacticModels
+using ..SyntacticModels.ASKEMUWDs
 
 using JSON
 using Catlab.RelationalPrograms

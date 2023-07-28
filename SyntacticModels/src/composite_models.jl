@@ -6,13 +6,13 @@ using MLStyle
 using Catlab
 using Decapodes
 
-include("amr.jl")
-include("decapodes.jl")
-include("uwd.jl")
+# include("amr.jl")
+# include("decapodes.jl")
+# include("uwd.jl")
 
-using .AMR
-using .ASKEMDecapodes
-using .ASKEMUWDs
+using ..AMR
+using ..ASKEMDecapodes
+using ..ASKEMUWDs
 
 @as_record struct CompositeModelExpr
   header::AMR.Header

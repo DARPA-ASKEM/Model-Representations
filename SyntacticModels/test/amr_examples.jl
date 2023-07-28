@@ -1,7 +1,8 @@
 module AMRExamples
-include("amr.jl")
-using .AMR
+using ..SyntacticModels.AMR
 using Test
+using ACSets
+using ACSets.ADTs
 
 nomath = Math("")
 header = Header("SIR", "amr-schemas:petri_schema.json", "The SIR Model of disease", "petrinet", "0.2")
@@ -202,7 +203,7 @@ using JSON
 modeldict = JSON.parse(mjson)
 using ACSets.ADTs
 
-AMR.petrispec(modeldict) |> ACSets.ADTs.to_string |> println
+println(sprint(show, AMR.petrispec(modeldict)))
 
 semantics_str = raw"""{
   "ode": {

@@ -1,8 +1,9 @@
 module CompositesExamples
-include("composite_models.jl")
-using .Composites
-using .Composites.ASKEMDecapodes
-using .Composites.ASKEMUWDs
+
+using ..SyntacticModels.AMR
+using ..SyntacticModels.ASKEMDecapodes
+using ..SyntacticModels.ASKEMUWDs
+using ..SyntacticModels.Composites
 
 using MLStyle
 using JSON
@@ -21,11 +22,11 @@ Q = Typed(:Q, :Form0)
 c = [x, Q]
 s = [Statement(:oscillator, [x,v]),
   Statement(:heating, [v,Q])]
-u = Composites.ASKEMUWDs.UWDExpr(c, s)
+u = ASKEMUWDs.UWDExpr(c, s)
 
 
 
-h = Composites.ASKEMDecapodes.AMR.Header("harmonic_oscillator",
+h = AMR.Header("harmonic_oscillator",
   "modelreps.io/DecaExpr",
   "A Simple Harmonic Oscillator as a Diagrammatic Equation",
   "DecaExpr",
@@ -48,7 +49,7 @@ d1 = ASKEMDecapodes.ASKEMDecaExpr(h, dexpr)
 
 # The second model is:
 d2 = ASKEMDecapodes.ASKEMDecaExpr(
-  Composites.ASKEMDecapodes.AMR.Header("fricative_heating",
+  AMR.Header("fricative_heating",
    "modelreps.io/SummationDecapode",
    "Velocity makes it get hot, but you dissipate heat away from Q₀",
    "SummationDecapode", "v1.0"),
@@ -64,7 +65,7 @@ d2 = ASKEMDecapodes.ASKEMDecaExpr(
 )
 
 # Now we can assemble this bad boi:
-h = Composites.AMR.Header("composite_physics", "modelreps.io/Composite", "A composite model", "CompositeModelExpr", "v0.0")
+h = AMR.Header("composite_physics", "modelreps.io/Composite", "A composite model", "CompositeModelExpr", "v0.0")
 m = CompositeModelExpr(h, u, [d1,d2], [[:X, :Ẋ], [:V, :Q]])
 JSON.print(m, 2) # you can see from this little model (two coupled odes even) that the jsons will not be human editable. 
 
