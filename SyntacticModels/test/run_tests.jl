@@ -1,6 +1,7 @@
 include("../src/SyntacticModels.jl")
 
 using .SyntacticModels
+using .SyntacticModels.ASKEMDecapodes
 
 using Test
 
