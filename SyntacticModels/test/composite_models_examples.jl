@@ -69,6 +69,63 @@ write_json_model(m) # you can see from this little model (two coupled odes even)
 
 # now we can interpret this big data structure to execute a composition!
 composite = oapply(m)
-display(composite)
-to_graphviz(composite)
-sm_write_json_acset(composite,"$(m.header.name)-acset")
+display(apex(composite))
+to_graphviz(apex(composite))
+sm_write_json_acset(apex(composite),"$(m.header.name)-acset")
+
+
+# TESTING NESTED COMPOSITION
+
+Q₊ = Untyped(:Q₊)
+Q₋ = Untyped(:Q₋)
+Q̇ = Untyped(:Q̇)
+
+uwdʰ = UWDExpr([v, Q], [Statement(:drag, [v, Q₊]), Statement(:cooling, [Q₋, Q]), Statement(:superposition, [Q₊, Q₋, Q̇])])
+
+drag = ASKEMDecaExpr(
+  AMR.Header("DragHeat", "modelreps.io/SummationDecapode", "velocity makes it get hot", "SummationDecapode", "v1.0"),
+  Decapodes.parse_decapode(quote
+    V::Form0{Point}
+    Q₊::Form0{Point}
+    κ::Constant{Point}
+
+    Q₊ == κ*V 
+  end)
+)
+
+cooling = ASKEMDecaExpr(
+  AMR.Header("NetwonCooling", "modelreps.io/SummationDecapode", "heat dissipates to the enviornment", "SummationDecapode", "v1.0"),
+  Decapodes.parse_decapode(quote
+    Q₋::Form0{Point}
+    Q₀::Parameter{Point}
+    Q::Form0{Point}
+    λ::Constant{Point}
+
+    Q₋ == λ(Q-Q₀)
+  end)
+)
+
+superposition = ASKEMDecaExpr(
+  AMR.Header("LinearSuperpositon", "modelreps.io/SummationDecapode", "variables be addin", "SummationDecapode", "v1.0"),
+  Decapodes.parse_decapode(quote
+    X::Form0{Point}
+    Y::Form0{Point}
+    T::Form0{Point}
+
+    T == X + Y
+  end)
+)
+
+m = CompositeModelExpr(h,u, [OpenModel(d1, [:X, :Ẋ]),
+      CompositeModelExpr(AMR.Header("heating_dynamics", "modelreps.io/Composite", "A formula for heating - cooling", "CompositeModelExpr", "v0.1"),
+        uwdʰ, [OpenModel(drag, [:V, :Q₊]), OpenModel(cooling, [:Q₋, :Q]), OpenModel(superposition, [:X, :Y, :T])])
+])
+
+dh = apex(oapply(m))
+
+display(dh)
+
+to_graphviz(dh)
+
+
+OpenDecapode(m)
