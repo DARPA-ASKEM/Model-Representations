@@ -11,7 +11,7 @@
     },
     "schema_name": {
       "type": "string"
-    },    
+    },
     "description": {
       "type": "string"
     },
@@ -32,10 +32,7 @@
         }
       },
       "additionalProperties": false,
-      "required": [
-        "states",
-        "transitions"
-      ]
+      "required": ["states", "transitions"]
     },
     "semantics": {
       "type": "object",
@@ -47,6 +44,14 @@
         "typing": {
           "description": "(Optional) Information for aligning models for stratification",
           "$ref": "#/$defs/typingSemantics"
+        },
+        "span": {
+          "type": "array",
+          "description": "(Optional) Legs of a span, each of which are a full ASKEM Petri Net",
+          "items": {
+            "type": "object",
+            "$ref": "#/$defs/typingSemantics"
+          }
         }
       }
     },
@@ -77,10 +82,8 @@
             "$ref": "#/$defs/unit"
           }
         },
-        "required": [
-          "id"
-        ]
-      }      
+        "required": ["id"]
+      }
     },
     "transitions": {
       "type": "array",
@@ -109,11 +112,7 @@
             "$ref": "#/$defs/properties"
           }
         },
-        "required": [
-          "id",
-          "input",
-          "output"
-        ]
+        "required": ["id", "input", "output"]
       }
     },
     "observables": {
@@ -146,9 +145,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       }
     },
     "properties": {
@@ -164,9 +161,7 @@
           "$ref": "#/$defs/grounding"
         }
       },
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "additionalProperties": true
     },
     "distribution": {
@@ -179,10 +174,7 @@
           "type": "object"
         }
       },
-      "required": [
-        "type",
-        "parameters"
-      ],
+      "required": ["type", "parameters"],
       "additionalProperties": true
     },
     "unit": {
@@ -207,9 +199,7 @@
           "type": "object"
         }
       },
-      "required": [
-        "identifiers"
-      ],
+      "required": ["identifiers"],
       "additionalProperties": false
     },
     "provenance": {
@@ -222,10 +212,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "type",
-        "value"
-      ],
+      "required": ["type", "value"],
       "additionalProperties": false
     },
     "metadatum": {
@@ -238,10 +225,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "type",
-        "value"
-      ],
+      "required": ["type", "value"],
       "additionalProperties": false
     },
     "dataset": {
@@ -260,9 +244,7 @@
           "type": "object"
         }
       },
-      "required": [
-        "id"
-      ],
+      "required": ["id"],
       "additionalProperties": false
     },
     "paper": {
@@ -287,33 +269,18 @@
           "type": "object"
         }
       },
-      "required": [
-        "id",
-        "doi"
-      ],
+      "required": ["id", "doi"],
       "additionalProperties": false
     },
     "typingSemantics": {
       "type": "object",
       "properties": {
-        "type_system": {
+        "system": {
           "type": "object",
           "description": "A Petri net representing the 'type system' that is necessary to align states and transitions across different models during stratification.",
-          "properties": {
-            "states": {
-              "$ref": "#/$defs/states"
-            },
-            "transitions": {
-              "$ref": "#/$defs/transitions"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "states",
-            "transitions"
-          ]
+          "$ref": "#"
         },
-        "type_map": {
+        "map": {
           "type": "array",
           "description": "A map between the (state and transition) nodes of the model and the (state and transition) nodes of the type system",
           "items": {
@@ -323,7 +290,8 @@
             }
           }
         }
-      }
+      },
+      "required": ["system", "map"]
     },
     "odeSemantics": {
       "type": "object",
@@ -389,9 +357,7 @@
                 "$ref": "#/$defs/unit"
               }
             },
-            "required": [
-              "id"
-            ]
+            "required": ["id"]
           }
         },
         "time": {
@@ -404,19 +370,12 @@
               "$ref": "#/$defs/unit"
             }
           },
-          "required": [
-            "id"
-          ]
+          "required": ["id"]
         }
       },
       "required": []
     }
   },
   "additionalProperties": true,
-  "required": [
-    "name",
-    "description",
-    "schema",
-    "model"
-  ]
+  "required": ["name", "description", "schema", "model"]
 }
