@@ -59,10 +59,6 @@ using StructTypes
 
 # this code is tweaked from the AbstractType example in the StructTypes docs.
 StructTypes.StructType(::Type{Formula}) = StructTypes.AbstractType()
-StructTypes.StructType(::Type{Var}) = StructTypes.Struct()
-StructTypes.StructType(::Type{Val}) = StructTypes.Struct()
-StructTypes.StructType(::Type{Times}) = StructTypes.Struct()
-StructTypes.StructType(::Type{Plus}) = StructTypes.Struct()
 StructTypes.subtypekey(::Type{Formula}) = :_type
 StructTypes.subtypes(::Type{Formula}) = (Plus=Plus, Times=Times, Var=Var, Val=Val)
 
