@@ -1,4 +1,5 @@
 using ..SyntacticModels
+using ..SyntacticModels.SyntacticModelsBase
 using ..SyntacticModels.AMR
 using ..SyntacticModels.ASKEMUWDs
 
@@ -35,3 +36,10 @@ write_json_model(UWDModel(h, u))
 to_graphviz(uwd, box_labels=:name, junction_labels=:variable)
 
 display(uwd)
+
+SyntacticModelsBase._dict(x::AbstractVector) = map(_dict, x)
+
+using JSON3
+s = JSON3.write(u)
+ujson = JSON3.read(s, UWDTerm)
+ujson == u

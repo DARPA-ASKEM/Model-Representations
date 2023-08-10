@@ -1,5 +1,6 @@
 module SyntacticModels
 
+include("SyntacticModelsBase.jl")
 include("amr.jl")
 include("decapodes.jl")
 include("uwd.jl")
