@@ -1,3 +1,4 @@
+module SerializationTest
 using MLStyle
 using JSON3
 
@@ -95,3 +96,4 @@ JSON3.write(Dict(f)) |> println
 
 # JSON3.read has the information it needs to identify the types.
 JSON3.read(JSON3.write(Dict(f)), Formula)
+end
