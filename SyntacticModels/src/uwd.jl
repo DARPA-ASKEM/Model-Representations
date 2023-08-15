@@ -11,14 +11,26 @@ using Catlab
 using Catlab.RelationalPrograms
 using Catlab.WiringDiagrams
 
-"""    Var
+@doc"""    Var
 
 Variables of a UWD. Types are the domain types, ScalarField, VectorField, Dual1Form, Primal2Form NOT Float64,Complex128
 """
+Var
+
 @data Var <: AbstractTerm begin
   Untyped(var::Symbol)
   Typed(var::Symbol, type::Symbol)
 end
+
+@doc"""    UWDTerm
+
+Term specifying UWD.
+
+- UWDModel: A header and UWD Expr
+- UWDExpr: A Context of variables and a list of statements defining a UWD
+- Statement: R(x,y,z) a relation that acts on its arguments (which are Vars)
+"""
+Var
 
 @data UWDTerm <: AbstractTerm begin
   Statement(relation::Symbol, variables::Vector{Var})
