@@ -21,6 +21,10 @@
         "schema_name": {
           "type": "string",
           "description": "The ID of the schema name. E.g. `petrinet`"
+        },
+        "model_version": {
+          "type": "string",
+          "description": "The version of the model."
         }
       },
       "required": [
@@ -43,7 +47,7 @@
     }
   },
   "required": [
-    "hader",
+    "header",
     "model"
   ]
 }
