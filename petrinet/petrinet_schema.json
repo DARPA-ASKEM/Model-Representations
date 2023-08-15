@@ -2,21 +2,27 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "name": {
-      "type": "string"
-    },
-    "schema": {
-      "type": "string",
-      "format": "uri"
-    },
-    "schema_name": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    },
-    "model_version": {
-      "type": "string"
+    "header": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string",
+          "format": "uri"
+        },
+        "schema_name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "model_version": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "schema", "description"]
     },
     "properties": {
       "type": "object"
@@ -377,5 +383,5 @@
     }
   },
   "additionalProperties": true,
-  "required": ["name", "description", "schema", "model"]
+  "required": ["header", "model"]
 }
