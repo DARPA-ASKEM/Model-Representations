@@ -1,8 +1,10 @@
 {
-  "name": "Ontology Model w/ Pop and Vax States",
-  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
-  "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
-  "model_version": "0.1",
+  "header": {
+    "name": "Ontology Model w/ Pop and Vax States",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+    "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
+    "model_version": "0.1"
+  },
   "model": {
     "states": [
       {
