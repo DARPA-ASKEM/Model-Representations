@@ -1,6 +1,7 @@
 module SerializationTest
 using MLStyle
 using JSON3
+using Test
 
 # Our Formula type is a recursive ADT definition the terminal types are Values and Variables,
 # The mathematical operator goes in the type of the struct. This is unlike Julia Expr types,
@@ -12,7 +13,7 @@ using JSON3
   Times(a::Formula, b::Formula)
 end
 
-f = Times(Plus(Var(:x), Val(3)), Plus(Var(:y), Val(5)))
+f = Times(Plus(Var(:x), Val(3.2)), Plus(Var(:y), Val(5.4)))
 
 # Note: there is no type information in the output, 
 # therefore we won't be able to read it back in
@@ -45,7 +46,7 @@ function load(::Type{Formula}, d::JSON3.Object)
       "Times" => Times(!d.left, !d.right)
       "Plus" => Plus(!d.left, !d.right)
       "Var" => Var(Symbol(d.name))
-      "Val" => Val(parse(Int, d.value))
+      "Val" => Val(parse(Float64, d.value))
       _ => error("Got a $(typeof(d)), $t, $d)")
     end
   end
@@ -85,7 +86,7 @@ import Base: Dict
 # we use this _dict function to avoid an "I'm the captain now" level of type piracy.
 _dict(x) = x
 function _dict(x::T) where {T<:Formula}
-  Dict(:_type => T, [k=>_dict(getfield(x, k)) for k in fieldnames(T)]...)
+  Dict(:_type => T.name.name, [k=>_dict(getfield(x, k)) for k in fieldnames(T)]...)
 end
 # we only overload the Dict function for our type Formula, so this is not piracy.
 Dict(x::Formula) = _dict(x)
@@ -95,5 +96,6 @@ Dict(f)
 JSON3.write(Dict(f)) |> println
 
 # JSON3.read has the information it needs to identify the types.
-JSON3.read(JSON3.write(Dict(f)), Formula)
+f′ = JSON3.read(JSON3.write(Dict(f)), Formula)
+@test f′ == f
 end

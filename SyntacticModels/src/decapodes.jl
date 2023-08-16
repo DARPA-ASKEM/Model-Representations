@@ -39,7 +39,7 @@ StructTypes.subtypekey(::Type{ASKEMDeca}) = :_type
 StructTypes.subtypes(::Type{ASKEMDeca}) = (ASKEMDecaExpr=ASKEMDecaExpr, ASKEMDecapode=ASKEMDecapode)
 
 SyntacticModelsBase._dict(x::T) where {T<:Union{Decapodes.DecaExpr, Decapodes.Equation, Decapodes.Term}} = begin
-  Dict(:_type => T, [k=>_dict(getfield(x, k)) for k in fieldnames(T)]...)
+  Dict(:_type => typename_last(T), [k=>_dict(getfield(x, k)) for k in fieldnames(T)]...)
 end
 
 
