@@ -12,19 +12,21 @@ using Reexport
 using ACSets.ADTs
 using ACSets.ACSetInterface
 
-@data MathML begin
+using ..SyntacticModelsBase
+
+@data MathML <: AbstractTerm begin
   Math(String)
   Presentation(String)
 end
 
 nomath = Math("")
 
-@as_record struct ExpressionFormula{T}
+@as_record struct ExpressionFormula{T} <: AbstractTerm
   expression::T
   expression_mathml::MathML
 end
 
-@as_record struct Unit
+@as_record struct Unit <: AbstractTerm
   expression::String
   expression_mathml::MathML
 end
@@ -32,7 +34,7 @@ end
 
 nounit = Unit("", nomath)
 
-@data Distribution begin
+@data Distribution <: AbstractTerm begin
   StandardUniform
   Uniform(min, max)
   StandardNormal
@@ -40,21 +42,21 @@ nounit = Unit("", nomath)
   PointMass(value)
 end
 
-@as_record struct Observable{T}
+@as_record struct Observable{T <: AbstractTerm}
   id::Symbol
   name::String
   states::Vector{Symbol}
   f::ExpressionFormula
 end
 
-@data Expression begin
+@data Expression <: AbstractTerm begin
   Rate(target::Symbol, f::ExpressionFormula)
   Initial(target::Symbol, f::ExpressionFormula)
   Parameter(id::Symbol, name::String, description::String, units::Unit, value::Float64, distribution::Distribution)
   Time(id::Symbol, units::Unit)
 end
 
-@data Semantic begin
+@data Semantic  <: AbstractTerm begin
   ODEList(statements::Vector{Expression})
   ODERecord(rates::Vector{Rate}, initials::Vector{Initial}, parameters::Vector{Parameter}, time::Time)
   # Metadata
@@ -62,7 +64,7 @@ end
   # Stratification
 end
 
-@as_record struct Header
+@as_record struct Header <: AbstractTerm
   name::String
   schema::String
   description::String
@@ -70,7 +72,7 @@ end
   model_version::String
 end
 
-@as_record struct ASKEModel
+@as_record struct ASKEModel <: AbstractTerm
   header::Header 
   model::ACSetSpec
   semantics::Vector{Semantic}

@@ -3,23 +3,50 @@ module ASKEMUWDs
 # include("amr.jl")
 export Var, Typed, Untyped, Statement, UWDExpr, UWDModel, UWDTerm, context
 
+using ..SyntacticModelsBase
 using ..AMR
 
 using MLStyle
+using StructTypes
 using Catlab
 using Catlab.RelationalPrograms
 using Catlab.WiringDiagrams
 
-@data Var begin
+
+@data Var <: AbstractTerm begin
   Untyped(var::Symbol)
   Typed(var::Symbol, type::Symbol)
 end
 
-@data UWDTerm begin
+@doc """    Var
+
+Variables of a UWD. Types are the domain types, ScalarField, VectorField, Dual1Form, Primal2Form NOT Float64,Complex128
+"""
+Var
+
+StructTypes.StructType(::Type{Var}) = StructTypes.AbstractType()
+StructTypes.subtypekey(::Type{Var}) = :_type
+StructTypes.subtypes(::Type{Var}) = (Untyped=Untyped, Typed=Typed)
+
+@data UWDTerm <: AbstractTerm begin
   Statement(relation::Symbol, variables::Vector{Var})
   UWDExpr(context::Vector{Var}, statements::Vector{Statement})
   UWDModel(header::AMR.Header, uwd::UWDExpr)
 end
+
+@doc """    UWDTerm
+
+Term specifying UWD.
+
+- UWDModel: A header and UWD Expr
+- UWDExpr: A Context of variables and a list of statements defining a UWD
+- Statement: R(x,y,z) a relation that acts on its arguments (which are Vars)
+"""
+UWDTerm
+
+StructTypes.StructType(::Type{UWDTerm}) = StructTypes.AbstractType()
+StructTypes.subtypekey(::Type{UWDTerm}) = :_type
+StructTypes.subtypes(::Type{UWDTerm}) = (Statement=Statement, UWDExpr=UWDExpr, UWDModel=UWDModel)
 
 varname(v::Var) = @match v begin
   Untyped(v) => v

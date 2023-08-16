@@ -5,16 +5,22 @@ export CompositeModelExpr, OpenModel, OpenDecapode, CompositeModel, interface, o
 using MLStyle
 using Catlab
 using Decapodes
+using StructTypes
 
+using ..SyntacticModelsBase
 using ..AMR
 using ..ASKEMDecapodes
 using ..ASKEMUWDs
 
-@data CompositeModel begin
+@data CompositeModel <: AbstractTerm begin
   OpenModel(model::ASKEMDecapodes.ASKEMDecaExpr, interface::Vector{Symbol})
   OpenDecapode(model::ASKEMDecapodes.ASKEMDecapode, interface::Vector{Symbol})
   CompositeModelExpr(header::Header, composition_pattern::UWDExpr, components::Vector{CompositeModel})
 end
+
+StructTypes.StructType(::Type{CompositeModel}) = StructTypes.AbstractType()
+StructTypes.subtypekey(::Type{CompositeModel}) = :_type
+StructTypes.subtypes(::Type{CompositeModel}) = (OpenModel=OpenModel, OpenDecapode=OpenDecapode, CompositeModelExpr)
 
 interface(m::CompositeModel) = @match m begin
   OpenModel(M, I) => I
