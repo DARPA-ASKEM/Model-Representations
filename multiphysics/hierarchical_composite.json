@@ -1,0 +1,461 @@
+{
+    "components": [
+        {
+            "interface": [
+                "X",
+                "Ẋ"
+            ],
+            "_type": "OpenModel",
+            "model": {
+                "header": {
+                    "description": "A Simple Harmonic Oscillator as a Diagrammatic Equation",
+                    "name": "harmonic_oscillator",
+                    "_type": "Header",
+                    "model_version": "v1.0",
+                    "schema": "modelreps.io/DecaExpr",
+                    "schema_name": "DecaExpr"
+                },
+                "_type": "ASKEMDecaExpr",
+                "model": {
+                    "context": [
+                        {
+                            "dim": "Form0",
+                            "var": {
+                                "name": "X",
+                                "_type": "Var"
+                            },
+                            "space": "Point",
+                            "_type": "Judgement"
+                        },
+                        {
+                            "dim": "Form0",
+                            "var": {
+                                "name": "V",
+                                "_type": "Var"
+                            },
+                            "space": "Point",
+                            "_type": "Judgement"
+                        },
+                        {
+                            "dim": "Constant",
+                            "var": {
+                                "name": "k",
+                                "_type": "Var"
+                            },
+                            "space": "Point",
+                            "_type": "Judgement"
+                        }
+                    ],
+                    "_type": "DecaExpr",
+                    "equations": [
+                        {
+                            "rhs": {
+                                "name": "V",
+                                "_type": "Var"
+                            },
+                            "lhs": {
+                                "var": {
+                                    "name": "X",
+                                    "_type": "Var"
+                                },
+                                "_type": "Tan"
+                            },
+                            "_type": "Eq"
+                        },
+                        {
+                            "rhs": {
+                                "args": [
+                                    {
+                                        "name": "-1",
+                                        "_type": "Lit"
+                                    },
+                                    {
+                                        "name": "k",
+                                        "_type": "Var"
+                                    },
+                                    {
+                                        "name": "X",
+                                        "_type": "Var"
+                                    }
+                                ],
+                                "_type": "Mult"
+                            },
+                            "lhs": {
+                                "var": {
+                                    "name": "V",
+                                    "_type": "Var"
+                                },
+                                "_type": "Tan"
+                            },
+                            "_type": "Eq"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "components": [
+                {
+                    "interface": [
+                        "V",
+                        "Q₊"
+                    ],
+                    "_type": "OpenModel",
+                    "model": {
+                        "header": {
+                            "description": "velocity makes it get hot",
+                            "name": "DragHeat",
+                            "_type": "Header",
+                            "model_version": "v1.0",
+                            "schema": "modelreps.io/SummationDecapode",
+                            "schema_name": "SummationDecapode"
+                        },
+                        "_type": "ASKEMDecaExpr",
+                        "model": {
+                            "context": [
+                                {
+                                    "dim": "Form0",
+                                    "var": {
+                                        "name": "V",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                },
+                                {
+                                    "dim": "Form0",
+                                    "var": {
+                                        "name": "Q₊",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                },
+                                {
+                                    "dim": "Constant",
+                                    "var": {
+                                        "name": "κ",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                }
+                            ],
+                            "_type": "DecaExpr",
+                            "equations": [
+                                {
+                                    "rhs": {
+                                        "f": "*",
+                                        "arg1": {
+                                            "name": "κ",
+                                            "_type": "Var"
+                                        },
+                                        "_type": "App2",
+                                        "arg2": {
+                                            "name": "V",
+                                            "_type": "Var"
+                                        }
+                                    },
+                                    "lhs": {
+                                        "name": "Q₊",
+                                        "_type": "Var"
+                                    },
+                                    "_type": "Eq"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "interface": [
+                        "Q₋",
+                        "Q"
+                    ],
+                    "_type": "OpenModel",
+                    "model": {
+                        "header": {
+                            "description": "heat dissipates to the enviornment",
+                            "name": "NetwonCooling",
+                            "_type": "Header",
+                            "model_version": "v1.0",
+                            "schema": "modelreps.io/SummationDecapode",
+                            "schema_name": "SummationDecapode"
+                        },
+                        "_type": "ASKEMDecaExpr",
+                        "model": {
+                            "context": [
+                                {
+                                    "dim": "Form0",
+                                    "var": {
+                                        "name": "Q₋",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                },
+                                {
+                                    "dim": "Parameter",
+                                    "var": {
+                                        "name": "Q₀",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                },
+                                {
+                                    "dim": "Form0",
+                                    "var": {
+                                        "name": "Q",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                },
+                                {
+                                    "dim": "Constant",
+                                    "var": {
+                                        "name": "λ",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                }
+                            ],
+                            "_type": "DecaExpr",
+                            "equations": [
+                                {
+                                    "rhs": {
+                                        "f": "λ",
+                                        "arg": {
+                                            "f": "-",
+                                            "arg1": {
+                                                "name": "Q",
+                                                "_type": "Var"
+                                            },
+                                            "_type": "App2",
+                                            "arg2": {
+                                                "name": "Q₀",
+                                                "_type": "Var"
+                                            }
+                                        },
+                                        "_type": "App1"
+                                    },
+                                    "lhs": {
+                                        "name": "Q₋",
+                                        "_type": "Var"
+                                    },
+                                    "_type": "Eq"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "interface": [
+                        "X",
+                        "Y",
+                        "T"
+                    ],
+                    "_type": "OpenModel",
+                    "model": {
+                        "header": {
+                            "description": "variables be addin",
+                            "name": "LinearSuperpositon",
+                            "_type": "Header",
+                            "model_version": "v1.0",
+                            "schema": "modelreps.io/SummationDecapode",
+                            "schema_name": "SummationDecapode"
+                        },
+                        "_type": "ASKEMDecaExpr",
+                        "model": {
+                            "context": [
+                                {
+                                    "dim": "Form0",
+                                    "var": {
+                                        "name": "X",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                },
+                                {
+                                    "dim": "Form0",
+                                    "var": {
+                                        "name": "Y",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                },
+                                {
+                                    "dim": "Form0",
+                                    "var": {
+                                        "name": "T",
+                                        "_type": "Var"
+                                    },
+                                    "space": "Point",
+                                    "_type": "Judgement"
+                                }
+                            ],
+                            "_type": "DecaExpr",
+                            "equations": [
+                                {
+                                    "rhs": {
+                                        "args": [
+                                            {
+                                                "name": "X",
+                                                "_type": "Var"
+                                            },
+                                            {
+                                                "name": "Y",
+                                                "_type": "Var"
+                                            }
+                                        ],
+                                        "_type": "Plus"
+                                    },
+                                    "lhs": {
+                                        "name": "T",
+                                        "_type": "Var"
+                                    },
+                                    "_type": "Eq"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "composition_pattern": {
+                "statements": [
+                    {
+                        "variables": [
+                            {
+                                "var": "V",
+                                "type": "Form0",
+                                "_type": "Typed"
+                            },
+                            {
+                                "var": "Q₊",
+                                "_type": "Untyped"
+                            }
+                        ],
+                        "_type": "Statement",
+                        "relation": "drag"
+                    },
+                    {
+                        "variables": [
+                            {
+                                "var": "Q₋",
+                                "_type": "Untyped"
+                            },
+                            {
+                                "var": "Q",
+                                "type": "Form0",
+                                "_type": "Typed"
+                            }
+                        ],
+                        "_type": "Statement",
+                        "relation": "cooling"
+                    },
+                    {
+                        "variables": [
+                            {
+                                "var": "Q₊",
+                                "_type": "Untyped"
+                            },
+                            {
+                                "var": "Q₋",
+                                "_type": "Untyped"
+                            },
+                            {
+                                "var": "Q̇",
+                                "_type": "Untyped"
+                            }
+                        ],
+                        "_type": "Statement",
+                        "relation": "superposition"
+                    }
+                ],
+                "context": [
+                    {
+                        "var": "V",
+                        "type": "Form0",
+                        "_type": "Typed"
+                    },
+                    {
+                        "var": "Q",
+                        "type": "Form0",
+                        "_type": "Typed"
+                    }
+                ],
+                "_type": "UWDExpr"
+            },
+            "header": {
+                "description": "A formula for heating - cooling",
+                "name": "heating_dynamics",
+                "_type": "Header",
+                "model_version": "v0.1",
+                "schema": "modelreps.io/Composite",
+                "schema_name": "CompositeModelExpr"
+            },
+            "_type": "CompositeModelExpr"
+        }
+    ],
+    "composition_pattern": {
+        "statements": [
+            {
+                "variables": [
+                    {
+                        "var": "X",
+                        "type": "Form0",
+                        "_type": "Typed"
+                    },
+                    {
+                        "var": "V",
+                        "type": "Form0",
+                        "_type": "Typed"
+                    }
+                ],
+                "_type": "Statement",
+                "relation": "oscillator"
+            },
+            {
+                "variables": [
+                    {
+                        "var": "V",
+                        "type": "Form0",
+                        "_type": "Typed"
+                    },
+                    {
+                        "var": "Q",
+                        "type": "Form0",
+                        "_type": "Typed"
+                    }
+                ],
+                "_type": "Statement",
+                "relation": "heating"
+            }
+        ],
+        "context": [
+            {
+                "var": "X",
+                "type": "Form0",
+                "_type": "Typed"
+            },
+            {
+                "var": "Q",
+                "type": "Form0",
+                "_type": "Typed"
+            }
+        ],
+        "_type": "UWDExpr"
+    },
+    "header": {
+        "description": "A hierarchical composite model of frictional heating",
+        "name": "hierarchical_composite",
+        "_type": "Header",
+        "model_version": "v0.1",
+        "schema": "modelreps.io/Composite",
+        "schema_name": "CompositeModelExpr"
+    },
+    "_type": "CompositeModelExpr"
+}

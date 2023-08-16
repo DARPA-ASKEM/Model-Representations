@@ -1,0 +1,80 @@
+{
+    "uwd": {
+        "statements": [
+            {
+                "variables": [
+                    {
+                        "var": "x",
+                        "type": "X",
+                        "_type": "Typed"
+                    },
+                    {
+                        "var": "y",
+                        "type": "Y",
+                        "_type": "Typed"
+                    }
+                ],
+                "_type": "Statement",
+                "relation": "R"
+            },
+            {
+                "variables": [
+                    {
+                        "var": "y",
+                        "type": "Y",
+                        "_type": "Typed"
+                    },
+                    {
+                        "var": "z",
+                        "type": "Z",
+                        "_type": "Typed"
+                    }
+                ],
+                "_type": "Statement",
+                "relation": "S"
+            },
+            {
+                "variables": [
+                    {
+                        "var": "z",
+                        "type": "Z",
+                        "_type": "Typed"
+                    },
+                    {
+                        "var": "y",
+                        "type": "Y",
+                        "_type": "Typed"
+                    },
+                    {
+                        "var": "u",
+                        "_type": "Untyped"
+                    }
+                ],
+                "_type": "Statement",
+                "relation": "T"
+            }
+        ],
+        "context": [
+            {
+                "var": "x",
+                "type": "X",
+                "_type": "Typed"
+            },
+            {
+                "var": "z",
+                "type": "Z",
+                "_type": "Typed"
+            }
+        ],
+        "_type": "UWDExpr"
+    },
+    "header": {
+        "description": "A demo UWD showing generic relation composition",
+        "name": "rst_relation",
+        "_type": "Header",
+        "model_version": "v0.1",
+        "schema": "modelreps.io/UWD",
+        "schema_name": "UWDExpr"
+    },
+    "_type": "UWDModel"
+}

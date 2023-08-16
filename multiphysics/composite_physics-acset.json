@@ -1,0 +1,168 @@
+{
+    "Var": [
+        {
+            "_id": 1,
+            "type": "Form0",
+            "name": "X"
+        },
+        {
+            "_id": 2,
+            "type": "Form0",
+            "name": "V"
+        },
+        {
+            "_id": 3,
+            "type": "Constant",
+            "name": "oscillator_k"
+        },
+        {
+            "_id": 4,
+            "type": "infer",
+            "name": "oscillator_mult_1"
+        },
+        {
+            "_id": 5,
+            "type": "infer",
+            "name": "oscillator_Ẋ̇"
+        },
+        {
+            "_id": 6,
+            "type": "Literal",
+            "name": "-1"
+        },
+        {
+            "_id": 7,
+            "type": "Form0",
+            "name": "Q"
+        },
+        {
+            "_id": 8,
+            "type": "Constant",
+            "name": "heating_κ"
+        },
+        {
+            "_id": 9,
+            "type": "Constant",
+            "name": "heating_λ"
+        },
+        {
+            "_id": 10,
+            "type": "Parameter",
+            "name": "heating_Q₀"
+        },
+        {
+            "_id": 11,
+            "type": "infer",
+            "name": "heating_Q̇"
+        },
+        {
+            "_id": 12,
+            "type": "infer",
+            "name": "heating_•2"
+        },
+        {
+            "_id": 13,
+            "type": "infer",
+            "name": "heating_•3"
+        },
+        {
+            "_id": 14,
+            "type": "infer",
+            "name": "heating_•4"
+        }
+    ],
+    "TVar": [
+        {
+            "_id": 1,
+            "incl": 2
+        },
+        {
+            "_id": 2,
+            "incl": 5
+        },
+        {
+            "_id": 3,
+            "incl": 11
+        }
+    ],
+    "Op1": [
+        {
+            "_id": 1,
+            "src": 1,
+            "tgt": 2,
+            "op1": "∂ₜ"
+        },
+        {
+            "_id": 2,
+            "src": 2,
+            "tgt": 5,
+            "op1": "∂ₜ"
+        },
+        {
+            "_id": 3,
+            "src": 7,
+            "tgt": 11,
+            "op1": "∂ₜ"
+        },
+        {
+            "_id": 4,
+            "src": 14,
+            "tgt": 13,
+            "op1": "λ"
+        }
+    ],
+    "Op2": [
+        {
+            "_id": 1,
+            "proj1": 6,
+            "proj2": 3,
+            "res": 4,
+            "op2": "*"
+        },
+        {
+            "_id": 2,
+            "proj1": 4,
+            "proj2": 1,
+            "res": 5,
+            "op2": "*"
+        },
+        {
+            "_id": 3,
+            "proj1": 8,
+            "proj2": 2,
+            "res": 12,
+            "op2": "*"
+        },
+        {
+            "_id": 4,
+            "proj1": 7,
+            "proj2": 10,
+            "res": 14,
+            "op2": "-"
+        }
+    ],
+    "Σ": [
+        {
+            "_id": 1,
+            "sum": 11
+        }
+    ],
+    "Summand": [
+        {
+            "_id": 1,
+            "summand": 12,
+            "summation": 1
+        },
+        {
+            "_id": 2,
+            "summand": 13,
+            "summation": 1
+        }
+    ],
+    "Type": [
+    ],
+    "Operator": [
+    ],
+    "Name": [
+    ]
+}

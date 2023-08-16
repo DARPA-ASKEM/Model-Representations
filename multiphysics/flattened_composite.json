@@ -1,0 +1,168 @@
+{
+    "header": {
+        "name": "flattened_composite",
+        "schema": "modelreps.io/Composite",
+        "description": "A flattened version of the composite_physics model.",
+        "schema_name": "CompositeModelExpr",
+        "model_version": "v0.1"
+    },
+    "model": {
+        "Var": [
+            {
+                "_id": 1,
+                "type": "Form0",
+                "name": "X"
+            },
+            {
+                "_id": 2,
+                "type": "Form0",
+                "name": "V"
+            },
+            {
+                "_id": 3,
+                "type": "Constant",
+                "name": "oscillator_k"
+            },
+            {
+                "_id": 4,
+                "type": "infer",
+                "name": "oscillator_mult_1"
+            },
+            {
+                "_id": 5,
+                "type": "infer",
+                "name": "oscillator_Ẋ̇"
+            },
+            {
+                "_id": 6,
+                "type": "Literal",
+                "name": "-1"
+            },
+            {
+                "_id": 7,
+                "type": "Form0",
+                "name": "heating_Q₊"
+            },
+            {
+                "_id": 8,
+                "type": "Constant",
+                "name": "heating_drag_κ"
+            },
+            {
+                "_id": 9,
+                "type": "Form0",
+                "name": "heating_Q₋"
+            },
+            {
+                "_id": 10,
+                "type": "Parameter",
+                "name": "heating_cooling_Q₀"
+            },
+            {
+                "_id": 11,
+                "type": "Form0",
+                "name": "Q"
+            },
+            {
+                "_id": 12,
+                "type": "Constant",
+                "name": "heating_cooling_λ"
+            },
+            {
+                "_id": 13,
+                "type": "infer",
+                "name": "heating_cooling_•1"
+            },
+            {
+                "_id": 14,
+                "type": "Form0",
+                "name": "heating_Q̇"
+            }
+        ],
+        "TVar": [
+            {
+                "_id": 1,
+                "incl": 2
+            },
+            {
+                "_id": 2,
+                "incl": 5
+            }
+        ],
+        "Op1": [
+            {
+                "_id": 1,
+                "src": 1,
+                "tgt": 2,
+                "op1": "∂ₜ"
+            },
+            {
+                "_id": 2,
+                "src": 2,
+                "tgt": 5,
+                "op1": "∂ₜ"
+            },
+            {
+                "_id": 3,
+                "src": 13,
+                "tgt": 9,
+                "op1": "λ"
+            }
+        ],
+        "Op2": [
+            {
+                "_id": 1,
+                "proj1": 6,
+                "proj2": 3,
+                "res": 4,
+                "op2": "*"
+            },
+            {
+                "_id": 2,
+                "proj1": 4,
+                "proj2": 1,
+                "res": 5,
+                "op2": "*"
+            },
+            {
+                "_id": 3,
+                "proj1": 8,
+                "proj2": 2,
+                "res": 7,
+                "op2": "*"
+            },
+            {
+                "_id": 4,
+                "proj1": 11,
+                "proj2": 10,
+                "res": 13,
+                "op2": "-"
+            }
+        ],
+        "Σ": [
+            {
+                "_id": 1,
+                "sum": 14
+            }
+        ],
+        "Summand": [
+            {
+                "_id": 1,
+                "summand": 7,
+                "summation": 1
+            },
+            {
+                "_id": 2,
+                "summand": 9,
+                "summation": 1
+            }
+        ],
+        "Type": [
+        ],
+        "Operator": [
+        ],
+        "Name": [
+        ]
+    },
+    "_type": "ASKEMDecapode"
+}
