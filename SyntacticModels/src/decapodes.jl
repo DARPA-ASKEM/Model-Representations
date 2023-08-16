@@ -42,5 +42,20 @@ SyntacticModelsBase._dict(x::T) where {T<:Union{Decapodes.DecaExpr, Decapodes.Eq
   Dict(:_type => typename_last(T), [k=>_dict(getfield(x, k)) for k in fieldnames(T)]...)
 end
 
+StructTypes.StructType(::Type{Decapodes.Equation}) = StructTypes.AbstractType()
+StructTypes.subtypekey(::Type{Decapodes.Equation}) = :_type
+StructTypes.subtypes(::Type{Decapodes.Equation}) = (Eq=Eq,)
+
+StructTypes.StructType(::Type{Decapodes.Term}) = StructTypes.AbstractType()
+StructTypes.subtypekey(::Type{Decapodes.Term}) = :_type
+StructTypes.subtypes(::Type{Decapodes.Term}) = (Var=Decapodes.Var,
+  Lit=Decapodes.Lit,
+  Judgement=Decapodes.Judgement,
+  AppCirc1=Decapodes.AppCirc1,
+  App1=Decapodes.App1,
+  App2=Decapodes.App2,
+  Plus=Decapodes.Plus,
+  Mult=Decapodes.Mult,
+  Tan=Decapodes.Tan)
 
 end

@@ -10,6 +10,7 @@ using Catlab
 using ACSets
 using ACSets.JSONACSets
 using Decapodes
+using Test
 
 # Build the heder object describing the model.
 
@@ -62,3 +63,10 @@ write_json_model(mexpr)
 # to serialize the resulting combinatorial representation
 sm_write_json_acset(mpode.model, "$(mpode.header.name)-acset")
 # end
+
+
+ # Can we read back the models we just wrote?
+@testset "Decapodes Readback" begin
+  mexpr′ = readback(mexpr)
+  @test JSON3.write(mexpr) == JSON3.write(mexpr′)
+end

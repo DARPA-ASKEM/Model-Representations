@@ -9,6 +9,7 @@ using Decapodes
 using Catlab
 using Catlab.RelationalPrograms
 using Catlab.WiringDiagrams
+using Test
 
 
 
@@ -122,6 +123,11 @@ m = CompositeModelExpr(h,u, [OpenModel(d1, [:X, :Ẋ]),
         uwdʰ, [OpenModel(drag, [:V, :Q₊]), OpenModel(cooling, [:Q₋, :Q]), OpenModel(superposition, [:X, :Y, :T])])
 ])
 write_json_model(m)
+
+@testset "Composite Model Readback" begin
+  m′ = readback(m)
+  @test JSON3.write(m) == JSON3.write(m′)
+end
 
 dh = apex(oapply(m))
 
