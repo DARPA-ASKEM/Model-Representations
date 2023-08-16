@@ -3,7 +3,8 @@ using ..SyntacticModels.SyntacticModelsBase
 using ..SyntacticModels.AMR
 using ..SyntacticModels.ASKEMUWDs
 
-using JSON
+using Test
+using JSON3
 using Catlab.RelationalPrograms
 using Catlab.WiringDiagrams
 using Catlab.Graphics
@@ -27,19 +28,37 @@ s = [Statement(:R, [v1,v2]),
   Statement(:S, [v2,v3]),
   Statement(:T, [v3,v2, v4])]
 u = UWDExpr(c, s)
+
+@testset "UWDExpr Readback" begin
+  s = JSON3.write(u)
+  ujson = JSON3.read(s, UWDTerm)
+  # FIXME: can't compare u and ujson, because they aren't same object
+  # but they have the same JSON string
+  @test s == JSON3.write(ujson)
+end
+
 uwd = ASKEMUWDs.construct(RelationDiagram, u)
 
 h = AMR.Header("rst_relation", "modelreps.io/UWD", "A demo UWD showing generic relation composition", "UWDExpr", "v0.1")
 
-write_json_model(UWDModel(h, u))
+mexpr = UWDModel(h, u)
+write_json_model(mexpr)
+mexpr′ = readback(mexpr)
+@testset "UWD Readback" begin
+  @test mexpr.header == mexpr′.header
+  @test mexpr.uwd.context == mexpr′.uwd.context
+  @test mexpr.uwd.context == mexpr′.uwd.context
+  @test mexpr.uwd.statements[1].relation == mexpr′.uwd.statements[1].relation
+  @test mexpr.uwd.statements[1].variables == mexpr′.uwd.statements[1].variables
+  @test mexpr.uwd.statements[2].relation == mexpr′.uwd.statements[2].relation
+  @test mexpr.uwd.statements[2].variables == mexpr′.uwd.statements[2].variables
+  @test mexpr.uwd.statements[3].relation == mexpr′.uwd.statements[3].relation
+  @test mexpr.uwd.statements[3].variables == mexpr′.uwd.statements[3].variables
+  # TODO: overload == for statements
+  # @test all(mexpr.uwd.statements .== mexpr′.uwd.statements)
+  # @test mexpr == mexpr′
+end
 
 to_graphviz(uwd, box_labels=:name, junction_labels=:variable)
 
 display(uwd)
-
-SyntacticModelsBase._dict(x::AbstractVector) = map(_dict, x)
-
-using JSON3
-s = JSON3.write(u)
-ujson = JSON3.read(s, UWDTerm)
-ujson == u
