@@ -1,8 +1,10 @@
 {
-  "name": "SIR-Two-City-Flux Stratified Model",
-  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
-  "description": "SIR disease model stratified spatially between two cities model created by Patrick",
-  "model_version": "0.1",
+  "header": {
+    "name": "SIR-Two-City-Flux Stratified Model",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+    "description": "SIR disease model stratified spatially between two cities model created by Patrick",
+    "model_version": "0.1"
+  },
   "model": {
     "states": [
       {
@@ -154,10 +156,12 @@
     "span": [
       {
         "system": {
-          "name": "SIR Model",
-          "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
-          "description": "Typed SIR model created by Nelson, derived from the one by Ben, Micah, Brandon",
-          "model_version": "0.1",
+          "header": {
+            "name": "SIR Model",
+            "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+            "description": "Typed SIR model created by Nelson, derived from the one by Ben, Micah, Brandon",
+            "model_version": "0.1"
+          },
           "model": {
             "states": [
               {
@@ -316,10 +320,12 @@
             },
             "typing": {
               "system": {
-                "name": "Ontology Model w/ Pop and Vax States",
-                "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
-                "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
-                "model_version": "0.1",
+                "header": {
+                  "name": "Ontology Model w/ Pop and Vax States",
+                  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+                  "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
+                  "model_version": "0.1"
+                },
                 "model": {
                   "states": [
                     {
@@ -473,10 +479,12 @@
       },
       {
         "system": {
-          "name": "Two City Stratification Model",
-          "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
-          "description": "Stratification spatially between two cities model created by Micah",
-          "model_version": "0.1",
+          "header": {
+            "name": "Two City Stratification Model",
+            "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+            "description": "Stratification spatially between two cities model created by Micah",
+            "model_version": "0.1"
+          },
           "model": {
             "states": [
               {
@@ -547,10 +555,12 @@
             "ode": {},
             "typing": {
               "system": {
-                "name": "Ontology Model w/ Pop and Vax States",
-                "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
-                "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
-                "model_version": "0.1",
+                "header": {
+                  "name": "Ontology Model w/ Pop and Vax States",
+                  "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+                  "description": "Ontology Model w/ Population and Vaccine-Unit States. File created by Patrick based ontology created by Nelson",
+                  "model_version": "0.1"
+                },
                 "model": {
                   "states": [
                     {

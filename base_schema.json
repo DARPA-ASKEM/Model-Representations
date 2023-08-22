@@ -2,23 +2,37 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "name": {
-      "type": "string",
-      "description": "Name of the model."
+    "header": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the model."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the model."
+        },
+        "schema": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of a JSON schema document that describes the model stored in the 'model' parameter."
+        },
+        "schema_name": {
+          "type": "string",
+          "description": "The ID of the schema name. E.g. `petrinet`"
+        },
+        "model_version": {
+          "type": "string",
+          "description": "The version of the model."
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "schema"
+      ]
     },
-    "description": {
-      "type": "string",
-      "description": "A description of the model."
-    },
-    "schema": {
-      "type": "string",
-      "format": "uri",
-      "description": "URI of a JSON schema document that describes the model stored in the 'model' parameter."
-    },
-    "schema_name": {
-      "type": "string",
-      "description": "The ID of the schema name. E.g. `petrinet`"
-    },    
     "model": {
       "type": "object",
       "description": "JSON representation of a model. This should contain everything needed to fully run the model, including all rates/initial parameters/distributions/etc."
@@ -33,9 +47,7 @@
     }
   },
   "required": [
-    "name",
-    "description",
-    "schema",
+    "header",
     "model"
   ]
 }
