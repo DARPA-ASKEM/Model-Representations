@@ -1,7 +1,7 @@
 {
   "header": {
     "name": "Two City Stratification Model",
-    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
     "description": "Stratification spatially between two cities model created by Micah. Modified by Patrick.",
     "model_version": "0.1"
   },

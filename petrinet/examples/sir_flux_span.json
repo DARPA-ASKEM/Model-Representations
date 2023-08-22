@@ -1,7 +1,7 @@
 {
   "header": {
     "name": "SIR-Two-City-Flux Stratified Model",
-    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.5/petrinet/petrinet_schema.json",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
     "description": "SIR disease model stratified spatially between two cities model created by Patrick",
     "model_version": "0.1"
   },
