@@ -1,7 +1,7 @@
 {
   "header": {
     "name": "Syntax Edge Cases",
-    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.1/regnet/regnet_schema.json",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/regnet_v0.2/regnet/regnet_schema.json",
     "schema_name": "regnet",  
     "description": "A regulatory network to demonstrate syntactic edge cases of the JSON Schema of RegNets.",
     "model_version": "0.1"
