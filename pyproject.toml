@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "model-representations"
+version = "0.1.0"
+description = ""
+authors = ["Five Grant <5@fivegrant.com>"]
+readme = "README.md"
+packages = [{include = "amr"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pydantic = "^2.3.0"
+datamodel-code-generator = "^0.21.5"
+
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.22.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
