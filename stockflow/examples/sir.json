@@ -1,7 +1,7 @@
 {
   "header": {
     "name": "SIR Model",
-    "schema": "",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/stock-flow/stockflow/stockflow_schema.json",
     "description": "SIR model",
     "schema_name": "stockflow",
     "model_version": "0.1"
