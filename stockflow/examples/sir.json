@@ -104,22 +104,19 @@
             "id": "p_cbeta",
             "name": "p_cbeta",
             "description": "transmission rate",
-            "units": {},
-            "value": 0.0
+            "value": 0.35
         },
         {
             "id": "p_N",
             "name": "p_N",
             "description": "overall population",
-            "units": {},
-            "value": 0.0
+            "value": 1001
         },
         {
             "id": "p_tr",
             "name": "p_tr",
             "description": "recovery time",
-            "units": {},
-            "value": 0.0
+            "value": 14
         },
         {
             "id": "S0",
