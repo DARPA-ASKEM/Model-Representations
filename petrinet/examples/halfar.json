@@ -172,43 +172,43 @@
       "rates": [
         {
           "target": "w_n_0",
-          "expression": "-1*gamma*(h_1-h_0)^3*h_0^5"
+          "expression": "-1*gamma*(h_1-h_0)**3*h_0**5"
         },
         {
           "target": "w_p_0",
-          "expression": "gamma*(h_2-h_1)^3*h_1^5"
+          "expression": "gamma*(h_2-h_1)**3*h_1**5"
         },
         {
           "target": "w_n_1",
-          "expression": "-1*gamma*(h_2-h_1)^3*h_1^5"
+          "expression": "-1*gamma*(h_2-h_1)**3*h_1**5"
         },
         {
           "target": "w_p_1",
-          "expression": "gamma*(h_3-h_2)^3*h_2^5"
+          "expression": "gamma*(h_3-h_2)**3*h_2**5"
         },
         {
           "target": "w_n_2",
-          "expression": "-1*gamma*(h_3-h_2)^3*h_2^5"
+          "expression": "-1*gamma*(h_3-h_2)**3*h_2**5"
         },
         {
           "target": "w_p_2",
-          "expression": "gamma*(h_4-h_3)^3*h_3^5"
+          "expression": "gamma*(h_4-h_3)**3*h_3**5"
         },
         {
           "target": "w_n_3",
-          "expression": "-1*gamma*(h_3-h_2)^3*h_2^5"
+          "expression": "-1*gamma*(h_3-h_2)**3*h_2**5"
         },
         {
           "target": "w_p_3",
-          "expression": "gamma*(h_4-h_3)^3*h_3^5"
+          "expression": "gamma*(h_4-h_3)**3*h_3**5"
         },
         {
           "target": "w_n_4",
-          "expression": "-1*gamma*(h_3-h_2)^3*h_2^5"
+          "expression": "-1*gamma*(h_3-h_2)**3*h_2**5"
         },
         {
           "target": "w_p_4",
-          "expression": "gamma*(h_4-h_3)^3*h_3^5"
+          "expression": "gamma*(h_4-h_3)**3*h_3**5"
         }
       ],
       "initials": [
