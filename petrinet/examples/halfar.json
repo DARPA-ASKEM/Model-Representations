@@ -1,7 +1,7 @@
 {
   "header": {
     "name": "Halfar Model",
-    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
     "schema_name": "petrinet",
     "description": "Halfar ice model as Petrinet model, created by Dan Bryce and Drisana Mosiphir",
     "model_version": "0.1"
