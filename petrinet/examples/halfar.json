@@ -1,0 +1,258 @@
+{
+  "header": {
+    "name": "Halfar Model",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.6/petrinet/petrinet_schema.json",
+    "schema_name": "petrinet",
+    "description": "Halfar ice model as Petrinet model, created by Dan Bryce and Drisana Mosiphir",
+    "model_version": "0.1"
+  },
+  "model": {
+    "states": [
+      {
+        "id": "h_0",
+        "name": "h_0",
+        "description": "height"
+      },
+      {
+        "id": "h_1",
+        "name": "h_1",
+        "description": "height"
+      },
+      {
+        "id": "h_2",
+        "name": "h_2",
+        "description": "height"
+      },
+      {
+        "id": "h_3",
+        "name": "h_3",
+        "description": "height"
+      },
+      {
+        "id": "h_4",
+        "name": "h_4",
+        "description": "height"
+      }
+    ],
+    "transitions": [
+      {
+        "id": "w_n_0",
+        "input": [
+          "h_1",
+          "h_0"
+        ],
+        "output": [
+          "h_0"
+        ],
+        "properties": {
+          "name": "w_n_0"
+        }
+      },
+      {
+        "id": "w_p_0",
+        "input": [
+          "h_2",
+          "h_1"
+        ],
+        "output": [
+          "h_0"
+        ],
+        "properties": {
+          "name": "w_p_0"
+        }
+      },
+      {
+        "id": "w_n_1",
+        "input": [
+          "h_2",
+          "h_1"
+        ],
+        "output": [
+          "h_1"
+        ],
+        "properties": {
+          "name": "w_n_1"
+        }
+      },
+      {
+        "id": "w_p_1",
+        "input": [
+          "h_3",
+          "h_2"
+        ],
+        "output": [
+          "h_1"
+        ],
+        "properties": {
+          "name": "w_p_1"
+        }
+      },
+      {
+        "id": "w_n_2",
+        "input": [
+          "h_3",
+          "h_2"
+        ],
+        "output": [
+          "h_2"
+        ],
+        "properties": {
+          "name": "w_n_2"
+        }
+      },
+      {
+        "id": "w_p_2",
+        "input": [
+          "h_4",
+          "h_3"
+        ],
+        "output": [
+          "h_2"
+        ],
+        "properties": {
+          "name": "w_p_2"
+        }
+      },
+      {
+        "id": "w_n_3",
+        "input": [
+          "h_2",
+          "h_3"
+        ],
+        "output": [
+          "h_3"
+        ],
+        "properties": {
+          "name": "w_n_3"
+        }
+      },
+      {
+        "id": "w_p_3",
+        "input": [
+          "h_4",
+          "h_3"
+        ],
+        "output": [
+          "h_3"
+        ],
+        "properties": {
+          "name": "w_p_3"
+        }
+      },
+      {
+        "id": "w_n_4",
+        "input": [
+          "h_2",
+          "h_3"
+        ],
+        "output": [
+          "h_4"
+        ],
+        "properties": {
+          "name": "w_n_4"
+        }
+      },
+      {
+        "id": "w_p_4",
+        "input": [
+          "h_3",
+          "h_4"
+        ],
+        "output": [
+          "h_4"
+        ],
+        "properties": {
+          "name": "w_p_4"
+        }
+      }
+    ]
+  },
+  "semantics": {
+    "ode": {
+      "rates": [
+        {
+          "target": "w_n_0",
+          "expression": "-1*gamma*(h_1-h_0)**3*h_0**5"
+        },
+        {
+          "target": "w_p_0",
+          "expression": "gamma*(h_2-h_1)**3*h_1**5"
+        },
+        {
+          "target": "w_n_1",
+          "expression": "-1*gamma*(h_2-h_1)**3*h_1**5"
+        },
+        {
+          "target": "w_p_1",
+          "expression": "gamma*(h_3-h_2)**3*h_2**5"
+        },
+        {
+          "target": "w_n_2",
+          "expression": "-1*gamma*(h_3-h_2)**3*h_2**5"
+        },
+        {
+          "target": "w_p_2",
+          "expression": "gamma*(h_4-h_3)**3*h_3**5"
+        },
+        {
+          "target": "w_n_3",
+          "expression": "-1*gamma*(h_3-h_2)**3*h_2**5"
+        },
+        {
+          "target": "w_p_3",
+          "expression": "gamma*(h_4-h_3)**3*h_3**5"
+        },
+        {
+          "target": "w_n_4",
+          "expression": "-1*gamma*(h_3-h_2)**3*h_2**5"
+        },
+        {
+          "target": "w_p_4",
+          "expression": "gamma*(h_4-h_3)**3*h_3**5"
+        }
+      ],
+      "initials": [
+        {
+          "target": "h_0",
+          "expression": "0.1"
+        },
+        {
+          "target": "h_1",
+          "expression": "0.5"
+        },
+        {
+          "target": "h_2",
+          "expression": "1.0"
+        },
+        {
+          "target": "h_3",
+          "expression": "0.5"
+        },
+        {
+          "target": "h_4",
+          "expression": "0.1"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "gamma",
+          "value": 1.0,
+          "distribution": {
+            "type": "StandardUniform1",
+            "parameters": {
+              "minimum": 0.0,
+              "maximum": 1.0
+            }
+          }
+        }
+      ],
+      "time": {
+        "id": "t",
+        "units": {
+          "expression": "day",
+          "expression_mathml": "<ci>day</ci>"
+        }
+      }
+    }
+  }
+}
