@@ -1,0 +1,22 @@
+@sum MeshValue begin
+  File(uri::String, checksum::String, format::String, shape::Vector{Int64})
+  Values(values::Vector{Int64})
+end
+
+struct Constants
+  name::String
+  global_ref::String
+end
+
+struct Header
+  id::String
+  description::String
+  name::String
+  parent::String
+end
+
+struct ASKEMDecapodeParameterization
+  header::Header
+  parameters::Vector{Float64}
+  constants::Vector{Constants}
+end
