@@ -1,0 +1,170 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$defs": {
+    "Dimensionality": {
+      "type": "object",
+      "properties": {
+        "surface": {
+          "type": "string",
+          "$comment": "I64"
+        },
+        "embedding": {
+          "type": "string",
+          "$comment": "I64"
+        }
+      },
+      "required": [
+        "surface",
+        "embedding"
+      ]
+    },
+    "Equation": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "Equation"
+        },
+        "equation": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "equation"
+      ]
+    },
+    "SubmeshRelation": {
+      "type": "object",
+      "properties": {
+        "parent": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "child": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "parent",
+        "child"
+      ]
+    },
+    "Mesh": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "file": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "checksum": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "submesh_relation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SubmeshRelation"
+          }
+        },
+        "dimensionality": {
+          "$ref": "#/$defs/Dimensionality"
+        },
+        "vertex_count": {
+          "type": "string",
+          "$comment": "I64"
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Region"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "file",
+        "checksum",
+        "submesh_relation",
+        "dimensionality",
+        "vertex_count",
+        "regions"
+      ]
+    },
+    "Configuration": {
+      "type": "object",
+      "properties": {
+        "meshes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Mesh"
+          }
+        },
+        "dimensionality": {
+          "type": "string",
+          "$comment": "I64"
+        },
+        "boundary_mesh": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "meshes",
+        "dimensionality",
+        "boundary_mesh"
+      ]
+    },
+    "Header": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "parent": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "name",
+        "parent"
+      ]
+    },
+    "ASKEMDecapodeConfig": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/Header"
+        },
+        "configuration": {
+          "$ref": "#/$defs/Configuration"
+        }
+      },
+      "required": [
+        "header",
+        "configuration"
+      ]
+    }
+  }
+}
