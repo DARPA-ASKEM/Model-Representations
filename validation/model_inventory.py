@@ -7,7 +7,9 @@
 
 from pathlib import Path
 from typing import Union
+from itertools import chain
 import json
+import sympy
 
 
 def fetch_path(path, doc):
@@ -18,6 +20,7 @@ def fetch_path(path, doc):
 
 
 def fetch_parameters(amr):
+    # Based on schema, the parameters are found in different places...
     if amr["header"].get("schema_name", None) == "regnet":
         return fetch_path(["model", "parameters"], amr)
     else:
@@ -60,7 +63,6 @@ def param_at_least_one_distribution(amr: dict):
     try:
         semantics = fetch_parameters(amr)
     except KeyError as e:
-        raise e
         return "missing param semantics section", str(e)
 
     has_dist = {e["id"]: "distribution" in e for e in semantics}
@@ -82,6 +84,35 @@ def rate_laws(amr: dict):
 
     # -- For each rate law: Parse teh 'expression' with sympy, check that those variables exist in the AMR as a state or a parameter
     return summary, result
+
+
+def rate_law_parse(amr: dict):
+    "Check that each rate-law refers to vars/params defined in the amr"
+    try:
+        rates = fetch_path(["semantics", "ode", "rates"], amr)
+    except KeyError as e:
+        return "missing rate semantics section", str(e)
+
+    try:
+        params = fetch_parameters(amr)
+    except KeyError as e:
+        return "missing param semantics section", str(e)
+
+    try:
+        states = fetch_path(["model", "states"], amr)
+    except KeyError as e:
+        return "missing state list", str(e)
+
+    vars = {e["id"]: sympy.Symbol(e["id"]) for e in chain(states, params)}
+    for rate in rates:
+        try:
+            in_expr = rate["expression"]
+            out_expr = sympy.parse_expr(in_expr, local_dict=vars)
+        except Exception:
+            return "Rate law expression invalid", f"Error parsing: {in_expr}"
+
+    defs = {str(s): s in vars.keys() for s in out_expr.free_symbols}
+    return all(defs.values()), defs
 
 
 def initial_values(amr: dict):
@@ -116,10 +147,6 @@ def observables(amr: dict):
     return summary, result
 
 
-# -- CHeck the 'schema_name', only use the 'right parser' for each schema (maybe go through mira)
-#  - stock-and-flow
-
-
 def check_schema(source: Union[dict, Path, str], summary=False):
     if isinstance(source, str):
         source = Path(source)
@@ -142,6 +169,7 @@ def check_schema(source: Union[dict, Path, str], summary=False):
             ],
             "parameter dist/value set": param_distribution_or_value(data)[part],
             "rate laws present": rate_laws(data)[part],
+            "rate law vars defined": rate_law_parse(data)[part],
             "initial values present": initial_values(data)[part],
             "observables found": observables(data)[part],
         }
