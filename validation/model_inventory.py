@@ -146,7 +146,18 @@ def observables(amr: dict):
     return summary, result
 
 
-def check_schema(source: Union[dict, Path, str], summary=False):
+def check_amr(source: Union[dict, Path, str], summary=False):
+    """Do a battery of testa against an AMR.
+
+    Args:
+        source (Union[dict, Path, str]): AMR data as JSON-like object
+                or file-path (string or Path)
+        summary (bool, optional): Produce details, or just a true/false
+                summary for each test? (Default false)
+
+    Returns:
+        JSON description of inventory resutls
+    """
     if isinstance(source, str):
         source = Path(source)
 
@@ -185,14 +196,14 @@ if __name__ == "__main__":
     parser.add_argument("files", nargs="+", type=Path, help="Files to parse")
     parser.add_argument(
         "--format",
-        choices=["txt", "json"],
+        choices=["txt", "json", "json-summary"],
         default="txt",
         help="Output format.  'txt' for human-readable or 'json'.",
     )
     args = parser.parse_args()
-    summary = args.format == "txt"
+    summary = args.format in ["txt", "json-summary"]
 
-    results = [check_schema(file, summary) for file in args.files]
+    results = [check_amr(file, summary) for file in args.files]
     if args.format == "txt":
         import pandas as pd
 
