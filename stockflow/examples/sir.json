@@ -104,7 +104,14 @@
             "id": "p_cbeta",
             "name": "p_cbeta",
             "description": "transmission rate",
-            "value": 0.35
+            "value": 0.35,
+            "distribution": {
+              "type": "Uniform1",
+              "parameters":{
+                "minimum": 0.25,
+                "maximum": 0.45
+              }
+            }
         },
         {
             "id": "p_N",
@@ -116,7 +123,14 @@
             "id": "p_tr",
             "name": "p_tr",
             "description": "recovery time",
-            "value": 14
+            "value": 14,
+            "distribution": {
+              "type": "Uniform1",
+              "parameters":{
+                "minimum": 8,
+                "maximum": 20
+              }
+            }
         },
         {
             "id": "S0",
