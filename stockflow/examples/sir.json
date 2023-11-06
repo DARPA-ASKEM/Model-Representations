@@ -104,7 +104,14 @@
             "id": "p_cbeta",
             "name": "p_cbeta",
             "description": "transmission rate",
-            "value": 0.35
+            "value": 0.35,
+            "distribution": {
+              "type": "Uniform1",
+              "parameters":{
+                "minimum": 0.33,
+                "maximum": 0.37
+              }
+            }
         },
         {
             "id": "p_N",
