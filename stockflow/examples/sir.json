@@ -108,8 +108,8 @@
             "distribution": {
               "type": "Uniform1",
               "parameters":{
-                "minimum": 0.33,
-                "maximum": 0.37
+                "minimum": 0.25,
+                "maximum": 0.45
               }
             }
         },
@@ -123,7 +123,14 @@
             "id": "p_tr",
             "name": "p_tr",
             "description": "recovery time",
-            "value": 14
+            "value": 14,
+            "distribution": {
+              "type": "Uniform1",
+              "parameters":{
+                "minimum": 8,
+                "maximum": 20
+              }
+            }
         },
         {
             "id": "S0",
