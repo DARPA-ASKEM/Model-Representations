@@ -82,7 +82,6 @@ def rate_laws(amr: dict):
     result = {t: t in rate_targets for t in transitions}
     summary = all(result.values())
 
-    # -- For each rate law: Parse teh 'expression' with sympy, check that those variables exist in the AMR as a state or a parameter
     return summary, result
 
 
@@ -188,7 +187,7 @@ if __name__ == "__main__":
         "--format",
         choices=["txt", "json"],
         default="txt",
-        help="Output format.  'txt' for human-readable (requires pandas), 'json' for machine-parsed.",
+        help="Output format.  'txt' for human-readable or 'json'.",
     )
     args = parser.parse_args()
     summary = args.format == "txt"
