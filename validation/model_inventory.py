@@ -13,11 +13,15 @@ import json
 def fetch_path(path, doc):
     """Fetches a literal path from a json document.  (A named-key-descent)."""
     for step in path:
-        try:
-            doc = doc[step]
-        except KeyError:
-            return None
+        doc = doc[step]
     return doc
+
+
+def fetch_parameters(amr):
+    if amr["header"].get("schema_name", None) == "regnet":
+        return fetch_path(["model", "parameters"], amr)
+    else:
+        return fetch_path(["semantics", "ode", "parameters"], amr)
 
 
 def count_falses(issues: list[str, bool]) -> Union[None, int]:
@@ -36,92 +40,84 @@ def count_not_empty(issues: list[str, any]) -> Union[None, int]:
     return len(issues) - sum([(v is None or len(v) == 0) for v in issues.values()])
 
 
-def size_largest(issues: list[str, any]) -> Union[None, int]:
-    """How many non-empty dict/list/sets in the dict values?
-    (None if the dict is empty.)
+def param_distribution_or_value(amr: dict, summary=False):
     """
-    if not issues or len(issues) == 0:
-        return None
-    largest = sorted(issues.values(), key=len, reverse=True)[0]
-    return len(largest)
-
-
-def distributions(amr: dict, summary=False):
+    Does each parameter have a distribution or a value associated with it?
     """
-    Checks if there each parameter has a distribution or a value
-    associated with it.
-    """
+    try:
+        semantics = fetch_parameters(amr)
+    except KeyError as e:
+        return "missing param semantics", str(e)
 
-    paths = [["semantics", "ode", "parameters"], ["semantics", "pde", "parameters"]]
+    result = {e["id"]: ("value" in e or "distribution" in e) for e in semantics}
+    summary = all(result.values())
 
-    def _test(entry):
-        return "value" in entry or "distriubution" in entry
-
-    issues = {}
-    for path in paths:
-        target = fetch_path(path, amr)
-        if target:
-            partial = {"/".join(path + [e["id"]]): _test(e) for e in target}
-            issues = {**issues, **partial}
-
-    if summary:
-        return count_falses(issues)
-    else:
-        return issues
+    return summary, result
 
 
-def rate_laws(amr: dict, summary: bool = False):
-    """Check that each transition has a rate-law semantic"""
-    paths = [["semantics", "ode", "rates"], ["semantics", "pde", "rates"]]
+def param_at_least_one_distribution(amr: dict):
+    "Is there at least one parameter with a distribution"
+    try:
+        semantics = fetch_parameters(amr)
+    except KeyError as e:
+        raise e
+        return "missing param semantics section", str(e)
+
+    has_dist = {e["id"]: "distribution" in e for e in semantics}
+    result = any(has_dist.values())
+    return result, result
+
+
+def rate_laws(amr: dict):
+    "Check that each transition has a rate-law semantic that is well-formed"
+    try:
+        semantics = fetch_path(["semantics", "ode", "rates"], amr)
+    except KeyError as e:
+        return "missing rate semantics section", str(e)
 
     transitions = {e["id"] for e in fetch_path(["model", "transitions"], amr)}
+    rate_targets = [e["target"] for e in semantics]
+    result = {t: t in rate_targets for t in transitions}
+    summary = all(result.values())
 
-    issues = {}
-    for path in paths:
-        target = fetch_path(path, amr)
-        if target:
-            targets = [e["target"] for e in target]
-            missing = transitions - set(targets)
-            issues["/".join(path)] = missing
-
-    if summary:
-        return size_largest(issues)
-    else:
-        return issues
+    # -- For each rate law: Parse teh 'expression' with sympy, check that those variables exist in the AMR as a state or a parameter
+    return summary, result
 
 
-def initial_values(amr: dict, summary: bool = False):
-    paths = [["semantics", "ode", "rates"], ["semantics", "pde", "rates"]]
-    states = {e["id"] for e in fetch_path(["model", "states"], amr)}
+def initial_values(amr: dict):
+    """Check that each state has an initial value"""
+    try:
+        inits = fetch_path(["semantics", "ode", "initials"], amr)
+    except KeyError as e:
+        return "missing initial value section", str(e)
 
-    issues = {}
-    for path in paths:
-        target = fetch_path(path, amr)
-        if target:
-            targets = [e["target"] for e in target]
-            missing = states - set(targets)
-            issues["/".join(path)] = missing
+    try:
+        states = {e["id"] for e in fetch_path(["model", "states"], amr)}
+    except KeyError as e:
+        return "missing state list", str(e)
 
-    if summary:
-        return size_largest(issues)
-    else:
-        return issues
+    init_targets = [e["target"] for e in inits]
+    result = {s: s in init_targets for s in states}
+    summary = all(result.values())
+
+    return summary, result
 
 
-def observables(amr: dict, summary: bool = False):
+def observables(amr: dict):
     """How many observables are there?"""
-    paths = [["semantics", "ode", "observables"], ["semantics", "pde", "observables"]]
+    try:
+        semantics = fetch_path(["semantics", "ode", "observables"], amr)
+    except KeyError:
+        return 0, "No observables section found"
 
-    found = {}
-    for path in paths:
-        target = fetch_path(path, amr)
-        p = "/".join(path)
-        found[p] = [t["id"] for t in target] if target else None
+    result = [t["id"] for t in semantics]
+    summary = len(result)
 
-    if summary:
-        return count_not_empty(found)
-    else:
-        return found
+    return summary, result
+
+
+# -- CHeck the 'schema_name', only use the 'right parser' for each schema (maybe go through mira)
+#  - stock-and-flow
 
 
 def check_schema(source: Union[dict, Path, str], summary=False):
@@ -129,26 +125,30 @@ def check_schema(source: Union[dict, Path, str], summary=False):
         source = Path(source)
 
     if isinstance(source, Path):
-        source_id = source.name
+        source_id = str(source)
         with open(source) as f:
             data = json.load(f)
     else:
         source_id = "<json>"
         data = source
 
+    part = 0 if summary else 1
+
     try:
         return {
             "source": source_id,
-            "distributions": distributions(data, summary),
-            "rate laws": rate_laws(data, summary),
-            "initial values": initial_values(data, summary),
-            "observables": observables(data, summary),
+            "parameter distribtuion exists": param_at_least_one_distribution(data)[
+                part
+            ],
+            "parameter dist/value set": param_distribution_or_value(data)[part],
+            "rate laws present": rate_laws(data)[part],
+            "initial values present": initial_values(data)[part],
+            "observables found": observables(data)[part],
         }
-    except Exception:
+    except Exception as e:
         if source_id != "json":
             source_id = str(source)
-        print(f"Error processing {source_id}")
-        return {"source": source_id}
+        return {"source": source_id, "message": str(e)}
 
 
 if __name__ == "__main__":
@@ -169,8 +169,15 @@ if __name__ == "__main__":
     if args.format == "txt":
         import pandas as pd
 
-        df = pd.DataFrame(results).set_index("source")
-        print("Summary of failures")
-        print(df.to_markdown())
+        errors = [e for e in results if "message" in e]
+        cleaned = [e for e in results if "message" not in e]
+
+        if len(cleaned) > 0:
+            df = pd.DataFrame(cleaned).set_index("source")
+            print(df.to_markdown())
+
+        for error in errors:
+            print(f"Error loading {error['source']}: {error['message']}")
+
     else:
-        print(results)
+        print(json.dumps(results, indent=2))
