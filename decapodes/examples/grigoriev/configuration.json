@@ -1,0 +1,53 @@
+{
+    "header": {
+        "id": "a77d037d-7e75-4f2e-ae7b-8de7499cd3b2",
+        "name": "Grigoriev ice cap",
+        "description": "Simulation of Grigoriev ice cap",
+        "parent": "5266e066-b8c6-4021-a67c-7a6ee00b0af3"
+    },
+    "configuration": {
+        "meshes": [
+            {
+                "id": "621bf3ea-39ec-4201-88f3-e038123aaf90",
+                "description": "Measured depth of Grigoriev ice cap - 1971",
+                "dimensionality": {
+                    "surface": 3,
+                    "embedding": -1
+                },
+                "vertex_count": 304,
+                "edge_count": 601,
+                "regions (optional)": {},
+                "checksum (optional?)": "",
+                "file": {
+                    "uri": "file:///data/Grigoriev_ice_cap.obj",
+                    "format": "objmesh"
+                }
+            },
+            {
+                "id": "f96f8e66-4665-4b8f-98fb-9f84801af890",
+                "description": "Vertical bisection of ice for evaluation",
+                "file": {
+                    "url": "http://askem.com/halfar-bisection.stl",
+                    "format": "stl"
+                },
+                "dimensionality": "3d",
+                "vertex_count": 12
+            }
+        ],
+        "mesh_values": {
+            "621bf3ea-39ec-4201-88f3-e038123aaf90": {
+                "file": {
+                    "uri": "file:///data/Grigoriev_ice_cap_1971.nc",
+                    "format": "netcdf",
+                    "shape": [304, 2],
+                    "mapping": {
+                        "phi": "depth"
+                    }
+                }
+            }
+        },
+        "submesh_relation": [["7c6a241f-af25-48b0-a574-1a94b998d80e", "f96f8e66-4665-4b8f-98fb-9f84801af890"]],
+        "dimensionality": "3d",
+        "boundary_mesh": "2c01dc40-950c-4e39-851e-46f39fb22925"
+    }
+}

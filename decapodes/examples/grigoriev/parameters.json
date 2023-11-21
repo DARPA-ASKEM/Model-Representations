@@ -1,0 +1,26 @@
+{
+    "header": {
+        "id": "02357da1-7bac-47f9-b8d7-58d681520f69",
+        "name": "Base scenario",
+        "description": "Base scenario for the Grigoriev ice cap",
+        "parent": "a77d037d-7e75-4f2e-ae7b-8de7499cd3b2"
+    },
+    "mesh_values": {
+        "621bf3ea-39ec-4201-88f3-e038123aaf90": {
+            "file": {
+                "uri": "file:///data/Grigoriev_ice_cap_2021.nc",
+                "format": "netcdf",
+                "shape": [304, 2],
+                "mapping": {
+                    "phi": "depth"
+                }
+            }
+        }
+    },
+    "parameters": {
+        "lambda": "3.1142",
+        "gamma": [1.4, 22.4, 11.4, 3.0]
+    },
+    "constants": {
+    }
+}
