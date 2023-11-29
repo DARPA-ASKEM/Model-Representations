@@ -3,24 +3,72 @@
         "id": "02357da1-7bac-47f9-b8d7-58d681520f69",
         "name": "Base scenario",
         "description": "Base scenario for the Grigoriev ice cap",
-        "parent": "a77d037d-7e75-4f2e-ae7b-8de7499cd3b2"
+        "parent_context": "a77d037d-7e75-4f2e-ae7b-8de7499cd3b2"
     },
-    "mesh_values": {
-        "621bf3ea-39ec-4201-88f3-e038123aaf90": {
-            "file": {
-                "uri": "file:///data/Grigoriev_ice_cap_2021.nc",
-                "format": "netcdf",
-                "shape": [304, 2],
-                "mapping": {
-                    "phi": "depth"
+    "configuration": {
+        "parameters": {
+            "n": {
+                "type": "literal",
+                "value": 3
+            },
+            "p": {
+                "type": "literal",
+                "value": 910
+            },
+            "g": {
+                "type": "constant",
+                "value": "NIST.PhysicalConstants.g"
+            },
+            "A": {
+                "type": "literal",
+                "value": 1e-16
+            }
+        },
+        "initial_conditions": {
+            "h": {
+                "type": "mesh_value",
+                "value": "200",
+                "domain_mesh": "123"
+            }
+        },
+        "boundary_conditions": {
+            "h": {
+                "type": "mesh_value",
+                "value": "201",
+                "domain_mesh": "125" 
+            }
+        },
+        "datasets": {
+            "200": {
+                "type": "mesh_value",
+                "name": "ice thickness at time zero defined on new triangular mesh",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/h_init.nc",
+                    "format": "netcdf",
+                    "shape": [304, 2]
+                }
+            },
+            "201": {
+                "type": "mesh_value",
+                "name": "ice thickness for all time defined on the boundary of the new triangular mesh",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/h_boundary.nc",
+                    "format": "netcdf",
+                    "shape": [304, 2]
+                }
+            },
+            "621bf3ea-39ec-4201-88f3-e038123aaf90": {
+                "type": "mesh_value",
+                "name": "",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/Grigoriev_ice_cap_2021.nc",
+                    "format": "netcdf",
+                    "shape": [304, 2]
                 }
             }
         }
-    },
-    "configuration": {
-        "lambda": "3.1142",
-        "gamma": [1.4, 22.4, 11.4, 3.0]
-    },
-    "constants": {
     }
 }
