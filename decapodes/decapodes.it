@@ -23,3 +23,17 @@ struct DecaExpr
   context::Vector{Judgement}
   equations::Vector{Equation}
 end
+
+struct Header
+    id::Union{String, Nothing}
+    description::String,
+    name::String,
+    model_version::String,
+    schema::String
+    schema_name::String	
+end
+
+struct ASKEMDecapode
+  header::Header
+  model::DecaExpr
+end
