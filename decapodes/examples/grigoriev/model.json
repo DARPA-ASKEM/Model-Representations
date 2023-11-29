@@ -324,11 +324,5 @@
     "Type": [],
     "Operator": [],
     "Name": []
-  },
-  "defaults": {
-    "constants": {
-      "beta": 5.23533e8,
-      "pi": "PI"
-    }
   }
 }
