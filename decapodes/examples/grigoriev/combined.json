@@ -325,7 +325,7 @@
     "Operator": [],
     "Name": []
   },
-  "configuration": {
+  "context": {
       "meshes": [
           {
               "id": "621bf3ea-39ec-4201-88f3-e038123aaf90",
@@ -370,7 +370,7 @@
         }
     }
   },
-  "parameters": {
+  "configuration": {
       "lambda": "3.1142",
       "gamma": [1.4, 22.4, 11.4, 3.0]
   },
