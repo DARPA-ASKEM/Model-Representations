@@ -17,7 +17,7 @@
             },
             "g": {
                 "type": "constant",
-                "value": "NIST.PhysicalConstants.g"
+                "value": "NISTPhysicalConstants.g"
             },
             "A": {
                 "type": "literal",
@@ -27,19 +27,19 @@
         "initial_conditions": {
             "h": {
                 "type": "mesh_value",
-                "value": "200",
-                "domain_mesh": "123"
+                "value": "86ea232c-0b07-4163-8121-0c1e6a51a1d2",
+                "domain_mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa"
             }
         },
         "boundary_conditions": {
             "h": {
                 "type": "mesh_value",
-                "value": "201",
-                "domain_mesh": "125" 
+                "value": "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f",
+                "domain_mesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702" 
             }
         },
         "datasets": {
-            "200": {
+            "86ea232c-0b07-4163-8121-0c1e6a51a1d2": {
                 "type": "mesh_value",
                 "name": "ice thickness at time zero defined on new triangular mesh",
                 "description": "",
@@ -49,7 +49,7 @@
                     "shape": [304, 2]
                 }
             },
-            "201": {
+            "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f": {
                 "type": "mesh_value",
                 "name": "ice thickness for all time defined on the boundary of the new triangular mesh",
                 "description": "",
