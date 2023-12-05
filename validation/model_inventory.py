@@ -196,15 +196,15 @@ if __name__ == "__main__":
     parser.add_argument("files", nargs="+", type=Path, help="Files to parse")
     parser.add_argument(
         "--format",
-        choices=["txt", "json", "json-summary"],
-        default="txt",
-        help="Output format.  'txt' for human-readable or 'json'.",
+        choices=["md", "json", "html", "json-detail"],
+        default="md",
+        help="Output format.  (choose 'md' for human-readable in console).",
     )
     args = parser.parse_args()
-    summary = args.format in ["txt", "json-summary"]
+    summary = args.format != "json-detail"
 
     results = [check_amr(file, summary) for file in args.files]
-    if args.format == "txt":
+    if args.format in ["html", "md"]:
         import pandas as pd
 
         errors = [e for e in results if "message" in e]
@@ -212,7 +212,10 @@ if __name__ == "__main__":
 
         if len(cleaned) > 0:
             df = pd.DataFrame(cleaned).set_index("source")
-            print(df.to_markdown())
+            if args.format == "md":
+                print(df.to_markdown())
+            elif args.format == "html":
+                print(df.to_html())
 
         for error in errors:
             print(f"Error loading {error['source']}: {error['message']}")
