@@ -205,7 +205,11 @@ if __name__ == "__main__":
 
     results = [check_amr(file, summary) for file in args.files]
     if args.format in ["html", "md"]:
-        import pandas as pd
+        try:
+            import pandas as pd
+        except:
+            print(f"To use {args.format}, pandas must be installed.")
+            raise
 
         errors = [e for e in results if "message" in e]
         cleaned = [e for e in results if "message" not in e]
