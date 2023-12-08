@@ -1,0 +1,74 @@
+{
+    "header": {
+        "id": "02357da1-7bac-47f9-b8d7-58d681520f69",
+        "name": "Base scenario",
+        "description": "Base scenario for the Grigoriev ice cap",
+        "parent_context": "a77d037d-7e75-4f2e-ae7b-8de7499cd3b2"
+    },
+    "configuration": {
+        "parameters": {
+            "n": {
+                "type": "literal",
+                "value": 3
+            },
+            "p": {
+                "type": "literal",
+                "value": 910
+            },
+            "g": {
+                "type": "constant",
+                "value": "NISTPhysicalConstants.g"
+            },
+            "A": {
+                "type": "literal",
+                "value": 1e-16
+            }
+        },
+        "initial_conditions": {
+            "h": {
+                "type": "mesh_value",
+                "value": "86ea232c-0b07-4163-8121-0c1e6a51a1d2",
+                "domain_mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa"
+            }
+        },
+        "boundary_conditions": {
+            "h": {
+                "type": "mesh_value",
+                "value": "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f",
+                "domain_mesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702" 
+            }
+        },
+        "datasets": {
+            "86ea232c-0b07-4163-8121-0c1e6a51a1d2": {
+                "type": "mesh_value",
+                "name": "ice thickness at time zero defined on new triangular mesh",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/h_init.nc",
+                    "format": "netcdf",
+                    "shape": [304, 2]
+                }
+            },
+            "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f": {
+                "type": "mesh_value",
+                "name": "ice thickness for all time defined on the boundary of the new triangular mesh",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/h_boundary.nc",
+                    "format": "netcdf",
+                    "shape": [304, 2]
+                }
+            },
+            "621bf3ea-39ec-4201-88f3-e038123aaf90": {
+                "type": "mesh_value",
+                "name": "",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/Grigoriev_ice_cap_2021.nc",
+                    "format": "netcdf",
+                    "shape": [304, 2]
+                }
+            }
+        }
+    }
+}
