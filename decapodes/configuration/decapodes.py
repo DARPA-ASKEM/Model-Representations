@@ -5,40 +5,26 @@ from pydantic import Field, TypeAdapter
 from intertypes import SafeInt, InterTypeBase
 
 
-class Dimensionality(InterTypeBase):
-    surface: SafeInt
-    embedding: SafeInt
-
-
-class Equation(InterTypeBase):
-    tag: Literal["Equation"] = Field(default="Equation", alias="_type", repr=False)
-    equation: str
-
-
-Region = Annotated[Equation, Field(discriminator="tag")]
-region_adapter: TypeAdapter[Region] = TypeAdapter(Region)
-
-
-class SubmeshRelation(InterTypeBase):
-    parent: str
-    child: str
-
-
-class Mesh(InterTypeBase):
-    id: str
-    description: str
-    file: str
+class File(InterTypeBase):
+    tag: Literal["File"] = Field(default="File", alias="_type", repr=False)
+    uri: str
     checksum: str
-    submesh_relation: list["SubmeshRelation"]
-    dimensionality: "Dimensionality"
-    vertex_count: SafeInt
-    regions: list["Region"]
+    format: str
+    shape: list[SafeInt]
 
 
-class Configuration(InterTypeBase):
-    meshes: list["Mesh"]
-    dimensionality: SafeInt
-    boundary_mesh: str
+class Values(InterTypeBase):
+    tag: Literal["Values"] = Field(default="Values", alias="_type", repr=False)
+    values: list[SafeInt]
+
+
+MeshValue = Annotated[File | Values, Field(discriminator="tag")]
+meshvalue_adapter: TypeAdapter[MeshValue] = TypeAdapter(MeshValue)
+
+
+class Constants(InterTypeBase):
+    name: str
+    global_ref: str
 
 
 class Header(InterTypeBase):
@@ -48,8 +34,9 @@ class Header(InterTypeBase):
     parent: str
 
 
-class ASKEMDecapodeConfig(InterTypeBase):
+class ASKEMDecapodeParameterization(InterTypeBase):
     header: "Header"
-    configuration: "Configuration"
+    parameters: list[float]
+    constants: list["Constants"]
 
 

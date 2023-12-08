@@ -1,0 +1,42 @@
+struct Dimensionality
+	surface::Int64
+	embedding::Int64
+end
+
+@sum Region begin
+	Equation(equation::String)
+end
+
+struct SubmeshRelation
+  parent::String
+  child::String
+end
+
+struct Mesh
+  id::String
+  description::String
+  file::String
+  checksum::String
+  submesh_relation::Vector{SubmeshRelation}
+  dimensionality::Dimensionality
+  vertex_count::Int64
+  regions::Vector{Region}
+end
+
+struct Configuration
+  meshes::Vector{Mesh}
+  dimensionality::Int64
+  boundary_mesh::String
+end
+
+struct Header
+	id::String
+    description::String
+    name::String
+    parent::String
+end
+
+struct ASKEMDecapodeConfig
+  header::Header
+  configuration::Configuration
+end

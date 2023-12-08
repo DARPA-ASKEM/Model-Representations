@@ -1,67 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$defs": {
-    "Dimensionality": {
-      "type": "object",
-      "properties": {
-        "surface": {
-          "type": "string",
-          "$comment": "I64"
-        },
-        "embedding": {
-          "type": "string",
-          "$comment": "I64"
-        }
-      },
-      "required": [
-        "surface",
-        "embedding"
-      ]
-    },
-    "Equation": {
+    "File": {
       "type": "object",
       "properties": {
         "tag": {
-          "const": "Equation"
+          "const": "File"
         },
-        "equation": {
-          "type": "string",
-          "$comment": "Str"
-        }
-      },
-      "required": [
-        "equation"
-      ]
-    },
-    "SubmeshRelation": {
-      "type": "object",
-      "properties": {
-        "parent": {
-          "type": "string",
-          "$comment": "Str"
-        },
-        "child": {
-          "type": "string",
-          "$comment": "Str"
-        }
-      },
-      "required": [
-        "parent",
-        "child"
-      ]
-    },
-    "Mesh": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "$comment": "Str"
-        },
-        "description": {
-          "type": "string",
-          "$comment": "Str"
-        },
-        "file": {
+        "uri": {
           "type": "string",
           "$comment": "Str"
         },
@@ -69,59 +15,58 @@
           "type": "string",
           "$comment": "Str"
         },
-        "submesh_relation": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/SubmeshRelation"
-          }
-        },
-        "dimensionality": {
-          "$ref": "#/$defs/Dimensionality"
-        },
-        "vertex_count": {
+        "format": {
           "type": "string",
-          "$comment": "I64"
+          "$comment": "Str"
         },
-        "regions": {
+        "shape": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Region"
+            "type": "string",
+            "$comment": "I64"
           }
         }
       },
       "required": [
-        "id",
-        "description",
-        "file",
+        "uri",
         "checksum",
-        "submesh_relation",
-        "dimensionality",
-        "vertex_count",
-        "regions"
+        "format",
+        "shape"
       ]
     },
-    "Configuration": {
+    "Values": {
       "type": "object",
       "properties": {
-        "meshes": {
+        "tag": {
+          "const": "Values"
+        },
+        "values": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/Mesh"
+            "type": "string",
+            "$comment": "I64"
           }
-        },
-        "dimensionality": {
+        }
+      },
+      "required": [
+        "values"
+      ]
+    },
+    "Constants": {
+      "type": "object",
+      "properties": {
+        "name": {
           "type": "string",
-          "$comment": "I64"
+          "$comment": "Str"
         },
-        "boundary_mesh": {
+        "global_ref": {
           "type": "string",
           "$comment": "Str"
         }
       },
       "required": [
-        "meshes",
-        "dimensionality",
-        "boundary_mesh"
+        "name",
+        "global_ref"
       ]
     },
     "Header": {
@@ -151,19 +96,30 @@
         "parent"
       ]
     },
-    "ASKEMDecapodeConfig": {
+    "ASKEMDecapodeParameterization": {
       "type": "object",
       "properties": {
         "header": {
           "$ref": "#/$defs/Header"
         },
-        "configuration": {
-          "$ref": "#/$defs/Configuration"
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "$comment": "F64"
+          }
+        },
+        "constants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Constants"
+          }
         }
       },
       "required": [
         "header",
-        "configuration"
+        "parameters",
+        "constants"
       ]
     }
   }
