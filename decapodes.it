@@ -1,0 +1,139 @@
+struct Parameter
+  type::String
+  value::Float64
+end
+
+struct Condition
+  type::String
+  value::Float64
+  domain_mesh::String
+end
+
+struct DatasetFile
+	uri::String
+	format::String
+    shape::Vector{Int64}
+end
+
+struct Dataset
+  type::String
+  name::String
+  description::String
+  file::DatasetFile  
+end
+
+@sum MeshValue begin
+  File(uri::String, checksum::String, format::String, shape::Vector{Int64})
+  Values(values::Vector{Int64})
+end
+
+struct DecapodeConfiguration
+  parameters::Vector{Parameter}
+  initial_conditions::Vector{Condition}
+  boundary_condition::Vector{Condition}
+  dataset::Dataset
+end
+
+struct ASKEMDecapodeConfiguration
+  header::AMRBase.ConfigurationHeader
+  configuration::DecapodeConfiguration
+end
+
+struct Constant
+	type::String
+	value::AMRBase.File
+end
+
+@sum ConstraintValue begin
+	UnitValue(value::Float64, unit::Float64)
+	Datetime(timestamp::String)
+end
+
+struct Dimensionality
+	manifold::Int64
+	embedding_space::Int64
+end
+
+@sum Region begin
+	RegionEquation(equation::String)
+end
+
+struct PrimalDualRelation
+  primal::String
+  dual::String
+  method::String
+end
+
+struct SubmeshRelation
+  relation::String
+  mesh::String
+  submesh::String
+end
+
+struct Mesh
+  id::String
+  description::String
+  dimensionality::Dimensionality
+  vertex_count::Int64
+  edge_count::Int64
+  face_count::Int64
+  volume_count::Int64
+  regions::Vector{Region}
+  checksum::String
+  file::AMRBase.File
+end
+
+struct DecapodeContext
+  constants::Vector{Constant}
+  spatial_constraints::Vector{ConstraintValue}
+  temporal_constraints::Vector{ConstraintValue}
+  primal_dual_relations::Vector{PrimalDualRelation}
+  mesh_submesh_relations::Vector{SubmeshRelation}
+  meshes::Vector{Mesh}
+  dimensionality::Int64
+  boundary_mesh::String
+end
+
+struct ASKEMDecapodeContext
+  header::AMRBase.ContextHeader
+  context::DecapodeContext
+end
+
+@sum Term begin
+  Var(name::Symbol)
+  Lit(name::Symbol)
+  AppCirc1(fs::Vector{Symbol}, arg::Term)
+  App1(f::Symbol, arg::Term)
+  App2(f::Symbol, arg1::Term, arg2::Term)
+  Plus(args::Vector{Term})
+  Mult(args::Vector{Term})
+  Tan(var::Term)
+end
+
+struct Judgement
+  var::Symbol
+  dim::Symbol
+  space::Symbol
+end
+
+@sum Equation begin
+  Eq(lhs::Term, rhs::Term)
+end
+
+struct DecaExpr
+  context::Vector{Judgement}
+  equations::Vector{Equation}
+end
+
+struct ASKEMDecapodeModel
+  header::AMRBase.ModelHeader
+  model::DecaExpr
+end
+
+
+struct ASKEMDecapodeSimulationPlan
+  header::AMRBase.ModelHeader
+  model::DecaExpr
+  context::DecapodeContext
+  configuration::DecapodeConfiguration
+end

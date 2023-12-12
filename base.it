@@ -1,0 +1,27 @@
+struct ModelHeader
+    id::String
+    description::String
+    name::String
+    model_version::String
+    schema::String
+    schema_name::String	
+end
+
+struct ContextHeader
+	id::String
+    name::String
+    description::String
+    parent::String
+end
+
+struct ConfigurationHeader
+  id::String
+  description::String
+  name::String
+  parent_context::String
+end
+
+struct File
+	uri::String
+	format::String
+end
