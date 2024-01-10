@@ -328,6 +328,7 @@
   "context": {
     "constants": {
         "NISTPhysicalConstants": {
+            "_type": "FileConstant",
             "type": "file",
             "value": {
                 "uri": "file:///data/NISTPhysicalConstants.csv",
@@ -335,27 +336,51 @@
             }
         },
         "PI": {
+            "_type": "RawConstant",
             "type": "literal",
             "value": 3.14
         }
     },
     "spatial_constraints": {},
-    "temporal_constraints": [
+    "temporal_constraints": {
+        "duration": {
+            "_type": "UnitValue",
+            "value": 1,
+            "unit": "day"
+        },
+        "step_size": {
+            "_type": "UnitValue",
+            "value": 24,
+            "unit": "hour"
+        },
+        "start_datetime": {
+            "_type": "Datetime",
+            "timestamp": "2023-01-01T00:00:00Z"
+        },
+        "end_datetime": {
+            "_type": "Datetime",
+            "timestamp": "2023-02-01T00:00:00Z"
+        }
+    },
+    "primal_dual_relations": [
         {
-            "duration": {
-                "value": 1,
-                "unit": "day"
-            },
-            "step_size": {
-                "value": 24,
-                "unit": "hour"
-            },
-            "start_datetime": "2023-01-01T00:00:00Z",
-            "end_datetime": "2023-02-01T00:00:00Z"
+            "primal": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
+            "dual": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
+            "method": "barycentric"
         }
     ],
-    "primal_dual_relations": [["8a22dee2-3fbd-4bd4-85b5-1dce59a159fa", "6880d890-24e8-4df7-941e-ddc0eaf629a6"]],
-    "boundary_relations": [["8a22dee2-3fbd-4bd4-85b5-1dce59a159fa", "c1119b5b-b28c-4dca-a4b0-8c662beb5702"], ["6880d890-24e8-4df7-941e-ddc0eaf629a6", "247d3a75-2357-44bc-98f5-8def7cac8902"]],
+    "mesh_submesh_relations": [
+        {
+            "relation": "perimeter",
+            "mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
+            "submesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702"
+        },
+        {
+            "relation": "perimeter",
+            "mesh": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
+            "submesh": "247d3a75-2357-44bc-98f5-8def7cac8902"
+        }
+    ],
     "meshes": [
         {
             "id": "621bf3ea-39ec-4201-88f3-e038123aaf90",
@@ -368,7 +393,7 @@
             "edge_count": 601,
             "face_count": 100,
             "volume_count": 0,
-            "regions": {},
+            "regions": [],
             "checksum": "",
             "file": {
                 "uri": "file:///data/Grigoriev_ice_cap.obj",
@@ -386,6 +411,8 @@
             "edge_count": 601,
             "face_count": 100,
             "volume_count": 0,
+            "regions": [],
+            "checksum": "",
             "file": {
                 "uri": "file:///data/primal_mesh.obj",
                 "format": "objmesh"
@@ -402,6 +429,8 @@
             "edge_count": 601,
             "face_count": 100,
             "volume_count": 0,
+            "regions": [],
+            "checksum": "",
             "file": {
                 "uri": "file:///data/dual_mesh.obj",
                 "format": "objmesh"
@@ -418,6 +447,8 @@
             "edge_count": 601,
             "face_count": 100,
             "volume_count": 0,
+            "regions": [],
+            "checksum": "",
             "file": {
                 "uri": "file:///data/primal_mesh_boundary.obj",
                 "format": "objmesh"
@@ -434,34 +465,41 @@
             "edge_count": 601,
             "face_count": 100,
             "volume_count": 0,
+            "regions": [],
+            "checksum": "",
             "file": {
                 "uri": "file:///data/dual_mesh_boundary.obj",
                 "format": "objmesh"
             }
         }
     ]
-  },
+},
   "configuration": {
     "parameters": {
         "n": {
+            "_type": "LiteralParameter",
             "type": "literal",
             "value": 3
         },
         "p": {
+            "_type": "LiteralParameter",
             "type": "literal",
             "value": 910
         },
         "g": {
+            "_type": "ConstantParameter",
             "type": "constant",
-            "value": "NIST.PhysicalConstants.g"
+            "value": "NISTPhysicalConstants.g"
         },
         "A": {
+            "_type": "LiteralParameter",
             "type": "literal",
             "value": 1e-16
         }
     },
     "initial_conditions": {
         "h": {
+            "_type": "Condition",
             "type": "mesh_value",
             "value": "86ea232c-0b07-4163-8121-0c1e6a51a1d2",
             "domain_mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa"
@@ -469,6 +507,7 @@
     },
     "boundary_conditions": {
         "h": {
+            "_type": "Condition",
             "type": "mesh_value",
             "value": "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f",
             "domain_mesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702" 
@@ -506,5 +545,5 @@
             }
         }
     }
-  }
+}
 }
