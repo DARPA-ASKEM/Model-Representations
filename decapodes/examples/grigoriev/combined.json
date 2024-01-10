@@ -1,0 +1,510 @@
+{
+  "header": {
+    "id": "17dd0e17-f0e6-4c57-b492-816d00dac086",
+    "name": "Halfar ice dynamics",
+    "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/decapodes_v0.1/decapodes/decapodes_schema.json",
+    "description": "Halfar ice dynamics",
+    "schema_name": "decapodes",
+    "model_version": "0.1"
+  },
+  "model": {
+    "Var": [
+      {
+        "_id": 1,
+        "type": "Form0",
+        "name": "h"
+      },
+      {
+        "_id": 2,
+        "type": "Form1",
+        "name": "Γ"
+      },
+      {
+        "_id": 3,
+        "type": "Constant",
+        "name": "n"
+      },
+      {
+        "_id": 4,
+        "type": "infer",
+        "name": "dynamics_ḣ"
+      },
+      {
+        "_id": 5,
+        "type": "infer",
+        "name": "dynamics_mult_1"
+      },
+      {
+        "_id": 6,
+        "type": "infer",
+        "name": "dynamics_mult_2"
+      },
+      {
+        "_id": 7,
+        "type": "infer",
+        "name": "dynamics_•1"
+      },
+      {
+        "_id": 8,
+        "type": "infer",
+        "name": "dynamics_•2"
+      },
+      {
+        "_id": 9,
+        "type": "infer",
+        "name": "dynamics_•3"
+      },
+      {
+        "_id": 10,
+        "type": "infer",
+        "name": "dynamics_•4"
+      },
+      {
+        "_id": 11,
+        "type": "infer",
+        "name": "dynamics_•5"
+      },
+      {
+        "_id": 12,
+        "type": "infer",
+        "name": "dynamics_•6"
+      },
+      {
+        "_id": 13,
+        "type": "infer",
+        "name": "dynamics_•7"
+      },
+      {
+        "_id": 14,
+        "type": "Literal",
+        "name": "1"
+      },
+      {
+        "_id": 15,
+        "type": "infer",
+        "name": "dynamics_•8"
+      },
+      {
+        "_id": 16,
+        "type": "infer",
+        "name": "dynamics_•9"
+      },
+      {
+        "_id": 17,
+        "type": "Literal",
+        "name": "2"
+      },
+      {
+        "_id": 18,
+        "type": "infer",
+        "name": "dynamics_sum_1"
+      },
+      {
+        "_id": 19,
+        "type": "infer",
+        "name": "dynamics_mult_3"
+      },
+      {
+        "_id": 20,
+        "type": "Constant",
+        "name": "stress_A"
+      },
+      {
+        "_id": 21,
+        "type": "Constant",
+        "name": "stress_ρ"
+      },
+      {
+        "_id": 22,
+        "type": "Constant",
+        "name": "stress_g"
+      },
+      {
+        "_id": 23,
+        "type": "infer",
+        "name": "stress_•1"
+      },
+      {
+        "_id": 24,
+        "type": "Literal",
+        "name": "2"
+      },
+      {
+        "_id": 25,
+        "type": "infer",
+        "name": "stress_sum_1"
+      },
+      {
+        "_id": 26,
+        "type": "infer",
+        "name": "stress_•2"
+      },
+      {
+        "_id": 27,
+        "type": "infer",
+        "name": "stress_•3"
+      },
+      {
+        "_id": 28,
+        "type": "infer",
+        "name": "stress_mult_1"
+      }
+    ],
+    "TVar": [
+      {
+        "_id": 1,
+        "incl": 4
+      }
+    ],
+    "Op1": [
+      {
+        "_id": 1,
+        "src": 1,
+        "tgt": 4,
+        "op1": "∂ₜ"
+      },
+      {
+        "_id": 2,
+        "src": 1,
+        "tgt": 7,
+        "op1": "d"
+      },
+      {
+        "_id": 3,
+        "src": 1,
+        "tgt": 12,
+        "op1": "d"
+      },
+      {
+        "_id": 4,
+        "src": 12,
+        "tgt": 11,
+        "op1": "♯"
+      },
+      {
+        "_id": 5,
+        "src": 11,
+        "tgt": 10,
+        "op1": "mag"
+      },
+      {
+        "_id": 6,
+        "src": 9,
+        "tgt": 8,
+        "op1": "avg₀₁"
+      },
+      {
+        "_id": 7,
+        "src": 16,
+        "tgt": 15,
+        "op1": "avg₀₁"
+      },
+      {
+        "_id": 8,
+        "src": 6,
+        "tgt": 4,
+        "op1": [
+          "⋆",
+          "d",
+          "⋆"
+        ]
+      }
+    ],
+    "Op2": [
+      {
+        "_id": 1,
+        "proj1": 3,
+        "proj2": 14,
+        "res": 13,
+        "op2": "-"
+      },
+      {
+        "_id": 2,
+        "proj1": 10,
+        "proj2": 13,
+        "res": 9,
+        "op2": "^"
+      },
+      {
+        "_id": 3,
+        "proj1": 1,
+        "proj2": 18,
+        "res": 16,
+        "op2": "^"
+      },
+      {
+        "_id": 4,
+        "proj1": 2,
+        "proj2": 7,
+        "res": 19,
+        "op2": "*"
+      },
+      {
+        "_id": 5,
+        "proj1": 19,
+        "proj2": 8,
+        "res": 5,
+        "op2": "*"
+      },
+      {
+        "_id": 6,
+        "proj1": 5,
+        "proj2": 15,
+        "res": 6,
+        "op2": "*"
+      },
+      {
+        "_id": 7,
+        "proj1": 24,
+        "proj2": 25,
+        "res": 23,
+        "op2": "/"
+      },
+      {
+        "_id": 8,
+        "proj1": 21,
+        "proj2": 22,
+        "res": 27,
+        "op2": "*"
+      },
+      {
+        "_id": 9,
+        "proj1": 27,
+        "proj2": 3,
+        "res": 26,
+        "op2": "^"
+      },
+      {
+        "_id": 10,
+        "proj1": 23,
+        "proj2": 20,
+        "res": 28,
+        "op2": "*"
+      },
+      {
+        "_id": 11,
+        "proj1": 28,
+        "proj2": 26,
+        "res": 2,
+        "op2": "*"
+      }
+    ],
+    "Σ": [
+      {
+        "_id": 1,
+        "sum": 18
+      },
+      {
+        "_id": 2,
+        "sum": 25
+      }
+    ],
+    "Summand": [
+      {
+        "_id": 1,
+        "summand": 3,
+        "summation": 1
+      },
+      {
+        "_id": 2,
+        "summand": 17,
+        "summation": 1
+      },
+      {
+        "_id": 3,
+        "summand": 3,
+        "summation": 2
+      },
+      {
+        "_id": 4,
+        "summand": 24,
+        "summation": 2
+      }
+    ],
+    "Type": [],
+    "Operator": [],
+    "Name": []
+  },
+  "context": {
+    "constants": {
+        "NISTPhysicalConstants": {
+            "type": "file",
+            "value": {
+                "uri": "file:///data/NISTPhysicalConstants.csv",
+                "format": "csv"
+            }
+        },
+        "PI": {
+            "type": "literal",
+            "value": 3.14
+        }
+    },
+    "spatial_constraints": {},
+    "temporal_constraints": [
+        {
+            "duration": {
+                "value": 1,
+                "unit": "day"
+            },
+            "step_size": {
+                "value": 24,
+                "unit": "hour"
+            },
+            "start_datetime": "2023-01-01T00:00:00Z",
+            "end_datetime": "2023-02-01T00:00:00Z"
+        }
+    ],
+    "primal_dual_relations": [["8a22dee2-3fbd-4bd4-85b5-1dce59a159fa", "6880d890-24e8-4df7-941e-ddc0eaf629a6"]],
+    "boundary_relations": [["8a22dee2-3fbd-4bd4-85b5-1dce59a159fa", "c1119b5b-b28c-4dca-a4b0-8c662beb5702"], ["6880d890-24e8-4df7-941e-ddc0eaf629a6", "247d3a75-2357-44bc-98f5-8def7cac8902"]],
+    "meshes": [
+        {
+            "id": "621bf3ea-39ec-4201-88f3-e038123aaf90",
+            "description": "Rectangular mesh extracted from NetCDF of ice thickness measurements of Grigoriev Ice Cap, source: https://zenodo.org/api/records/7735970/files-archive",
+            "dimensionality": {
+                "manifold": 2,
+                "embedding_space": 2
+            },
+            "vertex_count": 304,
+            "edge_count": 601,
+            "face_count": 100,
+            "volume_count": 0,
+            "regions": {},
+            "checksum": "",
+            "file": {
+                "uri": "file:///data/Grigoriev_ice_cap.obj",
+                "format": "objmesh"
+            }
+        },
+        {
+            "id": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
+            "description": "Triangular primal mesh generated to overlap with the measurement rectangular mesh",
+            "dimensionality": {
+                "manifold": 2,
+                "embedding_space": 3
+            },
+            "vertex_count": 304,
+            "edge_count": 601,
+            "face_count": 100,
+            "volume_count": 0,
+            "file": {
+                "uri": "file:///data/primal_mesh.obj",
+                "format": "objmesh"
+            }
+        },
+        {
+            "id": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
+            "description": "Triangular dual mesh generated to overlap with the measurement rectangular mesh",
+            "dimensionality": {
+                "manifold": 2,
+                "embedding_space": 3
+            },
+            "vertex_count": 304,
+            "edge_count": 601,
+            "face_count": 100,
+            "volume_count": 0,
+            "file": {
+                "uri": "file:///data/dual_mesh.obj",
+                "format": "objmesh"
+            }
+        },
+        {
+            "id": "c1119b5b-b28c-4dca-a4b0-8c662beb5702",
+            "description": "Boundary of triangular primal mesh generated to overlap with the measurement rectangular mesh",
+            "dimensionality": {
+                "manifold": 1,
+                "embedding_space": 3
+            },
+            "vertex_count": 304,
+            "edge_count": 601,
+            "face_count": 100,
+            "volume_count": 0,
+            "file": {
+                "uri": "file:///data/primal_mesh_boundary.obj",
+                "format": "objmesh"
+            }
+        },
+        {
+            "id": "247d3a75-2357-44bc-98f5-8def7cac8902",
+            "description": "Boundary of triangular dual mesh generated to overlap with the measurement rectangular mesh",
+            "dimensionality": {
+                "manifold": 1,
+                "embedding_space": 3
+            },
+            "vertex_count": 304,
+            "edge_count": 601,
+            "face_count": 100,
+            "volume_count": 0,
+            "file": {
+                "uri": "file:///data/dual_mesh_boundary.obj",
+                "format": "objmesh"
+            }
+        }
+    ]
+  },
+  "configuration": {
+    "parameters": {
+        "n": {
+            "type": "literal",
+            "value": 3
+        },
+        "p": {
+            "type": "literal",
+            "value": 910
+        },
+        "g": {
+            "type": "constant",
+            "value": "NIST.PhysicalConstants.g"
+        },
+        "A": {
+            "type": "literal",
+            "value": 1e-16
+        }
+    },
+    "initial_conditions": {
+        "h": {
+            "type": "mesh_value",
+            "value": "86ea232c-0b07-4163-8121-0c1e6a51a1d2",
+            "domain_mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa"
+        }
+    },
+    "boundary_conditions": {
+        "h": {
+            "type": "mesh_value",
+            "value": "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f",
+            "domain_mesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702" 
+        }
+    },
+    "datasets": {
+        "86ea232c-0b07-4163-8121-0c1e6a51a1d2": {
+            "type": "mesh_value",
+            "name": "ice thickness at time zero defined on new triangular mesh",
+            "description": "",
+            "file": {
+                "uri": "file:///data/h_init.nc",
+                "format": "netcdf",
+                "shape": [304, 2]
+            }
+        },
+        "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f": {
+            "type": "mesh_value",
+            "name": "ice thickness for all time defined on the boundary of the new triangular mesh",
+            "description": "",
+            "file": {
+                "uri": "file:///data/h_boundary.nc",
+                "format": "netcdf",
+                "shape": [304, 2]
+            }
+        },
+        "621bf3ea-39ec-4201-88f3-e038123aaf90": {
+            "type": "mesh_value",
+            "name": "",
+            "description": "",
+            "file": {
+                "uri": "file:///data/Grigoriev_ice_cap_2021.nc",
+                "format": "netcdf",
+                "shape": [304, 2]
+            }
+        }
+    }
+  }
+}

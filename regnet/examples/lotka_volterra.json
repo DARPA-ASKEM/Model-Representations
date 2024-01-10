@@ -54,7 +54,14 @@
       {
         "id": "W0",
         "description": "Initial wolf population",
-        "value": 1
+        "value": 1,
+        "distribution": {
+          "type": "Uniform1",
+          "parameters": {
+            "minimum": 0.9,
+            "maximum": 1.1
+          }
+        }
       },
       {
         "id": "alpha",
