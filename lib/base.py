@@ -8,7 +8,7 @@ from acsets import Ob, Hom, Attr, AttrType, Schema, ACSet
 
 
 class ModelHeader(InterTypeBase):
-    id: str
+    id: str | None
     description: str
     name: str
     model_version: str
@@ -17,14 +17,14 @@ class ModelHeader(InterTypeBase):
 
 
 class ContextHeader(InterTypeBase):
-    id: str
+    id: str | None
     name: str
     description: str
     parent: str
 
 
 class ConfigurationHeader(InterTypeBase):
-    id: str
+    id: str | None
     description: str
     name: str
     parent_context: str

@@ -1,5 +1,5 @@
 struct ModelHeader
-    id::String
+    id::Optional{String}
     description::String
     name::String
     model_version::String
@@ -8,14 +8,14 @@ struct ModelHeader
 end
 
 struct ContextHeader
-	id::String
-    name::String
-    description::String
-    parent::String
+	id::Optional{String}
+  name::String
+  description::String
+  parent::String
 end
 
 struct ConfigurationHeader
-  id::String
+  id::Optional{String}
   description::String
   name::String
   parent_context::String

@@ -50,10 +50,10 @@ meshvalue_adapter: TypeAdapter[MeshValue] = TypeAdapter(MeshValue)
 
 
 class DecapodeConfiguration(InterTypeBase):
-    parameters: list["Parameter"]
-    initial_conditions: list["Condition"]
-    boundary_condition: list["Condition"]
-    dataset: "Dataset"
+    parameters: dict[str, "Parameter"]
+    initial_conditions: dict[str, "Condition"]
+    boundary_condition: dict[str, "Condition"]
+    datasets: dict[str, "Dataset"]
 
 
 class ASKEMDecapodeConfiguration(InterTypeBase):
@@ -121,9 +121,9 @@ class Mesh(InterTypeBase):
 
 
 class DecapodeContext(InterTypeBase):
-    constants: list["Constant"]
-    spatial_constraints: list["ConstraintValue"]
-    temporal_constraints: list["ConstraintValue"]
+    constants: dict[str, "Constant"]
+    spatial_constraints: dict[str, "ConstraintValue"]
+    temporal_constraints: dict[str, "ConstraintValue"]
     primal_dual_relations: list["PrimalDualRelation"]
     mesh_submesh_relations: list["SubmeshRelation"]
     meshes: list["Mesh"]

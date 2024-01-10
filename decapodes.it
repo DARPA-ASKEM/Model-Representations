@@ -28,10 +28,10 @@ end
 end
 
 struct DecapodeConfiguration
-  parameters::Vector{Parameter}
-  initial_conditions::Vector{Condition}
-  boundary_condition::Vector{Condition}
-  dataset::Dataset
+  parameters::Object{Parameter}
+  initial_conditions::Object{Condition}
+  boundary_condition::Object{Condition}
+  datasets::Object{Dataset}
 end
 
 struct ASKEMDecapodeConfiguration
@@ -84,9 +84,9 @@ struct Mesh
 end
 
 struct DecapodeContext
-  constants::Vector{Constant}
-  spatial_constraints::Vector{ConstraintValue}
-  temporal_constraints::Vector{ConstraintValue}
+  constants::Object{Constant}
+  spatial_constraints::Object{ConstraintValue}
+  temporal_constraints::Object{ConstraintValue}
   primal_dual_relations::Vector{PrimalDualRelation}
   mesh_submesh_relations::Vector{SubmeshRelation}
   meshes::Vector{Mesh}
