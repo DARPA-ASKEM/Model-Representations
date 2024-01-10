@@ -156,32 +156,35 @@
       "type": "object",
       "properties": {
         "parameters": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "additionalProperties": {
             "$ref": "#/$defs/Parameter"
           }
         },
         "initial_conditions": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "additionalProperties": {
             "$ref": "#/$defs/Condition"
           }
         },
         "boundary_condition": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "additionalProperties": {
             "$ref": "#/$defs/Condition"
           }
         },
-        "dataset": {
-          "$ref": "#/$defs/Dataset"
+        "datasets": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Dataset"
+          }
         }
       },
       "required": [
         "parameters",
         "initial_conditions",
         "boundary_condition",
-        "dataset"
+        "datasets"
       ]
     },
     "ASKEMDecapodeConfiguration": {
@@ -404,20 +407,20 @@
       "type": "object",
       "properties": {
         "constants": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "additionalProperties": {
             "$ref": "#/$defs/Constant"
           }
         },
         "spatial_constraints": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "additionalProperties": {
             "$ref": "#/$defs/ConstraintValue"
           }
         },
         "temporal_constraints": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "additionalProperties": {
             "$ref": "#/$defs/ConstraintValue"
           }
         },
