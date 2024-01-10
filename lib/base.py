@@ -20,7 +20,7 @@ class ContextHeader(InterTypeBase):
     id: str | None
     name: str
     description: str
-    parent: str
+    parent_model: str
 
 
 class ConfigurationHeader(InterTypeBase):

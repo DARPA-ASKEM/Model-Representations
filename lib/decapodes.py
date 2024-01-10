@@ -8,14 +8,25 @@ from acsets import Ob, Hom, Attr, AttrType, Schema, ACSet
 import base as AMRBase
 
 
-class Parameter(InterTypeBase):
+class LiteralParameter(InterTypeBase):
+    tag: Literal["LiteralParameter"] = Field(default="LiteralParameter", alias="_type", repr=False)
     type: str
     value: float
+
+
+class ConstantParameter(InterTypeBase):
+    tag: Literal["ConstantParameter"] = Field(default="ConstantParameter", alias="_type", repr=False)
+    type: str
+    value: str
+
+
+Parameter = Annotated[LiteralParameter | ConstantParameter, Field(discriminator="tag")]
+parameter_adapter: TypeAdapter[Parameter] = TypeAdapter(Parameter)
 
 
 class Condition(InterTypeBase):
     type: str
-    value: float
+    value: str
     domain_mesh: str
 
 
@@ -52,7 +63,7 @@ meshvalue_adapter: TypeAdapter[MeshValue] = TypeAdapter(MeshValue)
 class DecapodeConfiguration(InterTypeBase):
     parameters: dict[str, "Parameter"]
     initial_conditions: dict[str, "Condition"]
-    boundary_condition: dict[str, "Condition"]
+    boundary_conditions: dict[str, "Condition"]
     datasets: dict[str, "Dataset"]
 
 
@@ -61,15 +72,26 @@ class ASKEMDecapodeConfiguration(InterTypeBase):
     configuration: "DecapodeConfiguration"
 
 
-class Constant(InterTypeBase):
+class FileConstant(InterTypeBase):
+    tag: Literal["FileConstant"] = Field(default="FileConstant", alias="_type", repr=False)
     type: str
     value: "AMRBase.File"
+
+
+class RawConstant(InterTypeBase):
+    tag: Literal["RawConstant"] = Field(default="RawConstant", alias="_type", repr=False)
+    type: str
+    value: float
+
+
+Constant = Annotated[FileConstant | RawConstant, Field(discriminator="tag")]
+constant_adapter: TypeAdapter[Constant] = TypeAdapter(Constant)
 
 
 class UnitValue(InterTypeBase):
     tag: Literal["UnitValue"] = Field(default="UnitValue", alias="_type", repr=False)
     value: float
-    unit: float
+    unit: str
 
 
 class Datetime(InterTypeBase):
@@ -127,8 +149,6 @@ class DecapodeContext(InterTypeBase):
     primal_dual_relations: list["PrimalDualRelation"]
     mesh_submesh_relations: list["SubmeshRelation"]
     meshes: list["Mesh"]
-    dimensionality: SafeInt
-    boundary_mesh: str
 
 
 class ASKEMDecapodeContext(InterTypeBase):

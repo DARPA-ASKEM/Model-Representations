@@ -2,8 +2,21 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$defs": {
     "Parameter": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/LiteralParameter"
+        },
+        {
+          "$ref": "#/$defs/ConstantParameter"
+        }
+      ]
+    },
+    "LiteralParameter": {
       "type": "object",
       "properties": {
+        "tag": {
+          "const": "LiteralParameter"
+        },
         "type": {
           "type": "string",
           "$comment": "Str"
@@ -11,6 +24,26 @@
         "value": {
           "type": "number",
           "$comment": "F64"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "ConstantParameter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "ConstantParameter"
+        },
+        "type": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "value": {
+          "type": "string",
+          "$comment": "Str"
         }
       },
       "required": [
@@ -26,8 +59,8 @@
           "$comment": "Str"
         },
         "value": {
-          "type": "number",
-          "$comment": "F64"
+          "type": "string",
+          "$comment": "Str"
         },
         "domain_mesh": {
           "type": "string",
@@ -167,7 +200,7 @@
             "$ref": "#/$defs/Condition"
           }
         },
-        "boundary_condition": {
+        "boundary_conditions": {
           "type": "object",
           "additionalProperties": {
             "$ref": "#/$defs/Condition"
@@ -183,7 +216,7 @@
       "required": [
         "parameters",
         "initial_conditions",
-        "boundary_condition",
+        "boundary_conditions",
         "datasets"
       ]
     },
@@ -203,14 +236,47 @@
       ]
     },
     "Constant": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/FileConstant"
+        },
+        {
+          "$ref": "#/$defs/RawConstant"
+        }
+      ]
+    },
+    "FileConstant": {
       "type": "object",
       "properties": {
+        "tag": {
+          "const": "FileConstant"
+        },
         "type": {
           "type": "string",
           "$comment": "Str"
         },
         "value": {
           "$ref": "#/$defs/AMRBase.File"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "RawConstant": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "RawConstant"
+        },
+        "type": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "value": {
+          "type": "number",
+          "$comment": "F64"
         }
       },
       "required": [
@@ -239,8 +305,8 @@
           "$comment": "F64"
         },
         "unit": {
-          "type": "number",
-          "$comment": "F64"
+          "type": "string",
+          "$comment": "Str"
         }
       },
       "required": [
@@ -441,14 +507,6 @@
           "items": {
             "$ref": "#/$defs/Mesh"
           }
-        },
-        "dimensionality": {
-          "type": "string",
-          "$comment": "I64"
-        },
-        "boundary_mesh": {
-          "type": "string",
-          "$comment": "Str"
         }
       },
       "required": [
@@ -457,9 +515,7 @@
         "temporal_constraints",
         "primal_dual_relations",
         "mesh_submesh_relations",
-        "meshes",
-        "dimensionality",
-        "boundary_mesh"
+        "meshes"
       ]
     },
     "ASKEMDecapodeContext": {

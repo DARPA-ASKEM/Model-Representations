@@ -11,7 +11,7 @@ struct ContextHeader
 	id::Optional{String}
   name::String
   description::String
-  parent::String
+  parent_model::String
 end
 
 struct ConfigurationHeader

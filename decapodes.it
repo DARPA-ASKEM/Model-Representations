@@ -1,18 +1,18 @@
-struct Parameter
-  type::String
-  value::Float64
+@sum Parameter begin
+  LiteralParameter(type::String, value::Float64)
+  ConstantParameter(type::String, value::String)
 end
 
 struct Condition
   type::String
-  value::Float64
+  value::String
   domain_mesh::String
 end
 
 struct DatasetFile
 	uri::String
 	format::String
-    shape::Vector{Int64}
+  shape::Vector{Int64}
 end
 
 struct Dataset
@@ -30,7 +30,7 @@ end
 struct DecapodeConfiguration
   parameters::Object{Parameter}
   initial_conditions::Object{Condition}
-  boundary_condition::Object{Condition}
+  boundary_conditions::Object{Condition}
   datasets::Object{Dataset}
 end
 
@@ -39,13 +39,13 @@ struct ASKEMDecapodeConfiguration
   configuration::DecapodeConfiguration
 end
 
-struct Constant
-	type::String
-	value::AMRBase.File
+@sum Constant begin
+	FileConstant(type::String, value::AMRBase.File)
+  RawConstant(type::String, value::Float64)
 end
 
 @sum ConstraintValue begin
-	UnitValue(value::Float64, unit::Float64)
+	UnitValue(value::Float64, unit::String)
 	Datetime(timestamp::String)
 end
 
@@ -90,8 +90,6 @@ struct DecapodeContext
   primal_dual_relations::Vector{PrimalDualRelation}
   mesh_submesh_relations::Vector{SubmeshRelation}
   meshes::Vector{Mesh}
-  dimensionality::Int64
-  boundary_mesh::String
 end
 
 struct ASKEMDecapodeContext
