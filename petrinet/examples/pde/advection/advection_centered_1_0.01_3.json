@@ -1,0 +1,194 @@
+{
+    "header": {
+        "name": "Advection Model",
+        "schema_": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
+        "schema_name": "petrinet",
+        "description": "Advection as Petrinet model created by Dan Bryce and Drisana Mosiphir",
+        "model_version": "0.1"
+    },
+    "properties": null,
+    "model": {
+        "states": [
+            {
+                "id": "a_0",
+                "name": "a_0",
+                "description": "a at [-1.5]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "a_1",
+                "name": "a_1",
+                "description": "a at [0.0]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "a_2",
+                "name": "a_2",
+                "description": "a at [1.5]",
+                "grounding": null,
+                "units": null
+            }
+        ],
+        "transitions": [
+            {
+                "id": "r_a_0_1_boundary",
+                "input": [
+                    "a_1"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_a_0_1_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_a_0_0_boundary",
+                "input": [
+                    "a_0"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_a_0_0_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_a_0_2_0",
+                "input": [
+                    "a_2"
+                ],
+                "output": [
+                    "a_0"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_a_0_2_0",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_a_0_boundary_1",
+                "input": [],
+                "output": [
+                    "a_1"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_a_0_boundary_1",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_a_0_boundary_2",
+                "input": [],
+                "output": [
+                    "a_2"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_a_0_boundary_2",
+                    "description": null,
+                    "grounding": null
+                }
+            }
+        ]
+    },
+    "semantics": {
+        "ode": {
+            "rates": [
+                {
+                    "target": "r_a_0_1_boundary",
+                    "expression": "((-u/dx)*(a_0)/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_a_0_0_boundary",
+                    "expression": "((0.01*t)/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_a_0_2_0",
+                    "expression": "((-u/dx)*(a_1)/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_a_0_boundary_1",
+                    "expression": "((-u/dx)*(a_2)/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_a_0_boundary_2",
+                    "expression": "((0.01*t)/2)",
+                    "expression_mathml": null
+                }
+            ],
+            "initials": [
+                {
+                    "target": "a_0",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "a_1",
+                    "expression": "1.0",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "a_2",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                }
+            ],
+            "parameters": [
+                {
+                    "id": "u",
+                    "name": null,
+                    "description": null,
+                    "value": 1.0,
+                    "grounding": null,
+                    "distribution": {
+                        "type": "StandardUniform1",
+                        "parameters": {
+                            "minimum": 0.0,
+                            "maximum": 1.0
+                        }
+                    },
+                    "units": null
+                },
+                {
+                    "id": "dx",
+                    "name": null,
+                    "description": null,
+                    "value": 1.0,
+                    "grounding": null,
+                    "distribution": {
+                        "type": "StandardUniform1",
+                        "parameters": {
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "units": null
+                }
+            ],
+            "time": {
+                "id": "t",
+                "units": {
+                    "expression": "day",
+                    "expression_mathml": "<ci>day</ci>"
+                }
+            }
+        },
+        "typing": null,
+        "span": null
+    },
+    "metadata": null
+}

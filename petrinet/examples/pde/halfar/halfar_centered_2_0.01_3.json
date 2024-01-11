@@ -1,0 +1,726 @@
+{
+    "header": {
+        "name": "Halfar Model",
+        "schema_": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
+        "schema_name": "petrinet",
+        "description": "Halfar as Petrinet model created by Dan Bryce and Drisana Mosiphir",
+        "model_version": "0.1"
+    },
+    "properties": null,
+    "model": {
+        "states": [
+            {
+                "id": "h_0_0",
+                "name": "h_0_0",
+                "description": "h at [-1.5, -1.5]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_0_1",
+                "name": "h_0_1",
+                "description": "h at [-1.5, 0.0]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_0_2",
+                "name": "h_0_2",
+                "description": "h at [-1.5, 1.5]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_1_0",
+                "name": "h_1_0",
+                "description": "h at [0.0, -1.5]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_1_1",
+                "name": "h_1_1",
+                "description": "h at [0.0, 0.0]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_1_2",
+                "name": "h_1_2",
+                "description": "h at [0.0, 1.5]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_2_0",
+                "name": "h_2_0",
+                "description": "h at [1.5, -1.5]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_2_1",
+                "name": "h_2_1",
+                "description": "h at [1.5, 0.0]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_2_2",
+                "name": "h_2_2",
+                "description": "h at [1.5, 1.5]",
+                "grounding": null,
+                "units": null
+            }
+        ],
+        "transitions": [
+            {
+                "id": "r_h_0_1_0_boundary",
+                "input": [
+                    "h_1_0"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_1_0_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_0_0_boundary",
+                "input": [
+                    "h_0_0"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_0_0_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_0_1_boundary",
+                "input": [
+                    "h_0_1"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_0_1_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_0_0_boundary",
+                "input": [
+                    "h_0_0"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_0_0_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_1_1_boundary",
+                "input": [
+                    "h_1_1"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_1_1_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_0_1_boundary",
+                "input": [
+                    "h_0_1"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_0_1_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_0_2_0_0",
+                "input": [
+                    "h_0_2"
+                ],
+                "output": [
+                    "h_0_0"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_0_2_0_0",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_1_2_boundary",
+                "input": [
+                    "h_1_2"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_1_2_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_0_2_boundary",
+                "input": [
+                    "h_0_2"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_0_2_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_boundary_0_1",
+                "input": [],
+                "output": [
+                    "h_0_1"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_boundary_0_1",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_boundary_0_2",
+                "input": [],
+                "output": [
+                    "h_0_2"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_boundary_0_2",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_2_0_0_0",
+                "input": [
+                    "h_2_0"
+                ],
+                "output": [
+                    "h_0_0"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_2_0_0_0",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_1_1_boundary",
+                "input": [
+                    "h_1_1"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_1_1_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_1_0_boundary",
+                "input": [
+                    "h_1_0"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_1_0_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_2_1_0_1",
+                "input": [
+                    "h_2_1"
+                ],
+                "output": [
+                    "h_0_1"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_2_1_0_1",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_1_2_1_0",
+                "input": [
+                    "h_1_2"
+                ],
+                "output": [
+                    "h_1_0"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_1_2_1_0",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_2_2_0_2",
+                "input": [
+                    "h_2_2"
+                ],
+                "output": [
+                    "h_0_2"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_2_2_0_2",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_boundary_1_1",
+                "input": [],
+                "output": [
+                    "h_1_1"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_boundary_1_1",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_boundary_1_2",
+                "input": [],
+                "output": [
+                    "h_1_2"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_boundary_1_2",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_boundary_1_0",
+                "input": [],
+                "output": [
+                    "h_1_0"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_boundary_1_0",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_boundary_2_0",
+                "input": [],
+                "output": [
+                    "h_2_0"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_boundary_2_0",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_2_1_boundary",
+                "input": [
+                    "h_2_1"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_2_1_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_2_0_boundary",
+                "input": [
+                    "h_2_0"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_2_0_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_boundary_1_1",
+                "input": [],
+                "output": [
+                    "h_1_1"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_boundary_1_1",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_boundary_2_1",
+                "input": [],
+                "output": [
+                    "h_2_1"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_boundary_2_1",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_2_2_2_0",
+                "input": [
+                    "h_2_2"
+                ],
+                "output": [
+                    "h_2_0"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_2_2_2_0",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_boundary_1_2",
+                "input": [],
+                "output": [
+                    "h_1_2"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_boundary_1_2",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_boundary_2_2",
+                "input": [],
+                "output": [
+                    "h_2_2"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_boundary_2_2",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_boundary_2_1",
+                "input": [],
+                "output": [
+                    "h_2_1"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_boundary_2_1",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_1_boundary_2_2",
+                "input": [],
+                "output": [
+                    "h_2_2"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_1_boundary_2_2",
+                    "description": null,
+                    "grounding": null
+                }
+            }
+        ]
+    },
+    "semantics": {
+        "ode": {
+            "rates": [
+                {
+                    "target": "r_h_0_1_0_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_1_0-(-0.1*t))/dx)**2)*((h_1_0-(-0.1*t))/dx)*(h_0_0**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_0_0_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_0_1_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_0_1-(-0.1*t))/dx)**2)*((h_0_1-(-0.1*t))/dx)*(h_0_0**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_0_0_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_1_1_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_1_1-(-0.1*t))/dx)**2)*((h_1_1-(-0.1*t))/dx)*(h_0_1**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_0_1_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_0_2_0_0",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_0_2-h_0_0)/dx)**2)*((h_0_2-h_0_0)/dx)*(h_0_1**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_1_2_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_1_2-(-0.1*t))/dx)**2)*((h_1_2-(-0.1*t))/dx)*(h_0_2**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_0_2_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_boundary_0_1",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-h_0_1)/dx)**2)*(((-0.1*t)-h_0_1)/dx)*(h_0_2**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_boundary_0_2",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_2_0_0_0",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_2_0-h_0_0)/dx)**2)*((h_2_0-h_0_0)/dx)*(h_1_0**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_1_1_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_1_1-(-0.1*t))/dx)**2)*((h_1_1-(-0.1*t))/dx)*(h_1_0**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_1_0_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_2_1_0_1",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_2_1-h_0_1)/dx)**2)*((h_2_1-h_0_1)/dx)*(h_1_1**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_1_2_1_0",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_1_2-h_1_0)/dx)**2)*((h_1_2-h_1_0)/dx)*(h_1_1**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_2_2_0_2",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_2_2-h_0_2)/dx)**2)*((h_2_2-h_0_2)/dx)*(h_1_2**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_boundary_1_1",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-h_1_1)/dx)**2)*(((-0.1*t)-h_1_1)/dx)*(h_1_2**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_boundary_1_2",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_boundary_1_0",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-h_1_0)/dx)**2)*(((-0.1*t)-h_1_0)/dx)*(h_2_0**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_boundary_2_0",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_2_1_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_2_1-(-0.1*t))/dx)**2)*((h_2_1-(-0.1*t))/dx)*(h_2_0**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_2_0_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_boundary_1_1",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-h_1_1)/dx)**2)*(((-0.1*t)-h_1_1)/dx)*(h_2_1**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_boundary_2_1",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_2_2_2_0",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_2_2-h_2_0)/dx)**2)*((h_2_2-h_2_0)/dx)*(h_2_1**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_boundary_1_2",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-h_1_2)/dx)**2)*(((-0.1*t)-h_1_2)/dx)*(h_2_2**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_boundary_2_2",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_boundary_2_1",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-h_2_1)/dx)**2)*(((-0.1*t)-h_2_1)/dx)*(h_2_2**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_1_boundary_2_2",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                }
+            ],
+            "initials": [
+                {
+                    "target": "h_0_0",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_0_1",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_0_2",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_1_0",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_1_1",
+                    "expression": "1.0",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_1_2",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_2_0",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_2_1",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_2_2",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                }
+            ],
+            "parameters": [
+                {
+                    "id": "A",
+                    "name": null,
+                    "description": null,
+                    "value": 1e-16,
+                    "grounding": null,
+                    "distribution": {
+                        "type": "StandardUniform1",
+                        "parameters": {
+                            "minimum": 1e-20,
+                            "maximum": 1e-12
+                        }
+                    },
+                    "units": null
+                },
+                {
+                    "id": "dx",
+                    "name": null,
+                    "description": null,
+                    "value": 1.0,
+                    "grounding": null,
+                    "distribution": {
+                        "type": "StandardUniform1",
+                        "parameters": {
+                            "minimum": 0.1,
+                            "maximum": 10.0
+                        }
+                    },
+                    "units": null
+                }
+            ],
+            "time": {
+                "id": "t",
+                "units": {
+                    "expression": "day",
+                    "expression_mathml": "<ci>day</ci>"
+                }
+            }
+        },
+        "typing": null,
+        "span": null
+    },
+    "metadata": null
+}

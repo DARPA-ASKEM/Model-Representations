@@ -1,0 +1,194 @@
+{
+    "header": {
+        "name": "Halfar Model",
+        "schema_": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
+        "schema_name": "petrinet",
+        "description": "Halfar as Petrinet model created by Dan Bryce and Drisana Mosiphir",
+        "model_version": "0.1"
+    },
+    "properties": null,
+    "model": {
+        "states": [
+            {
+                "id": "h_0",
+                "name": "h_0",
+                "description": "h at [-1.5]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_1",
+                "name": "h_1",
+                "description": "h at [0.0]",
+                "grounding": null,
+                "units": null
+            },
+            {
+                "id": "h_2",
+                "name": "h_2",
+                "description": "h at [1.5]",
+                "grounding": null,
+                "units": null
+            }
+        ],
+        "transitions": [
+            {
+                "id": "r_h_0_1_boundary",
+                "input": [
+                    "h_1"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_1_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_0_boundary",
+                "input": [
+                    "h_0"
+                ],
+                "output": [],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_0_boundary",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_2_0",
+                "input": [
+                    "h_2"
+                ],
+                "output": [
+                    "h_0"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_2_0",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_boundary_1",
+                "input": [],
+                "output": [
+                    "h_1"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_boundary_1",
+                    "description": null,
+                    "grounding": null
+                }
+            },
+            {
+                "id": "r_h_0_boundary_2",
+                "input": [],
+                "output": [
+                    "h_2"
+                ],
+                "grounding": null,
+                "properties": {
+                    "name": "r_h_0_boundary_2",
+                    "description": null,
+                    "grounding": null
+                }
+            }
+        ]
+    },
+    "semantics": {
+        "ode": {
+            "rates": [
+                {
+                    "target": "r_h_0_1_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_1-(-0.1*t))/dx)**2)*((h_1-(-0.1*t))/dx)*(h_0**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_0_boundary",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_2_0",
+                    "expression": "((283701998652.8*A/dx)*((abs((h_2-h_0)/dx)**2)*((h_2-h_0)/dx)*(h_1**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_boundary_1",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-h_1)/dx)**2)*(((-0.1*t)-h_1)/dx)*(h_2**5))/2)",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "r_h_0_boundary_2",
+                    "expression": "((283701998652.8*A/dx)*((abs(((-0.1*t)-(-0.1*t))/dx)**2)*(((-0.1*t)-(-0.1*t))/dx)*((-0.1*t)**5))/2)",
+                    "expression_mathml": null
+                }
+            ],
+            "initials": [
+                {
+                    "target": "h_0",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_1",
+                    "expression": "1.0",
+                    "expression_mathml": null
+                },
+                {
+                    "target": "h_2",
+                    "expression": "0.4",
+                    "expression_mathml": null
+                }
+            ],
+            "parameters": [
+                {
+                    "id": "A",
+                    "name": null,
+                    "description": null,
+                    "value": 1e-16,
+                    "grounding": null,
+                    "distribution": {
+                        "type": "StandardUniform1",
+                        "parameters": {
+                            "minimum": 1e-20,
+                            "maximum": 1e-12
+                        }
+                    },
+                    "units": null
+                },
+                {
+                    "id": "dx",
+                    "name": null,
+                    "description": null,
+                    "value": 1.0,
+                    "grounding": null,
+                    "distribution": {
+                        "type": "StandardUniform1",
+                        "parameters": {
+                            "minimum": 0.1,
+                            "maximum": 10.0
+                        }
+                    },
+                    "units": null
+                }
+            ],
+            "time": {
+                "id": "t",
+                "units": {
+                    "expression": "day",
+                    "expression_mathml": "<ci>day</ci>"
+                }
+            }
+        },
+        "typing": null,
+        "span": null
+    },
+    "metadata": null
+}
