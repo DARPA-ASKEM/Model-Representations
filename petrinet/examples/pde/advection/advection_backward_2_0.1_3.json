@@ -1,76 +1,57 @@
 {
     "header": {
         "name": "Advection Model",
-        "schema_": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
+        "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
         "schema_name": "petrinet",
-        "description": "Advection as Petrinet model created by Dan Bryce and Drisana Mosiphir",
-        "model_version": "0.1"
+        "description": "Advection as Petrinet model created by Dan Bryce and Drisana Iverson (Mosaphir)",
+        "model_version": "0.2"
     },
-    "properties": null,
     "model": {
         "states": [
             {
                 "id": "a_0_0",
                 "name": "a_0_0",
-                "description": "a at [-1.5, -1.5]",
-                "grounding": null,
-                "units": null
+                "description": "a at [-1.5, -1.5]"
             },
             {
                 "id": "a_0_1",
                 "name": "a_0_1",
-                "description": "a at [-1.5, 0.0]",
-                "grounding": null,
-                "units": null
+                "description": "a at [-1.5, 0.0]"
             },
             {
                 "id": "a_0_2",
                 "name": "a_0_2",
-                "description": "a at [-1.5, 1.5]",
-                "grounding": null,
-                "units": null
+                "description": "a at [-1.5, 1.5]"
             },
             {
                 "id": "a_1_0",
                 "name": "a_1_0",
-                "description": "a at [0.0, -1.5]",
-                "grounding": null,
-                "units": null
+                "description": "a at [0.0, -1.5]"
             },
             {
                 "id": "a_1_1",
                 "name": "a_1_1",
-                "description": "a at [0.0, 0.0]",
-                "grounding": null,
-                "units": null
+                "description": "a at [0.0, 0.0]"
             },
             {
                 "id": "a_1_2",
                 "name": "a_1_2",
-                "description": "a at [0.0, 1.5]",
-                "grounding": null,
-                "units": null
+                "description": "a at [0.0, 1.5]"
             },
             {
                 "id": "a_2_0",
                 "name": "a_2_0",
-                "description": "a at [1.5, -1.5]",
-                "grounding": null,
-                "units": null
+                "description": "a at [1.5, -1.5]"
             },
             {
                 "id": "a_2_1",
                 "name": "a_2_1",
-                "description": "a at [1.5, 0.0]",
-                "grounding": null,
-                "units": null
+                "description": "a at [1.5, 0.0]"
             },
             {
                 "id": "a_2_2",
                 "name": "a_2_2",
-                "description": "a at [1.5, 1.5]",
-                "grounding": null,
-                "units": null
+                "description": "a at [1.5, 1.5]"
             }
         ],
         "transitions": [
@@ -80,11 +61,8 @@
                     "a_0_0"
                 ],
                 "output": [],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_0_0_boundary",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_0_0_boundary"
                 }
             },
             {
@@ -93,11 +71,8 @@
                     "a_0_0"
                 ],
                 "output": [],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_0_0_boundary",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_0_0_boundary"
                 }
             },
             {
@@ -106,11 +81,8 @@
                     "a_0_1"
                 ],
                 "output": [],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_0_1_boundary",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_0_1_boundary"
                 }
             },
             {
@@ -121,11 +93,8 @@
                 "output": [
                     "a_0_0"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_0_1_0_0",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_0_1_0_0"
                 }
             },
             {
@@ -134,11 +103,8 @@
                     "a_0_2"
                 ],
                 "output": [],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_0_2_boundary",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_0_2_boundary"
                 }
             },
             {
@@ -149,11 +115,8 @@
                 "output": [
                     "a_0_1"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_0_2_0_1",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_0_2_0_1"
                 }
             },
             {
@@ -162,11 +125,8 @@
                 "output": [
                     "a_0_2"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_boundary_0_2",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_boundary_0_2"
                 }
             },
             {
@@ -177,11 +137,8 @@
                 "output": [
                     "a_0_0"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_1_0_0_0",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_1_0_0_0"
                 }
             },
             {
@@ -190,11 +147,8 @@
                     "a_1_0"
                 ],
                 "output": [],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_1_0_boundary",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_1_0_boundary"
                 }
             },
             {
@@ -205,11 +159,8 @@
                 "output": [
                     "a_0_1"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_1_1_0_1",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_1_1_0_1"
                 }
             },
             {
@@ -220,11 +171,8 @@
                 "output": [
                     "a_1_0"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_1_1_1_0",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_1_1_1_0"
                 }
             },
             {
@@ -235,11 +183,8 @@
                 "output": [
                     "a_0_2"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_1_2_0_2",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_1_2_0_2"
                 }
             },
             {
@@ -250,11 +195,8 @@
                 "output": [
                     "a_1_1"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_1_2_1_1",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_1_2_1_1"
                 }
             },
             {
@@ -263,11 +205,8 @@
                 "output": [
                     "a_1_2"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_boundary_1_2",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_boundary_1_2"
                 }
             },
             {
@@ -278,11 +217,8 @@
                 "output": [
                     "a_1_0"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_2_0_1_0",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_2_0_1_0"
                 }
             },
             {
@@ -291,11 +227,8 @@
                 "output": [
                     "a_2_0"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_boundary_2_0",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_boundary_2_0"
                 }
             },
             {
@@ -304,11 +237,8 @@
                     "a_2_0"
                 ],
                 "output": [],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_2_0_boundary",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_2_0_boundary"
                 }
             },
             {
@@ -319,11 +249,8 @@
                 "output": [
                     "a_1_1"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_2_1_1_1",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_2_1_1_1"
                 }
             },
             {
@@ -332,11 +259,8 @@
                 "output": [
                     "a_2_1"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_boundary_2_1",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_boundary_2_1"
                 }
             },
             {
@@ -347,11 +271,8 @@
                 "output": [
                     "a_2_0"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_2_1_2_0",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_2_1_2_0"
                 }
             },
             {
@@ -362,11 +283,8 @@
                 "output": [
                     "a_1_2"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_2_2_1_2",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_2_2_1_2"
                 }
             },
             {
@@ -375,11 +293,8 @@
                 "output": [
                     "a_2_2"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_0_boundary_2_2",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_0_boundary_2_2"
                 }
             },
             {
@@ -390,11 +305,8 @@
                 "output": [
                     "a_2_1"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_2_2_2_1",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_2_2_2_1"
                 }
             },
             {
@@ -403,11 +315,8 @@
                 "output": [
                     "a_2_2"
                 ],
-                "grounding": null,
                 "properties": {
-                    "name": "r_a_1_boundary_2_2",
-                    "description": null,
-                    "grounding": null
+                    "name": "r_a_1_boundary_2_2"
                 }
             }
         ]
@@ -417,202 +326,161 @@
             "rates": [
                 {
                     "target": "r_a_0_0_0_boundary",
-                    "expression": "(0.1*t)",
-                    "expression_mathml": null
+                    "expression": "(0.1*t)"
                 },
                 {
                     "target": "r_a_1_0_0_boundary",
-                    "expression": "(0.1*t)",
-                    "expression_mathml": null
+                    "expression": "(0.1*t)"
                 },
                 {
                     "target": "r_a_0_0_1_boundary",
-                    "expression": "(0.1*t)",
-                    "expression_mathml": null
+                    "expression": "(0.1*t)"
                 },
                 {
                     "target": "r_a_1_0_1_0_0",
-                    "expression": "(-u/dx)*(a_0_0)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_0_0)"
                 },
                 {
                     "target": "r_a_0_0_2_boundary",
-                    "expression": "(0.1*t)",
-                    "expression_mathml": null
+                    "expression": "(0.1*t)"
                 },
                 {
                     "target": "r_a_1_0_2_0_1",
-                    "expression": "(-u/dx)*(a_0_1)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_0_1)"
                 },
                 {
                     "target": "r_a_1_boundary_0_2",
-                    "expression": "(-u/dx)*(a_0_2)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_0_2)"
                 },
                 {
                     "target": "r_a_0_1_0_0_0",
-                    "expression": "(-u/dx)*(a_0_0)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_0_0)"
                 },
                 {
                     "target": "r_a_1_1_0_boundary",
-                    "expression": "(0.1*t)",
-                    "expression_mathml": null
+                    "expression": "(0.1*t)"
                 },
                 {
                     "target": "r_a_0_1_1_0_1",
-                    "expression": "(-u/dx)*(a_0_1)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_0_1)"
                 },
                 {
                     "target": "r_a_1_1_1_1_0",
-                    "expression": "(-u/dx)*(a_1_0)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_1_0)"
                 },
                 {
                     "target": "r_a_0_1_2_0_2",
-                    "expression": "(-u/dx)*(a_0_2)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_0_2)"
                 },
                 {
                     "target": "r_a_1_1_2_1_1",
-                    "expression": "(-u/dx)*(a_1_1)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_1_1)"
                 },
                 {
                     "target": "r_a_1_boundary_1_2",
-                    "expression": "(-u/dx)*(a_1_2)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_1_2)"
                 },
                 {
                     "target": "r_a_0_2_0_1_0",
-                    "expression": "(-u/dx)*(a_1_0)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_1_0)"
                 },
                 {
                     "target": "r_a_0_boundary_2_0",
-                    "expression": "(-u/dx)*(a_2_0)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_2_0)"
                 },
                 {
                     "target": "r_a_1_2_0_boundary",
-                    "expression": "(0.1*t)",
-                    "expression_mathml": null
+                    "expression": "(0.1*t)"
                 },
                 {
                     "target": "r_a_0_2_1_1_1",
-                    "expression": "(-u/dx)*(a_1_1)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_1_1)"
                 },
                 {
                     "target": "r_a_0_boundary_2_1",
-                    "expression": "(-u/dx)*(a_2_1)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_2_1)"
                 },
                 {
                     "target": "r_a_1_2_1_2_0",
-                    "expression": "(-u/dx)*(a_2_0)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_2_0)"
                 },
                 {
                     "target": "r_a_0_2_2_1_2",
-                    "expression": "(-u/dx)*(a_1_2)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_1_2)"
                 },
                 {
                     "target": "r_a_0_boundary_2_2",
-                    "expression": "(-u/dx)*(a_2_2)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_2_2)"
                 },
                 {
                     "target": "r_a_1_2_2_2_1",
-                    "expression": "(-u/dx)*(a_2_1)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_2_1)"
                 },
                 {
                     "target": "r_a_1_boundary_2_2",
-                    "expression": "(-u/dx)*(a_2_2)",
-                    "expression_mathml": null
+                    "expression": "(-u/dx)*(a_2_2)"
                 }
             ],
             "initials": [
                 {
                     "target": "a_0_0",
-                    "expression": "0.4",
-                    "expression_mathml": null
+                    "expression": "0.4"
                 },
                 {
                     "target": "a_0_1",
-                    "expression": "0.4",
-                    "expression_mathml": null
+                    "expression": "0.4"
                 },
                 {
                     "target": "a_0_2",
-                    "expression": "0.4",
-                    "expression_mathml": null
+                    "expression": "0.4"
                 },
                 {
                     "target": "a_1_0",
-                    "expression": "0.4",
-                    "expression_mathml": null
+                    "expression": "0.4"
                 },
                 {
                     "target": "a_1_1",
-                    "expression": "1.0",
-                    "expression_mathml": null
+                    "expression": "1.0"
                 },
                 {
                     "target": "a_1_2",
-                    "expression": "0.4",
-                    "expression_mathml": null
+                    "expression": "0.4"
                 },
                 {
                     "target": "a_2_0",
-                    "expression": "0.4",
-                    "expression_mathml": null
+                    "expression": "0.4"
                 },
                 {
                     "target": "a_2_1",
-                    "expression": "0.4",
-                    "expression_mathml": null
+                    "expression": "0.4"
                 },
                 {
                     "target": "a_2_2",
-                    "expression": "0.4",
-                    "expression_mathml": null
+                    "expression": "0.4"
                 }
             ],
             "parameters": [
                 {
                     "id": "u",
-                    "name": null,
-                    "description": null,
                     "value": 1.0,
-                    "grounding": null,
                     "distribution": {
                         "type": "StandardUniform1",
                         "parameters": {
                             "minimum": 0.0,
                             "maximum": 1.0
                         }
-                    },
-                    "units": null
+                    }
                 },
                 {
                     "id": "dx",
-                    "name": null,
-                    "description": null,
                     "value": 1.0,
-                    "grounding": null,
                     "distribution": {
                         "type": "StandardUniform1",
                         "parameters": {
                             "minimum": 0,
                             "maximum": 1
                         }
-                    },
-                    "units": null
+                    }
                 }
             ],
             "time": {
@@ -622,9 +490,6 @@
                     "expression_mathml": "<ci>day</ci>"
                 }
             }
-        },
-        "typing": null,
-        "span": null
-    },
-    "metadata": null
+        }
+    }
 }
