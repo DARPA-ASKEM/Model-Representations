@@ -18,4 +18,4 @@ where
 The generator for these instances is currently available [here](https://github.com/siftech/funman/blob/pde-amr-examples/auxiliary_packages/funman_demo/scripts/generate-pde-amr.py), and a notebook illustrating the results of FUNMAN analyzing the models is available [here](https://github.com/siftech/funman/blob/pde-amr-examples/notebooks/pde_as_petrinet.ipynb).
 
 ---
-Authored by dbryce@sift.net and dmosiphir@sift.net
+Authored by dbryce@sift.net and dmosaphir@sift.net
