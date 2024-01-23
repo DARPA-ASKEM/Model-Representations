@@ -9,9 +9,14 @@ struct Condition
   domain_mesh::String
 end
 
+@sum DatasetFormat begin
+  NetCDF
+  CSV
+end
+
 struct DatasetFile
-	uri::String
-	format::String
+  uri::String
+  format::DatasetFormat
   shape::Vector{Int64}
 end
 
@@ -40,8 +45,8 @@ struct ASKEMDecapodeConfiguration
 end
 
 @sum Constant begin
-	FileConstant(type::String, value::AMRBase.File)
-  RawConstant(type::String, value::Float64)
+  FileConstant(value::AMRBase.File)
+  RawConstant(value::Float64)
 end
 
 @sum ConstraintValue begin
@@ -51,21 +56,30 @@ end
 
 struct Dimensionality
 	manifold::Int64
-	embedding_space::Int64
+	embedding::Int64
 end
 
 @sum Region begin
-	RegionEquation(equation::String)
+	RegionEquation(equations::Vector{String})
+end
+
+@sum MethodType begin
+  Barycenter
+  Circumcenter
 end
 
 struct PrimalDualRelation
   primal::String
   dual::String
-  method::String
+  method::MethodType
+end
+
+@sum RelationType begin
+  Perimeter
 end
 
 struct SubmeshRelation
-  relation::String
+  relation::RelationType
   mesh::String
   submesh::String
 end

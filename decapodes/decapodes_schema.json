@@ -73,6 +73,36 @@
         "domain_mesh"
       ]
     },
+    "DatasetFormat": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/NetCDF"
+        },
+        {
+          "$ref": "#/$defs/CSV"
+        }
+      ]
+    },
+    "NetCDF": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "NetCDF"
+        }
+      },
+      "required": [
+      ]
+    },
+    "CSV": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "CSV"
+        }
+      },
+      "required": [
+      ]
+    },
     "DatasetFile": {
       "type": "object",
       "properties": {
@@ -81,8 +111,7 @@
           "$comment": "Str"
         },
         "format": {
-          "type": "string",
-          "$comment": "Str"
+          "$ref": "#/$defs/DatasetFormat"
         },
         "shape": {
           "type": "array",
@@ -251,16 +280,11 @@
         "tag": {
           "const": "FileConstant"
         },
-        "type": {
-          "type": "string",
-          "$comment": "Str"
-        },
         "value": {
           "$ref": "#/$defs/AMRBase.File"
         }
       },
       "required": [
-        "type",
         "value"
       ]
     },
@@ -270,17 +294,12 @@
         "tag": {
           "const": "RawConstant"
         },
-        "type": {
-          "type": "string",
-          "$comment": "Str"
-        },
         "value": {
           "type": "number",
           "$comment": "F64"
         }
       },
       "required": [
-        "type",
         "value"
       ]
     },
@@ -336,14 +355,14 @@
           "type": "string",
           "$comment": "I64"
         },
-        "embedding_space": {
+        "embedding": {
           "type": "string",
           "$comment": "I64"
         }
       },
       "required": [
         "manifold",
-        "embedding_space"
+        "embedding"
       ]
     },
     "Region": {
@@ -359,13 +378,46 @@
         "tag": {
           "const": "RegionEquation"
         },
-        "equation": {
-          "type": "string",
-          "$comment": "Str"
+        "equations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "$comment": "Str"
+          }
         }
       },
       "required": [
-        "equation"
+        "equations"
+      ]
+    },
+    "MethodType": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Barycenter"
+        },
+        {
+          "$ref": "#/$defs/Circumcenter"
+        }
+      ]
+    },
+    "Barycenter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "Barycenter"
+        }
+      },
+      "required": [
+      ]
+    },
+    "Circumcenter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "Circumcenter"
+        }
+      },
+      "required": [
       ]
     },
     "PrimalDualRelation": {
@@ -380,8 +432,7 @@
           "$comment": "Str"
         },
         "method": {
-          "type": "string",
-          "$comment": "Str"
+          "$ref": "#/$defs/MethodType"
         }
       },
       "required": [
@@ -390,12 +441,28 @@
         "method"
       ]
     },
+    "RelationType": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Perimeter"
+        }
+      ]
+    },
+    "Perimeter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "Perimeter"
+        }
+      },
+      "required": [
+      ]
+    },
     "SubmeshRelation": {
       "type": "object",
       "properties": {
         "relation": {
-          "type": "string",
-          "$comment": "Str"
+          "$ref": "#/$defs/RelationType"
         },
         "mesh": {
           "type": "string",

@@ -51,7 +51,7 @@
                 "description": "",
                 "file": {
                     "uri": "file:///data/h_init.nc",
-                    "format": "netcdf",
+                    "format": {"_type": "NetCDF"},
                     "shape": [304, 2]
                 }
             },
@@ -60,8 +60,8 @@
                 "name": "ice thickness for all time defined on the boundary of the new triangular mesh",
                 "description": "",
                 "file": {
-                    "uri": "file:///data/h_boundary.nc",
-                    "format": "netcdf",
+                    "uri": "file:///data/h_boundary.nc", "format": {"_type": "NetCDF"},
+                    "format": {"_type": "NetCDF"},
                     "shape": [304, 2]
                 }
             },
@@ -71,7 +71,7 @@
                 "description": "",
                 "file": {
                     "uri": "file:///data/Grigoriev_ice_cap_2021.nc",
-                    "format": "netcdf",
+                    "format": {"_type": "NetCDF"},
                     "shape": [304, 2]
                 }
             }

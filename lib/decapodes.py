@@ -30,9 +30,21 @@ class Condition(InterTypeBase):
     domain_mesh: str
 
 
+class NetCDF(InterTypeBase):
+    tag: Literal["NetCDF"] = Field(default="NetCDF", alias="_type", repr=False)
+
+
+class CSV(InterTypeBase):
+    tag: Literal["CSV"] = Field(default="CSV", alias="_type", repr=False)
+
+
+DatasetFormat = Annotated[NetCDF | CSV, Field(discriminator="tag")]
+datasetformat_adapter: TypeAdapter[DatasetFormat] = TypeAdapter(DatasetFormat)
+
+
 class DatasetFile(InterTypeBase):
     uri: str
-    format: str
+    format: "DatasetFormat"
     shape: list[SafeInt]
 
 
@@ -74,13 +86,11 @@ class ASKEMDecapodeConfiguration(InterTypeBase):
 
 class FileConstant(InterTypeBase):
     tag: Literal["FileConstant"] = Field(default="FileConstant", alias="_type", repr=False)
-    type: str
     value: "AMRBase.File"
 
 
 class RawConstant(InterTypeBase):
     tag: Literal["RawConstant"] = Field(default="RawConstant", alias="_type", repr=False)
-    type: str
     value: float
 
 
@@ -105,26 +115,46 @@ constraintvalue_adapter: TypeAdapter[ConstraintValue] = TypeAdapter(ConstraintVa
 
 class Dimensionality(InterTypeBase):
     manifold: SafeInt
-    embedding_space: SafeInt
+    embedding: SafeInt
 
 
 class RegionEquation(InterTypeBase):
     tag: Literal["RegionEquation"] = Field(default="RegionEquation", alias="_type", repr=False)
-    equation: str
+    equations: list[str]
 
 
 Region = Annotated[RegionEquation, Field(discriminator="tag")]
 region_adapter: TypeAdapter[Region] = TypeAdapter(Region)
 
 
+class Barycenter(InterTypeBase):
+    tag: Literal["Barycenter"] = Field(default="Barycenter", alias="_type", repr=False)
+
+
+class Circumcenter(InterTypeBase):
+    tag: Literal["Circumcenter"] = Field(default="Circumcenter", alias="_type", repr=False)
+
+
+MethodType = Annotated[Barycenter | Circumcenter, Field(discriminator="tag")]
+methodtype_adapter: TypeAdapter[MethodType] = TypeAdapter(MethodType)
+
+
 class PrimalDualRelation(InterTypeBase):
     primal: str
     dual: str
-    method: str
+    method: "MethodType"
+
+
+class Perimeter(InterTypeBase):
+    tag: Literal["Perimeter"] = Field(default="Perimeter", alias="_type", repr=False)
+
+
+RelationType = Annotated[Perimeter, Field(discriminator="tag")]
+relationtype_adapter: TypeAdapter[RelationType] = TypeAdapter(RelationType)
 
 
 class SubmeshRelation(InterTypeBase):
-    relation: str
+    relation: "RelationType"
     mesh: str
     submesh: str
 

@@ -325,225 +325,225 @@
     "Operator": [],
     "Name": []
   },
+
   "context": {
-    "constants": {
-        "NISTPhysicalConstants": {
-            "_type": "FileConstant",
-            "type": "file",
-            "value": {
-                "uri": "file:///data/NISTPhysicalConstants.csv",
-                "format": "csv"
-            }
-        },
-        "PI": {
-            "_type": "RawConstant",
-            "type": "literal",
-            "value": 3.14
-        }
-    },
-    "spatial_constraints": {},
-    "temporal_constraints": {
-        "duration": {
-            "_type": "UnitValue",
-            "value": 1,
-            "unit": "day"
-        },
-        "step_size": {
-            "_type": "UnitValue",
-            "value": 24,
-            "unit": "hour"
-        },
-        "start_datetime": {
-            "_type": "Datetime",
-            "timestamp": "2023-01-01T00:00:00Z"
-        },
-        "end_datetime": {
-            "_type": "Datetime",
-            "timestamp": "2023-02-01T00:00:00Z"
-        }
-    },
-    "primal_dual_relations": [
-        {
-            "primal": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
-            "dual": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
-            "method": "barycentric"
-        }
-    ],
-    "mesh_submesh_relations": [
-        {
-            "relation": "perimeter",
-            "mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
-            "submesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702"
-        },
-        {
-            "relation": "perimeter",
-            "mesh": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
-            "submesh": "247d3a75-2357-44bc-98f5-8def7cac8902"
-        }
-    ],
-    "meshes": [
-        {
-            "id": "621bf3ea-39ec-4201-88f3-e038123aaf90",
-            "description": "Rectangular mesh extracted from NetCDF of ice thickness measurements of Grigoriev Ice Cap, source: https://zenodo.org/api/records/7735970/files-archive",
-            "dimensionality": {
-                "manifold": 2,
-                "embedding_space": 2
+        "constants": {
+            "NISTPhysicalConstants": {
+                "_type": "FileConstant",
+                "value": {
+                    "uri": "file:///data/NISTPhysicalConstants.csv",
+                    "format": "csv"
+                }
             },
-            "vertex_count": 304,
-            "edge_count": 601,
-            "face_count": 100,
-            "volume_count": 0,
-            "regions": [],
-            "checksum": "",
-            "file": {
-                "uri": "file:///data/Grigoriev_ice_cap.obj",
-                "format": "objmesh"
+            "PI": {
+                "_type": "RawConstant",
+                "value": 3.14
             }
         },
-        {
-            "id": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
-            "description": "Triangular primal mesh generated to overlap with the measurement rectangular mesh",
-            "dimensionality": {
-                "manifold": 2,
-                "embedding_space": 3
+        "spatial_constraints": {},
+        "temporal_constraints": {
+            "duration": {
+                "_type": "UnitValue",
+                "value": 1,
+                "unit": "day"
             },
-            "vertex_count": 304,
-            "edge_count": 601,
-            "face_count": 100,
-            "volume_count": 0,
-            "regions": [],
-            "checksum": "",
-            "file": {
-                "uri": "file:///data/primal_mesh.obj",
-                "format": "objmesh"
+            "step_size": {
+                "_type": "UnitValue",
+                "value": 24,
+                "unit": "hour"
+            },
+            "start_datetime": {
+                "_type": "Datetime",
+                "timestamp": "2023-01-01T00:00:00Z"
+            },
+            "end_datetime": {
+                "_type": "Datetime",
+                "timestamp": "2023-02-01T00:00:00Z"
             }
         },
-        {
-            "id": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
-            "description": "Triangular dual mesh generated to overlap with the measurement rectangular mesh",
-            "dimensionality": {
-                "manifold": 2,
-                "embedding_space": 3
-            },
-            "vertex_count": 304,
-            "edge_count": 601,
-            "face_count": 100,
-            "volume_count": 0,
-            "regions": [],
-            "checksum": "",
-            "file": {
-                "uri": "file:///data/dual_mesh.obj",
-                "format": "objmesh"
+        "primal_dual_relations": [
+            {
+                "primal": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
+                "dual": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
+                "method": {"_type": "Barycenter"}
             }
-        },
-        {
-            "id": "c1119b5b-b28c-4dca-a4b0-8c662beb5702",
-            "description": "Boundary of triangular primal mesh generated to overlap with the measurement rectangular mesh",
-            "dimensionality": {
-                "manifold": 1,
-                "embedding_space": 3
+        ],
+        "mesh_submesh_relations": [
+            {
+                "relation": {"_type": "Perimeter"},
+                "mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
+                "submesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702"
             },
-            "vertex_count": 304,
-            "edge_count": 601,
-            "face_count": 100,
-            "volume_count": 0,
-            "regions": [],
-            "checksum": "",
-            "file": {
-                "uri": "file:///data/primal_mesh_boundary.obj",
-                "format": "objmesh"
+            {
+                "relation": {"_type": "Perimeter"},
+                "mesh": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
+                "submesh": "247d3a75-2357-44bc-98f5-8def7cac8902"
             }
-        },
-        {
-            "id": "247d3a75-2357-44bc-98f5-8def7cac8902",
-            "description": "Boundary of triangular dual mesh generated to overlap with the measurement rectangular mesh",
-            "dimensionality": {
-                "manifold": 1,
-                "embedding_space": 3
+        ],
+        "meshes": [
+            {
+                "id": "621bf3ea-39ec-4201-88f3-e038123aaf90",
+                "description": "Rectangular mesh extracted from NetCDF of ice thickness measurements of Grigoriev Ice Cap, source: https://zenodo.org/api/records/7735970/files-archive",
+                "dimensionality": {
+                    "manifold": 2,
+                    "embedding": 2
+                },
+                "vertex_count": 304,
+                "edge_count": 601,
+                "face_count": 100,
+                "volume_count": 0,
+                "regions": [],
+                "checksum": "",
+                "file": {
+                    "uri": "file:///data/Grigoriev_ice_cap.obj",
+                    "format": "objmesh"
+                }
             },
-            "vertex_count": 304,
-            "edge_count": 601,
-            "face_count": 100,
-            "volume_count": 0,
-            "regions": [],
-            "checksum": "",
-            "file": {
-                "uri": "file:///data/dual_mesh_boundary.obj",
-                "format": "objmesh"
+            {
+                "id": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa",
+                "description": "Triangular primal mesh generated to overlap with the measurement rectangular mesh",
+                "dimensionality": {
+                    "manifold": 2,
+                    "embedding": 3
+                },
+                "vertex_count": 304,
+                "edge_count": 601,
+                "face_count": 100,
+                "volume_count": 0,
+                "regions": [],
+                "checksum": "",
+                "file": {
+                    "uri": "file:///data/primal_mesh.obj",
+                    "format": "objmesh"
+                }
+            },
+            {
+                "id": "6880d890-24e8-4df7-941e-ddc0eaf629a6",
+                "description": "Triangular dual mesh generated to overlap with the measurement rectangular mesh",
+                "dimensionality": {
+                    "manifold": 2,
+                    "embedding": 3
+                },
+                "vertex_count": 304,
+                "edge_count": 601,
+                "face_count": 100,
+                "volume_count": 0,
+                "regions": [],
+                "checksum": "",
+                "file": {
+                    "uri": "file:///data/dual_mesh.obj",
+                    "format": "objmesh"
+                }
+            },
+            {
+                "id": "c1119b5b-b28c-4dca-a4b0-8c662beb5702",
+                "description": "Boundary of triangular primal mesh generated to overlap with the measurement rectangular mesh",
+                "dimensionality": {
+                    "manifold": 1,
+                    "embedding": 3
+                },
+                "vertex_count": 304,
+                "edge_count": 601,
+                "face_count": 100,
+                "volume_count": 0,
+                "regions": [],
+                "checksum": "",
+                "file": {
+                    "uri": "file:///data/primal_mesh_boundary.obj",
+                    "format": "objmesh"
+                }
+            },
+            {
+                "id": "247d3a75-2357-44bc-98f5-8def7cac8902",
+                "description": "Boundary of triangular dual mesh generated to overlap with the measurement rectangular mesh",
+                "dimensionality": {
+                    "manifold": 1,
+                    "embedding": 3
+                },
+                "vertex_count": 304,
+                "edge_count": 601,
+                "face_count": 100,
+                "volume_count": 0,
+                "regions": [],
+                "checksum": "",
+                "file": {
+                    "uri": "file:///data/dual_mesh_boundary.obj",
+                    "format": "objmesh"
+                }
             }
-        }
-    ]
-},
+        ]
+  },  
+
   "configuration": {
-    "parameters": {
-        "n": {
-            "_type": "LiteralParameter",
-            "type": "literal",
-            "value": 3
-        },
-        "p": {
-            "_type": "LiteralParameter",
-            "type": "literal",
-            "value": 910
-        },
-        "g": {
-            "_type": "ConstantParameter",
-            "type": "constant",
-            "value": "NISTPhysicalConstants.g"
-        },
-        "A": {
-            "_type": "LiteralParameter",
-            "type": "literal",
-            "value": 1e-16
-        }
-    },
-    "initial_conditions": {
-        "h": {
-            "_type": "Condition",
-            "type": "mesh_value",
-            "value": "86ea232c-0b07-4163-8121-0c1e6a51a1d2",
-            "domain_mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa"
-        }
-    },
-    "boundary_conditions": {
-        "h": {
-            "_type": "Condition",
-            "type": "mesh_value",
-            "value": "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f",
-            "domain_mesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702" 
-        }
-    },
-    "datasets": {
-        "86ea232c-0b07-4163-8121-0c1e6a51a1d2": {
-            "type": "mesh_value",
-            "name": "ice thickness at time zero defined on new triangular mesh",
-            "description": "",
-            "file": {
-                "uri": "file:///data/h_init.nc",
-                "format": "netcdf",
-                "shape": [304, 2]
+        "parameters": {
+            "n": {
+                "_type": "LiteralParameter",
+                "type": "literal",
+                "value": 3
+            },
+            "p": {
+                "_type": "LiteralParameter",
+                "type": "literal",
+                "value": 910
+            },
+            "g": {
+                "_type": "ConstantParameter",
+                "type": "constant",
+                "value": "NISTPhysicalConstants.g"
+            },
+            "A": {
+                "_type": "LiteralParameter",
+                "type": "literal",
+                "value": 1e-16
             }
         },
-        "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f": {
-            "type": "mesh_value",
-            "name": "ice thickness for all time defined on the boundary of the new triangular mesh",
-            "description": "",
-            "file": {
-                "uri": "file:///data/h_boundary.nc",
-                "format": "netcdf",
-                "shape": [304, 2]
+        "initial_conditions": {
+            "h": {
+                "_type": "Condition",
+                "type": "mesh_value",
+                "value": "86ea232c-0b07-4163-8121-0c1e6a51a1d2",
+                "domain_mesh": "8a22dee2-3fbd-4bd4-85b5-1dce59a159fa"
             }
         },
-        "621bf3ea-39ec-4201-88f3-e038123aaf90": {
-            "type": "mesh_value",
-            "name": "",
-            "description": "",
-            "file": {
-                "uri": "file:///data/Grigoriev_ice_cap_2021.nc",
-                "format": "netcdf",
-                "shape": [304, 2]
+        "boundary_conditions": {
+            "h": {
+                "_type": "Condition",
+                "type": "mesh_value",
+                "value": "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f",
+                "domain_mesh": "c1119b5b-b28c-4dca-a4b0-8c662beb5702" 
+            }
+        },
+        "datasets": {
+            "86ea232c-0b07-4163-8121-0c1e6a51a1d2": {
+                "type": "mesh_value",
+                "name": "ice thickness at time zero defined on new triangular mesh",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/h_init.nc",
+                    "format": {"_type": "NetCDF"},
+                    "shape": [304, 2]
+                }
+            },
+            "9c6c986c-cf04-4cbe-8223-518ac7cbbf6f": {
+                "type": "mesh_value",
+                "name": "ice thickness for all time defined on the boundary of the new triangular mesh",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/h_boundary.nc", "format": {"_type": "NetCDF"},
+                    "format": {"_type": "NetCDF"},
+                    "shape": [304, 2]
+                }
+            },
+            "621bf3ea-39ec-4201-88f3-e038123aaf90": {
+                "type": "mesh_value",
+                "name": "",
+                "description": "",
+                "file": {
+                    "uri": "file:///data/Grigoriev_ice_cap_2021.nc",
+                    "format": {"_type": "NetCDF"},
+                    "shape": [304, 2]
+                }
             }
         }
-    }
-}
+    }  
 }
