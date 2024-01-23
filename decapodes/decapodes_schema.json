@@ -1,6 +1,661 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$defs": {
+    "ModelHeader": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "model_version": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "schema": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "schema_name": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "name",
+        "model_version",
+        "schema",
+        "schema_name"
+      ]
+    },
+    "ContextHeader": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "$comment": "Str"
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "parent_model": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "parent_model"
+      ]
+    },
+    "ConfigurationHeader": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "parent_context": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "name",
+        "parent_context"
+      ]
+    },
+    "File": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "format": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "uri",
+        "format"
+      ]
+    },
+    "Parameter": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/LiteralParameter"
+        },
+        {
+          "$ref": "#/$defs/ConstantParameter"
+        }
+      ]
+    },
+    "LiteralParameter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "LiteralParameter"
+        },
+        "type": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "value": {
+          "type": "number",
+          "$comment": "F64"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "ConstantParameter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "ConstantParameter"
+        },
+        "type": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "value": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "Condition": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "value": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "domain_mesh": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "type",
+        "value",
+        "domain_mesh"
+      ]
+    },
+    "DatasetFormat": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/NetCDF"
+        },
+        {
+          "$ref": "#/$defs/CSV"
+        }
+      ]
+    },
+    "NetCDF": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "NetCDF"
+        }
+      },
+      "required": [
+      ]
+    },
+    "CSV": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "CSV"
+        }
+      },
+      "required": [
+      ]
+    },
+    "DatasetFile": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "format": {
+          "$ref": "#/$defs/DatasetFormat"
+        },
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "$comment": "I64"
+          }
+        }
+      },
+      "required": [
+        "uri",
+        "format",
+        "shape"
+      ]
+    },
+    "Dataset": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "file": {
+          "$ref": "#/$defs/DatasetFile"
+        }
+      },
+      "required": [
+        "type",
+        "name",
+        "description",
+        "file"
+      ]
+    },
+    "DecapodeConfiguration": {
+      "type": "object",
+      "properties": {
+        "parameters": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Parameter"
+          }
+        },
+        "initial_conditions": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Condition"
+          }
+        },
+        "boundary_conditions": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Condition"
+          }
+        },
+        "datasets": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Dataset"
+          }
+        }
+      },
+      "required": [
+        "parameters",
+        "initial_conditions",
+        "boundary_conditions",
+        "datasets"
+      ]
+    },
+    "ASKEMDecapodeConfiguration": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/ConfigurationHeader"
+        },
+        "configuration": {
+          "$ref": "#/$defs/DecapodeConfiguration"
+        }
+      },
+      "required": [
+        "header",
+        "configuration"
+      ]
+    },
+    "Constant": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/FileConstant"
+        },
+        {
+          "$ref": "#/$defs/RawConstant"
+        }
+      ]
+    },
+    "FileConstant": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "FileConstant"
+        },
+        "value": {
+          "$ref": "#/$defs/File"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "RawConstant": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "RawConstant"
+        },
+        "value": {
+          "type": "number",
+          "$comment": "F64"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ConstraintValue": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/UnitValue"
+        },
+        {
+          "$ref": "#/$defs/Datetime"
+        }
+      ]
+    },
+    "UnitValue": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "UnitValue"
+        },
+        "value": {
+          "type": "number",
+          "$comment": "F64"
+        },
+        "unit": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ]
+    },
+    "Datetime": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "Datetime"
+        },
+        "timestamp": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "timestamp"
+      ]
+    },
+    "Dimensionality": {
+      "type": "object",
+      "properties": {
+        "manifold": {
+          "type": "string",
+          "$comment": "I64"
+        },
+        "embedding": {
+          "type": "string",
+          "$comment": "I64"
+        }
+      },
+      "required": [
+        "manifold",
+        "embedding"
+      ]
+    },
+    "Region": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/RegionEquation"
+        }
+      ]
+    },
+    "RegionEquation": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "RegionEquation"
+        },
+        "equations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "$comment": "Str"
+          }
+        }
+      },
+      "required": [
+        "equations"
+      ]
+    },
+    "MethodType": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Barycenter"
+        },
+        {
+          "$ref": "#/$defs/Circumcenter"
+        }
+      ]
+    },
+    "Barycenter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "Barycenter"
+        }
+      },
+      "required": [
+      ]
+    },
+    "Circumcenter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "Circumcenter"
+        }
+      },
+      "required": [
+      ]
+    },
+    "PrimalDualRelation": {
+      "type": "object",
+      "properties": {
+        "primal": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "dual": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "method": {
+          "$ref": "#/$defs/MethodType"
+        }
+      },
+      "required": [
+        "primal",
+        "dual",
+        "method"
+      ]
+    },
+    "RelationType": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Perimeter"
+        }
+      ]
+    },
+    "Perimeter": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "const": "Perimeter"
+        }
+      },
+      "required": [
+      ]
+    },
+    "SubmeshRelation": {
+      "type": "object",
+      "properties": {
+        "relation": {
+          "$ref": "#/$defs/RelationType"
+        },
+        "mesh": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "submesh": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "relation",
+        "mesh",
+        "submesh"
+      ]
+    },
+    "Mesh": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "dimensionality": {
+          "$ref": "#/$defs/Dimensionality"
+        },
+        "vertex_count": {
+          "type": "string",
+          "$comment": "I64"
+        },
+        "edge_count": {
+          "type": "string",
+          "$comment": "I64"
+        },
+        "face_count": {
+          "type": "string",
+          "$comment": "I64"
+        },
+        "volume_count": {
+          "type": "string",
+          "$comment": "I64"
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Region"
+          }
+        },
+        "checksum": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "file": {
+          "$ref": "#/$defs/File"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "dimensionality",
+        "vertex_count",
+        "edge_count",
+        "face_count",
+        "volume_count",
+        "regions",
+        "checksum",
+        "file"
+      ]
+    },
+    "DecapodeContext": {
+      "type": "object",
+      "properties": {
+        "constants": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Constant"
+          }
+        },
+        "spatial_constraints": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/ConstraintValue"
+          }
+        },
+        "temporal_constraints": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/ConstraintValue"
+          }
+        },
+        "primal_dual_relations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PrimalDualRelation"
+          }
+        },
+        "mesh_submesh_relations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SubmeshRelation"
+          }
+        },
+        "meshes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Mesh"
+          }
+        }
+      },
+      "required": [
+        "constants",
+        "spatial_constraints",
+        "temporal_constraints",
+        "primal_dual_relations",
+        "mesh_submesh_relations",
+        "meshes"
+      ]
+    },
+    "ASKEMDecapodeContext": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/ContextHeader"
+        },
+        "context": {
+          "$ref": "#/$defs/DecapodeContext"
+        }
+      },
+      "required": [
+        "header",
+        "context"
+      ]
+    },
     "Term": {
       "oneOf": [
         {
@@ -237,6 +892,528 @@
       "required": [
         "context",
         "equations"
+      ]
+    },
+    "DecapodeSym": {
+      "type": "object",
+      "properties": {
+        "type": "object",
+        "properties": {
+          "Var": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "type": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "type"
+              ]
+            }
+          },
+          "TVar": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "incl": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                }
+              },
+              "required": [
+                "_id",
+                "incl"
+              ]
+            }
+          },
+          "Op1": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "src": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "tgt": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "op1": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "src",
+                "tgt",
+                "op1"
+              ]
+            }
+          },
+          "Op2": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "proj1": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "proj2": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "res": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "op2": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "proj1",
+                "proj2",
+                "res",
+                "op2"
+              ]
+            }
+          }
+        },
+        "required": [
+          "Var",
+          "TVar",
+          "Op1",
+          "Op2"
+        ]
+      }
+    },
+    "NamedDecapodeSym": {
+      "type": "object",
+      "properties": {
+        "type": "object",
+        "properties": {
+          "Var": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "type": {
+                  "type": "string",
+                  "$comment": "Sym"
+                },
+                "name": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "type",
+                "name"
+              ]
+            }
+          },
+          "TVar": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "incl": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                }
+              },
+              "required": [
+                "_id",
+                "incl"
+              ]
+            }
+          },
+          "Op1": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "src": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "tgt": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "op1": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "src",
+                "tgt",
+                "op1"
+              ]
+            }
+          },
+          "Op2": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "proj1": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "proj2": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "res": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "op2": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "proj1",
+                "proj2",
+                "res",
+                "op2"
+              ]
+            }
+          }
+        },
+        "required": [
+          "Var",
+          "TVar",
+          "Op1",
+          "Op2"
+        ]
+      }
+    },
+    "SummationDecapodeSym": {
+      "type": "object",
+      "properties": {
+        "type": "object",
+        "properties": {
+          "Var": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "type": {
+                  "type": "string",
+                  "$comment": "Sym"
+                },
+                "name": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "type",
+                "name"
+              ]
+            }
+          },
+          "TVar": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "incl": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                }
+              },
+              "required": [
+                "_id",
+                "incl"
+              ]
+            }
+          },
+          "Op1": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "src": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "tgt": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "op1": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "src",
+                "tgt",
+                "op1"
+              ]
+            }
+          },
+          "Op2": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "proj1": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "proj2": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "res": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "op2": {
+                  "type": "string",
+                  "$comment": "Sym"
+                }
+              },
+              "required": [
+                "_id",
+                "proj1",
+                "proj2",
+                "res",
+                "op2"
+              ]
+            }
+          },
+          "Σ": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "sum": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                }
+              },
+              "required": [
+                "_id",
+                "sum"
+              ]
+            }
+          },
+          "Summand": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "summand": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "summation": {
+                  "type": "integer",
+                  "$comment": "U32",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                }
+              },
+              "required": [
+                "_id",
+                "summand",
+                "summation"
+              ]
+            }
+          }
+        },
+        "required": [
+          "Var",
+          "TVar",
+          "Op1",
+          "Op2",
+          "Σ",
+          "Summand"
+        ]
+      }
+    },
+    "ASKEMDecapodeModel": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/ModelHeader"
+        },
+        "model": {
+          "$ref": "#/$defs/DecaExpr"
+        }
+      },
+      "required": [
+        "header",
+        "model"
+      ]
+    },
+    "ASKEMDecapodeSimulationPlan": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/ModelHeader"
+        },
+        "model": {
+          "$ref": "#/$defs/DecaExpr"
+        },
+        "context": {
+          "$ref": "#/$defs/DecapodeContext"
+        },
+        "configuration": {
+          "$ref": "#/$defs/DecapodeConfiguration"
+        }
+      },
+      "required": [
+        "header",
+        "model",
+        "context",
+        "configuration"
       ]
     }
   }
