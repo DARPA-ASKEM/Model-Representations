@@ -5,7 +5,34 @@ from pydantic import Field, TypeAdapter
 from intertypes import SafeInt, InterTypeBase
 
 from acsets import Ob, Hom, Attr, AttrType, Schema, ACSet
-import base as AMRBase
+
+
+class ModelHeader(InterTypeBase):
+    id: str | None
+    description: str
+    name: str
+    model_version: str
+    schema: str
+    schema_name: str
+
+
+class ContextHeader(InterTypeBase):
+    id: str | None
+    name: str
+    description: str
+    parent_model: str
+
+
+class ConfigurationHeader(InterTypeBase):
+    id: str | None
+    description: str
+    name: str
+    parent_context: str
+
+
+class File(InterTypeBase):
+    uri: str
+    format: str
 
 
 class LiteralParameter(InterTypeBase):
@@ -55,23 +82,6 @@ class Dataset(InterTypeBase):
     file: "DatasetFile"
 
 
-class File(InterTypeBase):
-    tag: Literal["File"] = Field(default="File", alias="_type", repr=False)
-    uri: str
-    checksum: str
-    format: str
-    shape: list[SafeInt]
-
-
-class Values(InterTypeBase):
-    tag: Literal["Values"] = Field(default="Values", alias="_type", repr=False)
-    values: list[SafeInt]
-
-
-MeshValue = Annotated[File | Values, Field(discriminator="tag")]
-meshvalue_adapter: TypeAdapter[MeshValue] = TypeAdapter(MeshValue)
-
-
 class DecapodeConfiguration(InterTypeBase):
     parameters: dict[str, "Parameter"]
     initial_conditions: dict[str, "Condition"]
@@ -80,13 +90,13 @@ class DecapodeConfiguration(InterTypeBase):
 
 
 class ASKEMDecapodeConfiguration(InterTypeBase):
-    header: "AMRBase.ConfigurationHeader"
+    header: "ConfigurationHeader"
     configuration: "DecapodeConfiguration"
 
 
 class FileConstant(InterTypeBase):
     tag: Literal["FileConstant"] = Field(default="FileConstant", alias="_type", repr=False)
-    value: "AMRBase.File"
+    value: "File"
 
 
 class RawConstant(InterTypeBase):
@@ -169,7 +179,7 @@ class Mesh(InterTypeBase):
     volume_count: SafeInt
     regions: list["Region"]
     checksum: str
-    file: "AMRBase.File"
+    file: "File"
 
 
 class DecapodeContext(InterTypeBase):
@@ -182,7 +192,7 @@ class DecapodeContext(InterTypeBase):
 
 
 class ASKEMDecapodeContext(InterTypeBase):
-    header: "AMRBase.ContextHeader"
+    header: "ContextHeader"
     context: "DecapodeContext"
 
 
@@ -255,13 +265,141 @@ class DecaExpr(InterTypeBase):
     equations: list["Equation"]
 
 
+class SchDecapode:
+    Var = Ob(name="Var")
+    TVar = Ob(name="TVar")
+    Op1 = Ob(name="Op1")
+    Op2 = Ob(name="Op2")
+    src = Hom(name="src", dom=Op1, codom=Var)
+    tgt = Hom(name="tgt", dom=Op1, codom=Var)
+    proj1 = Hom(name="proj1", dom=Op2, codom=Var)
+    proj2 = Hom(name="proj2", dom=Op2, codom=Var)
+    res = Hom(name="res", dom=Op2, codom=Var)
+    incl = Hom(name="incl", dom=TVar, codom=Var)
+    Type = AttrType(name="Type", ty=str)
+    Operator = AttrType(name="Operator", ty=str)
+    op1 = Attr(name="op1", dom=Op1, codom=Operator)
+    op2 = Attr(name="op2", dom=Op2, codom=Operator)
+    type = Attr(name="type", dom=Var, codom=Type)
+    schema = Schema(
+        name="SchDecapode",
+        obs=[Var, TVar, Op1, Op2],
+        homs=[src, tgt, proj1, proj2, res, incl],
+        attrtypes=[Type, Operator],
+        attrs=[op1, op2, type]
+    )
+
+
+
+class SchNamedDecapode:
+    Var = Ob(name="Var")
+    TVar = Ob(name="TVar")
+    Op1 = Ob(name="Op1")
+    Op2 = Ob(name="Op2")
+    src = Hom(name="src", dom=Op1, codom=Var)
+    tgt = Hom(name="tgt", dom=Op1, codom=Var)
+    proj1 = Hom(name="proj1", dom=Op2, codom=Var)
+    proj2 = Hom(name="proj2", dom=Op2, codom=Var)
+    res = Hom(name="res", dom=Op2, codom=Var)
+    incl = Hom(name="incl", dom=TVar, codom=Var)
+    Type = AttrType(name="Type", ty=str)
+    Operator = AttrType(name="Operator", ty=str)
+    Name = AttrType(name="Name", ty=str)
+    op1 = Attr(name="op1", dom=Op1, codom=Operator)
+    op2 = Attr(name="op2", dom=Op2, codom=Operator)
+    type = Attr(name="type", dom=Var, codom=Type)
+    name = Attr(name="name", dom=Var, codom=Name)
+    schema = Schema(
+        name="SchNamedDecapode",
+        obs=[Var, TVar, Op1, Op2],
+        homs=[src, tgt, proj1, proj2, res, incl],
+        attrtypes=[Type, Operator, Name],
+        attrs=[op1, op2, type, name]
+    )
+
+
+
+class AbstractDecapode(ACSet):
+    pass
+
+
+class AbstractNamedDecapode(AbstractDecapode):
+    pass
+
+
+class DecapodeSym(AbstractDecapode):
+
+    def __init__(self, name="DecapodeSym", schema=SchDecapode.schema):
+        super(DecapodeSym, self).__init__(name, schema)
+
+    @classmethod
+    def read_json(cls, s: str):
+        return super(DecapodeSym, cls).read_json("DecapodeSym", SchDecapode.schema, s)
+
+
+
+class NamedDecapodeSym(AbstractNamedDecapode):
+
+    def __init__(self, name="NamedDecapodeSym", schema=SchNamedDecapode.schema):
+        super(NamedDecapodeSym, self).__init__(name, schema)
+
+    @classmethod
+    def read_json(cls, s: str):
+        return super(NamedDecapodeSym, cls).read_json("NamedDecapodeSym", SchNamedDecapode.schema, s)
+
+
+
+class SchSummationDecapode:
+    Var = Ob(name="Var")
+    TVar = Ob(name="TVar")
+    Op1 = Ob(name="Op1")
+    Op2 = Ob(name="Op2")
+    Σ = Ob(name="Σ")
+    Summand = Ob(name="Summand")
+    src = Hom(name="src", dom=Op1, codom=Var)
+    tgt = Hom(name="tgt", dom=Op1, codom=Var)
+    proj1 = Hom(name="proj1", dom=Op2, codom=Var)
+    proj2 = Hom(name="proj2", dom=Op2, codom=Var)
+    res = Hom(name="res", dom=Op2, codom=Var)
+    incl = Hom(name="incl", dom=TVar, codom=Var)
+    summand = Hom(name="summand", dom=Summand, codom=Var)
+    summation = Hom(name="summation", dom=Summand, codom=Σ)
+    sum = Hom(name="sum", dom=Σ, codom=Var)
+    Type = AttrType(name="Type", ty=str)
+    Operator = AttrType(name="Operator", ty=str)
+    Name = AttrType(name="Name", ty=str)
+    op1 = Attr(name="op1", dom=Op1, codom=Operator)
+    op2 = Attr(name="op2", dom=Op2, codom=Operator)
+    type = Attr(name="type", dom=Var, codom=Type)
+    name = Attr(name="name", dom=Var, codom=Name)
+    schema = Schema(
+        name="SchSummationDecapode",
+        obs=[Var, TVar, Op1, Op2, Σ, Summand],
+        homs=[src, tgt, proj1, proj2, res, incl, summand, summation, sum],
+        attrtypes=[Type, Operator, Name],
+        attrs=[op1, op2, type, name]
+    )
+
+
+
+class SummationDecapodeSym(AbstractNamedDecapode):
+
+    def __init__(self, name="SummationDecapodeSym", schema=SchSummationDecapode.schema):
+        super(SummationDecapodeSym, self).__init__(name, schema)
+
+    @classmethod
+    def read_json(cls, s: str):
+        return super(SummationDecapodeSym, cls).read_json("SummationDecapodeSym", SchSummationDecapode.schema, s)
+
+
+
 class ASKEMDecapodeModel(InterTypeBase):
-    header: "AMRBase.ModelHeader"
+    header: "ModelHeader"
     model: "DecaExpr"
 
 
 class ASKEMDecapodeSimulationPlan(InterTypeBase):
-    header: "AMRBase.ModelHeader"
+    header: "ModelHeader"
     model: "DecaExpr"
     context: "DecapodeContext"
     configuration: "DecapodeConfiguration"
