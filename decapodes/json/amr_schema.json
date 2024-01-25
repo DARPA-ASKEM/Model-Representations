@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$defs": {
+    "ModelHeader": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "model_version": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "schema": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "schema_name": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "name",
+        "model_version",
+        "schema",
+        "schema_name"
+      ]
+    },
+    "ContextHeader": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "$comment": "Str"
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "parent_model": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "parent_model"
+      ]
+    },
+    "ConfigurationHeader": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "$comment": "Str"
+        },
+        "description": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "name": {
+          "type": "string",
+          "$comment": "Str"
+        },
+        "parent_context": {
+          "type": "string",
+          "$comment": "Str"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "name",
+        "parent_context"
+      ]
+    },
+    "ASKEMDecapodeConfiguration": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/ConfigurationHeader"
+        },
+        "configuration": {
+          "$ref": "#/$defs/DecapodeConfigurations.DecapodeConfiguration"
+        }
+      },
+      "required": [
+        "header",
+        "configuration"
+      ]
+    },
+    "ASKEMDecapodeContext": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/ContextHeader"
+        },
+        "context": {
+          "$ref": "#/$defs/DecapodeContexts.DecapodeContext"
+        }
+      },
+      "required": [
+        "header",
+        "context"
+      ]
+    },
+    "ASKEMDecapodeModel": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/ModelHeader"
+        },
+        "model": {
+          "$ref": "#/$defs/DecapodeModels.DecaExpr"
+        }
+      },
+      "required": [
+        "header",
+        "model"
+      ]
+    },
+    "ASKEMDecapodeSimulationPlan": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/ModelHeader"
+        },
+        "model": {
+          "$ref": "#/$defs/DecapodeModels.DecaExpr"
+        },
+        "context": {
+          "$ref": "#/$defs/DecapodeContexts.DecapodeContext"
+        },
+        "configuration": {
+          "$ref": "#/$defs/DecapodeConfigurations.DecapodeConfiguration"
+        }
+      },
+      "required": [
+        "header",
+        "model",
+        "context",
+        "configuration"
+      ]
+    }
+  }
+}

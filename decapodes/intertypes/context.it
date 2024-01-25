@@ -1,0 +1,66 @@
+struct File
+	uri::String
+	format::String
+end
+
+@sum Constant begin
+  FileConstant(value::File)
+  RawConstant(value::Float64)
+end
+
+@sum ConstraintValue begin
+	UnitValue(value::Float64, unit::String)
+	Datetime(timestamp::String)
+end
+
+struct Dimensionality
+	manifold::Int64
+	embedding::Int64
+end
+
+@sum Region begin
+	RegionEquation(equations::Vector{String})
+end
+
+@sum MethodType begin
+  Barycenter
+  Circumcenter
+end
+
+struct PrimalDualRelation
+  primal::String
+  dual::String
+  method::MethodType
+end
+
+@sum RelationType begin
+  Perimeter
+end
+
+struct SubmeshRelation
+  relation::RelationType
+  mesh::String
+  submesh::String
+end
+
+struct Mesh
+  id::String
+  description::String
+  dimensionality::Dimensionality
+  vertex_count::Int64
+  edge_count::Int64
+  face_count::Int64
+  volume_count::Int64
+  regions::Vector{Region}
+  checksum::String
+  file::File
+end
+
+struct DecapodeContext
+  constants::Object{Constant}
+  spatial_constraints::Object{ConstraintValue}
+  temporal_constraints::Object{ConstraintValue}
+  primal_dual_relations::Vector{PrimalDualRelation}
+  mesh_submesh_relations::Vector{SubmeshRelation}
+  meshes::Vector{Mesh}
+end

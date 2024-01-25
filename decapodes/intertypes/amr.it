@@ -1,0 +1,44 @@
+struct ModelHeader
+  id::Optional{String}
+  description::String
+  name::String
+  model_version::String
+  schema::String
+  schema_name::String	
+end
+
+struct ContextHeader
+  id::Optional{String}
+  name::String
+  description::String
+  parent_model::String
+end
+
+struct ConfigurationHeader
+  id::Optional{String}
+  description::String
+  name::String
+  parent_context::String
+end
+
+struct ASKEMDecapodeConfiguration
+  header::ConfigurationHeader
+  configuration::DecapodeConfigurations.DecapodeConfiguration
+end
+
+struct ASKEMDecapodeContext
+  header::ContextHeader
+  context::DecapodeContexts.DecapodeContext
+end
+
+struct ASKEMDecapodeModel
+  header::ModelHeader
+  model::DecapodeModels.DecaExpr
+end
+
+struct ASKEMDecapodeSimulationPlan
+  header::ModelHeader
+  model::DecapodeModels.DecaExpr
+  context::DecapodeContexts.DecapodeContext
+  configuration::DecapodeConfigurations.DecapodeConfiguration
+end

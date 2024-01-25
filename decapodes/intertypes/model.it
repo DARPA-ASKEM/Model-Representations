@@ -74,3 +74,4 @@ end
   index=[:src, :tgt, :res, :incl, :op1, :op2, :type],
   generic=SummationDecapode
 ) <: AbstractNamedDecapode
+
