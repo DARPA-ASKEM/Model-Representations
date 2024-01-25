@@ -1,0 +1,36 @@
+@sum Parameter begin
+  LiteralParameter(type::String, value::Float64)
+  ConstantParameter(type::String, value::String)
+end
+
+struct Condition
+  type::String
+  value::String
+  domain_mesh::String
+end
+
+@sum DatasetFormat begin
+  NetCDF
+  CSV
+end
+
+struct DatasetFile
+  uri::String
+  format::DatasetFormat
+  shape::Vector{Int64}
+end
+
+struct Dataset
+  type::String
+  name::String
+  description::String
+  file::DatasetFile  
+end
+
+struct DecapodeConfiguration
+  parameters::Object{Parameter}
+  initial_conditions::Object{Condition}
+  boundary_conditions::Object{Condition}
+  datasets::Object{Dataset}
+end
+
