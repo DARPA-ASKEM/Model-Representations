@@ -1,6 +1,6 @@
 struct File
-	uri::String
-	format::String
+  uri::String
+  format::String
 end
 
 @sum Constant begin
@@ -9,17 +9,17 @@ end
 end
 
 @sum ConstraintValue begin
-	UnitValue(value::Float64, unit::String)
-	Datetime(timestamp::String)
+  UnitValue(value::Float64, unit::String)
+  Datetime(timestamp::String)
 end
 
 struct Dimensionality
-	manifold::Int64
-	embedding::Int64
+  manifold::Int64
+  embedding::Int64
 end
 
 @sum Region begin
-	RegionEquation(equations::Vector{String})
+  RegionEquation(equations::Vector{String})
 end
 
 @sum MethodType begin
