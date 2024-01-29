@@ -5,27 +5,27 @@ import ACSets.InterTypes: InterTypes, @intertypes, generate_module, PydanticTarg
 JSON_DIR = joinpath((@__DIR__), "json/")
 PYTHON_DIR = joinpath((@__DIR__), "python/")
 
-write(PYTHON_DIR * "/intertypes.py", InterTypes.INTERTYPE_PYTHON_MODULE)
+write(joinpath(PYTHON_DIR,"intertypes.py"), InterTypes.INTERTYPE_PYTHON_MODULE)
 
-@intertypes "intertypes/configuration.it" module DecapodeConfigurations end
+@intertypes joinpath("intertypes", "configuration.it") module DecapodeConfigurations end
 using .DecapodeConfigurations
 generate_module(DecapodeConfigurations, PydanticTarget, PYTHON_DIR)
 generate_module(DecapodeConfigurations, JSONTarget, JSON_DIR)
 
 
-@intertypes "intertypes/context.it" module DecapodeContexts end
+@intertypes joinpath("intertypes", "context.it") module DecapodeContexts end
 using .DecapodeContexts
 generate_module(DecapodeContexts, PydanticTarget, PYTHON_DIR)
 generate_module(DecapodeContexts, JSONTarget, JSON_DIR)
 
 
-@intertypes "intertypes/model.it" module DecapodeModels end
+@intertypes joinpath("intertypes", "model.it") module DecapodeModels end
 using .DecapodeModels
 generate_module(DecapodeModels, PydanticTarget, PYTHON_DIR)
 generate_module(DecapodeModels, JSONTarget, JSON_DIR)
 
 
-@intertypes "intertypes/amr.it" module DecapodesAMR 
+@intertypes joinpath("intertypes", "amr.it") module DecapodesAMR 
   import ..DecapodeConfigurations
   import ..DecapodeContexts
   import ..DecapodeModels
