@@ -138,25 +138,25 @@ class AbstractNamedDecapode(AbstractDecapode):
     pass
 
 
-class DecapodeSym(AbstractDecapode):
+class SymDecapode(AbstractDecapode):
 
-    def __init__(self, name="DecapodeSym", schema=SchDecapode.schema):
-        super(DecapodeSym, self).__init__(name, schema)
-
-    @classmethod
-    def read_json(cls, s: str):
-        return super(DecapodeSym, cls).read_json("DecapodeSym", SchDecapode.schema, s)
-
-
-
-class NamedDecapodeSym(AbstractNamedDecapode):
-
-    def __init__(self, name="NamedDecapodeSym", schema=SchNamedDecapode.schema):
-        super(NamedDecapodeSym, self).__init__(name, schema)
+    def __init__(self, name="SymDecapode", schema=SchDecapode.schema):
+        super(SymDecapode, self).__init__(name, schema)
 
     @classmethod
     def read_json(cls, s: str):
-        return super(NamedDecapodeSym, cls).read_json("NamedDecapodeSym", SchNamedDecapode.schema, s)
+        return super(SymDecapode, cls).read_json("SymDecapode", SchDecapode.schema, s)
+
+
+
+class NamedSymDecapode(AbstractNamedDecapode):
+
+    def __init__(self, name="NamedSymDecapode", schema=SchNamedDecapode.schema):
+        super(NamedSymDecapode, self).__init__(name, schema)
+
+    @classmethod
+    def read_json(cls, s: str):
+        return super(NamedSymDecapode, cls).read_json("NamedSymDecapode", SchNamedDecapode.schema, s)
 
 
 
@@ -193,14 +193,14 @@ class SchSummationDecapode:
 
 
 
-class SummationDecapodeSym(AbstractNamedDecapode):
+class SummationSymDecapode(AbstractNamedDecapode):
 
-    def __init__(self, name="SummationDecapodeSym", schema=SchSummationDecapode.schema):
-        super(SummationDecapodeSym, self).__init__(name, schema)
+    def __init__(self, name="SummationSymDecapode", schema=SchSummationDecapode.schema):
+        super(SummationSymDecapode, self).__init__(name, schema)
 
     @classmethod
     def read_json(cls, s: str):
-        return super(SummationDecapodeSym, cls).read_json("SummationDecapodeSym", SchSummationDecapode.schema, s)
+        return super(SummationSymDecapode, cls).read_json("SummationSymDecapode", SchSummationDecapode.schema, s)
 
 
 

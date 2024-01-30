@@ -239,7 +239,7 @@
         "equations"
       ]
     },
-    "DecapodeSym": {
+    "SymDecapode": {
       "type": "object",
       "properties": {
         "type": "object",
@@ -378,7 +378,7 @@
         ]
       }
     },
-    "NamedDecapodeSym": {
+    "NamedSymDecapode": {
       "type": "object",
       "properties": {
         "type": "object",
@@ -522,7 +522,7 @@
         ]
       }
     },
-    "SummationDecapodeSym": {
+    "SummationSymDecapode": {
       "type": "object",
       "properties": {
         "type": "object",

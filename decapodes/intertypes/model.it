@@ -47,13 +47,13 @@ end
 @abstract_acset_type AbstractDecapode
 @abstract_acset_type AbstractNamedDecapode <: AbstractDecapode
 
-@acset_type DecapodeSym(
+@acset_type SymDecapode(
   SchDecapode,
   index=[:src, :tgt, :res, :incl, :op1, :op2, :type],
   generic=Decapode
 ) <: AbstractDecapode
 
-@acset_type NamedDecapodeSym(
+@acset_type NamedSymDecapode(
   SchNamedDecapode,
   index=[:src, :tgt, :res, :incl, :op1, :op2, :type, :name],
   generic=NamedDecapode
@@ -69,7 +69,7 @@ end
   sum::Hom(Σ, Var)
 end
 
-@acset_type SummationDecapodeSym(
+@acset_type SummationSymDecapode(
   SchSummationDecapode,
   index=[:src, :tgt, :res, :incl, :op1, :op2, :type],
   generic=SummationDecapode
