@@ -1,7 +1,14 @@
 using Decapodes, CombinatorialSpaces, GeometryBasics, FileIO, SyntacticModels, Catlab
 
-# Specify these paths:
+#The grid-mesh generating script is available here:
+
 #include("~/Decapodes.jl/examples/grid_meshes.jl")
+
+#"Icethickness_Grigoriev_ice_cap_2021.tif" can be downloaded and unzipped like so:
+#download("https://zenodo.org/api/records/7735970/files-archive", "./ice_archive.zip")
+#run(`unzip -j ./ice_archive.zip`)
+#run(`unzip -j -n ./Icethickness-Grigoriev-ice-cap-v1.zip`)
+
 
 # Generate and save the primal and dual meshes:
 const MIN_X = 4648894.5
@@ -19,6 +26,7 @@ subdivide_duals!(s, Barycenter())
 
 save("primal_mesh.obj", GeometryBasics.Mesh(s′))
 save("dual_mesh.obj", GeometryBasics.Mesh(s))
+
 
 # Generate and save the model:
 halfar_eq2 = @decapode begin
