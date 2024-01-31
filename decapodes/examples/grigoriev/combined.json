@@ -529,7 +529,7 @@
                 "name": "ice thickness for all time defined on the boundary of the new triangular mesh",
                 "description": "",
                 "file": {
-                    "uri": "file:///data/h_boundary.nc", "format": {"_type": "NetCDF"},
+                    "uri": "file:///data/h_boundary.nc",
                     "format": {"_type": "NetCDF"},
                     "shape": [304, 2]
                 }
