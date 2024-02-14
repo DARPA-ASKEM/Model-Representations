@@ -147,6 +147,28 @@ def observables(amr: dict):
     return summary, result
 
 
+def _load_data(source):
+    """Converts a data source to a JSON.
+
+    return pair of loaded-json, description-of-origin
+    """
+    if isinstance(source, str):
+        try:
+            parsed = urlparse(source)
+            if parsed.scheme != "":
+                return requests.get(source).json(), source
+        except BaseException:
+            pass
+
+        source = Path(source)
+
+    if isinstance(source, Path):
+        with open(source) as f:
+            return json.load(f), str(source)
+    else:
+        return source, "<json>"
+
+
 def check_amr(source: Union[dict, Path, str], summary=False):
     """Do a battery of testa against an AMR.
 
@@ -159,16 +181,7 @@ def check_amr(source: Union[dict, Path, str], summary=False):
     Returns:
         JSON description of inventory resutls
     """
-    if isinstance(source, str):
-        source = Path(source)
-
-    if isinstance(source, Path):
-        source_id = str(source)
-        with open(source) as f:
-            data = json.load(f)
-    else:
-        source_id = "<json>"
-        data = source
+    data, source_id = _load_data(source)
 
     part = 0 if summary else 1
 
@@ -212,19 +225,16 @@ if __name__ == "__main__":
         default="md",
         help="Output format.  (choose 'md' for human-readable in console).",
     )
+    parser.add_argument(
+        "--name-length",
+        default=30,
+        type=int,
+        help="Truncate to this many trailing characters",
+    )
     args = parser.parse_args()
     summary = args.format != "json-detail"
 
-    def maybe_load(source):
-        try:
-            parsed = urlparse(source)
-            if parsed.scheme != "":
-                return requests.get(source).json()
-        except BaseException:
-            return source
-
-    sources = [maybe_load(source) for source in args.sources]
-    results = [check_amr(source, summary) for source in sources]
+    results = [check_amr(source, summary) for source in args.sources]
     if args.format in ["html", "md"]:
         try:
             import pandas as pd
@@ -236,7 +246,12 @@ if __name__ == "__main__":
         cleaned = [e for e in results if "message" not in e]
 
         if len(cleaned) > 0:
-            df = pd.DataFrame(cleaned).set_index("source")
+            df = pd.DataFrame(cleaned)
+            df["source"] = df["source"].str.slice_replace(
+                start=0, stop=-args.name_length, repl="..."
+            )
+            df = df.set_index("source")
+
             if args.format == "md":
                 print(df.to_markdown())
             elif args.format == "html":
