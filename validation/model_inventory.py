@@ -5,10 +5,11 @@
 # may fill in additional information.  This script/module loads a schema
 # and inventories what is present.  (CLI can process more than one schema).
 
+import json
+from itertools import chain
 from pathlib import Path
 from typing import Union
-from itertools import chain
-import json
+
 import sympy
 
 
@@ -191,9 +192,20 @@ def check_amr(source: Union[dict, Path, str], summary=False):
 
 if __name__ == "__main__":
     import argparse
+    from urllib.parse import urlparse
+
+    import requests
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("files", nargs="+", type=Path, help="Files to parse")
+    parser.add_argument(
+        "sources",
+        nargs="+",
+        type=str,
+        help=(
+            "Files to parse OR urls to download and parse\n"
+            "(URLs must include the protocol or they will be treated as files)"
+        ),
+    )
     parser.add_argument(
         "--format",
         choices=["md", "json", "html", "json-detail"],
@@ -203,11 +215,20 @@ if __name__ == "__main__":
     args = parser.parse_args()
     summary = args.format != "json-detail"
 
-    results = [check_amr(file, summary) for file in args.files]
+    def maybe_load(source):
+        try:
+            parsed = urlparse(source)
+            if parsed.scheme != "":
+                return requests.get(source).json()
+        except BaseException:
+            return source
+
+    sources = [maybe_load(source) for source in args.sources]
+    results = [check_amr(source, summary) for source in sources]
     if args.format in ["html", "md"]:
         try:
             import pandas as pd
-        except:
+        except ImportError:
             print(f"To use {args.format}, pandas must be installed.")
             raise
 
