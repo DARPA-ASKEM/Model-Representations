@@ -111,7 +111,11 @@ def rate_law_parse(amr: dict):
         except Exception:
             return "Rate law expression invalid", f"Error parsing: {in_expr}"
 
-    defs = {str(s): s in vars.keys() for s in out_expr.free_symbols}
+    def _present(s, list):
+        return str(s) in vars.keys() or s in vars.keys()
+
+    defs = {str(s): _present(s, vars.keys()) for s in out_expr.free_symbols}
+
     return all(defs.values()), defs
 
 
