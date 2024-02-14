@@ -174,7 +174,7 @@ def check_amr(source: Union[dict, Path, str], summary=False):
     try:
         return {
             "source": source_id,
-            "parameter distribtuion exists": param_at_least_one_distribution(data)[
+            "parameter distribution exists": param_at_least_one_distribution(data)[
                 part
             ],
             "parameter dist/value set": param_distribution_or_value(data)[part],
