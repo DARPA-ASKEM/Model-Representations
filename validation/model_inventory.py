@@ -110,11 +110,7 @@ def rate_law_parse(amr: dict):
             out_expr = sympy.parse_expr(in_expr, local_dict=vars)
         except Exception:
             return "Rate law expression invalid", f"Error parsing: {in_expr}"
-
-    def _present(s, list):
-        return str(s) in vars.keys() or s in vars.keys()
-
-    defs = {str(s): _present(s, vars.keys()) for s in out_expr.free_symbols}
+    defs = {str(s): s in vars.values() for s in out_expr.free_symbols}
 
     return all(defs.values()), defs
 
