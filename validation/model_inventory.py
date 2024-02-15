@@ -5,10 +5,11 @@
 # may fill in additional information.  This script/module loads a schema
 # and inventories what is present.  (CLI can process more than one schema).
 
+import json
+from itertools import chain
 from pathlib import Path
 from typing import Union
-from itertools import chain
-import json
+
 import sympy
 
 
@@ -109,8 +110,8 @@ def rate_law_parse(amr: dict):
             out_expr = sympy.parse_expr(in_expr, local_dict=vars)
         except Exception:
             return "Rate law expression invalid", f"Error parsing: {in_expr}"
+    defs = {str(s): s in vars.values() for s in out_expr.free_symbols}
 
-    defs = {str(s): s in vars.keys() for s in out_expr.free_symbols}
     return all(defs.values()), defs
 
 
@@ -146,6 +147,28 @@ def observables(amr: dict):
     return summary, result
 
 
+def _load_data(source):
+    """Converts a data source to a JSON.
+
+    return pair of loaded-json, description-of-origin
+    """
+    if isinstance(source, str):
+        try:
+            parsed = urlparse(source)
+            if parsed.scheme != "":
+                return requests.get(source).json(), source
+        except BaseException:
+            pass
+
+        source = Path(source)
+
+    if isinstance(source, Path):
+        with open(source) as f:
+            return json.load(f), str(source)
+    else:
+        return source, "<json>"
+
+
 def check_amr(source: Union[dict, Path, str], summary=False):
     """Do a battery of testa against an AMR.
 
@@ -158,23 +181,14 @@ def check_amr(source: Union[dict, Path, str], summary=False):
     Returns:
         JSON description of inventory resutls
     """
-    if isinstance(source, str):
-        source = Path(source)
-
-    if isinstance(source, Path):
-        source_id = str(source)
-        with open(source) as f:
-            data = json.load(f)
-    else:
-        source_id = "<json>"
-        data = source
+    data, source_id = _load_data(source)
 
     part = 0 if summary else 1
 
     try:
         return {
             "source": source_id,
-            "parameter distribtuion exists": param_at_least_one_distribution(data)[
+            "parameter distribution exists": param_at_least_one_distribution(data)[
                 part
             ],
             "parameter dist/value set": param_distribution_or_value(data)[part],
@@ -191,23 +205,40 @@ def check_amr(source: Union[dict, Path, str], summary=False):
 
 if __name__ == "__main__":
     import argparse
+    from urllib.parse import urlparse
+
+    import requests
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("files", nargs="+", type=Path, help="Files to parse")
+    parser.add_argument(
+        "sources",
+        nargs="+",
+        type=str,
+        help=(
+            "Files to parse OR urls to download and parse\n"
+            "(URLs must include the protocol or they will be treated as files)"
+        ),
+    )
     parser.add_argument(
         "--format",
         choices=["md", "json", "html", "json-detail"],
         default="md",
         help="Output format.  (choose 'md' for human-readable in console).",
     )
+    parser.add_argument(
+        "--name-length",
+        default=30,
+        type=int,
+        help="Truncate to this many trailing characters",
+    )
     args = parser.parse_args()
     summary = args.format != "json-detail"
 
-    results = [check_amr(file, summary) for file in args.files]
+    results = [check_amr(source, summary) for source in args.sources]
     if args.format in ["html", "md"]:
         try:
             import pandas as pd
-        except:
+        except ImportError:
             print(f"To use {args.format}, pandas must be installed.")
             raise
 
@@ -215,7 +246,12 @@ if __name__ == "__main__":
         cleaned = [e for e in results if "message" not in e]
 
         if len(cleaned) > 0:
-            df = pd.DataFrame(cleaned).set_index("source")
+            df = pd.DataFrame(cleaned)
+            df["source"] = df["source"].str.slice_replace(
+                start=0, stop=-args.name_length, repl="..."
+            )
+            df = df.set_index("source")
+
             if args.format == "md":
                 print(df.to_markdown())
             elif args.format == "html":
