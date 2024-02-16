@@ -8,7 +8,7 @@
 import json
 from itertools import chain
 from pathlib import Path
-from typing import Union
+from typing import Dict, List, Union
 
 import sympy
 
@@ -28,14 +28,14 @@ def fetch_parameters(amr):
         return fetch_path(["semantics", "ode", "parameters"], amr)
 
 
-def count_falses(issues: list[str, bool]) -> Union[None, int]:
-    """How many falses in the dict valeus? (None if the dict is empty.)"""
+def count_falses(issues: Dict[str, bool]) -> Union[None, int]:
+    """How many falses in the dict values? (None if the dict is empty.)"""
     if not issues or len(issues) == 0:
         return None
     return len(issues) - sum([*issues.values()])
 
 
-def count_not_empty(issues: list[str, any]) -> Union[None, int]:
+def count_not_empty(issues: Dict[str, any]) -> Union[None, int]:
     """How many non-empty dict/list/sets in the dict values?
     (None if the dict is empty.)
     """
@@ -44,7 +44,7 @@ def count_not_empty(issues: list[str, any]) -> Union[None, int]:
     return len(issues) - sum([(v is None or len(v) == 0) for v in issues.values()])
 
 
-def param_distribution_or_value(amr: dict, summary=False):
+def param_distribution_or_value(amr: Dict, summary=False):
     """
     Does each parameter have a distribution or a value associated with it?
     """
@@ -59,7 +59,7 @@ def param_distribution_or_value(amr: dict, summary=False):
     return summary, result
 
 
-def param_at_least_one_distribution(amr: dict):
+def param_at_least_one_distribution(amr: Dict):
     "Is there at least one parameter with a distribution"
     try:
         semantics = fetch_parameters(amr)
@@ -71,7 +71,7 @@ def param_at_least_one_distribution(amr: dict):
     return result, result
 
 
-def rate_laws(amr: dict):
+def rate_laws(amr: Dict):
     "Check that each transition has a rate-law semantic that is well-formed"
     try:
         semantics = fetch_path(["semantics", "ode", "rates"], amr)
@@ -86,7 +86,7 @@ def rate_laws(amr: dict):
     return summary, result
 
 
-def rate_law_parse(amr: dict):
+def rate_law_parse(amr: Dict):
     "Check that each rate-law refers to vars/params defined in the amr"
     try:
         rates = fetch_path(["semantics", "ode", "rates"], amr)
@@ -115,7 +115,7 @@ def rate_law_parse(amr: dict):
     return all(defs.values()), defs
 
 
-def initial_values(amr: dict):
+def initial_values(amr: Dict):
     """Check that each state has an initial value"""
     try:
         inits = fetch_path(["semantics", "ode", "initials"], amr)
@@ -134,7 +134,7 @@ def initial_values(amr: dict):
     return summary, result
 
 
-def observables(amr: dict):
+def observables(amr: Dict):
     """How many observables are there?"""
     try:
         semantics = fetch_path(["semantics", "ode", "observables"], amr)
@@ -169,11 +169,11 @@ def _load_data(source):
         return source, "<json>"
 
 
-def check_amr(source: Union[dict, Path, str], summary=False):
+def check_amr(source: Union[List, Dict, Path, str], summary=False):
     """Do a battery of testa against an AMR.
 
     Args:
-        source (Union[dict, Path, str]): AMR data as JSON-like object
+        source (Union[List, dict, Path, str]): AMR data as JSON-like object
                 or file-path (string or Path)
         summary (bool, optional): Produce details, or just a true/false
                 summary for each test? (Default false)
