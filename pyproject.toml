@@ -2,12 +2,13 @@
 name = "askem-model-representations"
 version = "0.0.1"
 readme = "README.md"
-requires-python = ">3.9"
+requires-python = ">3.8"
 
 dependencies = [
    "sympy",
    "tabulate",
-   "pandas"
+   "pandas",
+   "requests"
 ]
 
 [build-system]
@@ -17,6 +18,3 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 package-dir = {"askem_model_representations"="validation"}
-
-
-
