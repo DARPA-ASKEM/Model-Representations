@@ -9,7 +9,9 @@ import json
 from itertools import chain
 from pathlib import Path
 from typing import Dict, List, Union
+from urllib.parse import urlparse
 
+import requests
 import sympy
 
 
@@ -205,9 +207,6 @@ def check_amr(source: Union[List, Dict, Path, str], summary=False):
 
 if __name__ == "__main__":
     import argparse
-    from urllib.parse import urlparse
-
-    import requests
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
