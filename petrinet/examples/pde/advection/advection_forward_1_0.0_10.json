@@ -1,0 +1,316 @@
+{
+    "header": {
+        "name": "Advection Model",
+        "schema": "https://raw.githubusercontent.com/DARPA-ASKEM/Model-Representations/petrinet_v0.1/petrinet/petrinet_schema.json",
+        "schema_name": "petrinet",
+        "description": "Advection as Petrinet model created by Dan Bryce and Drisana Iverson (Mosaphir)",
+        "model_version": "0.2"
+    },
+    "model": {
+        "states": [
+            {
+                "id": "a_0",
+                "name": "a_0",
+                "description": "a at [-2.4545454545454546]"
+            },
+            {
+                "id": "a_1",
+                "name": "a_1",
+                "description": "a at [-1.9090909090909092]"
+            },
+            {
+                "id": "a_2",
+                "name": "a_2",
+                "description": "a at [-1.3636363636363635]"
+            },
+            {
+                "id": "a_3",
+                "name": "a_3",
+                "description": "a at [-0.8181818181818182]"
+            },
+            {
+                "id": "a_4",
+                "name": "a_4",
+                "description": "a at [-0.2727272727272727]"
+            },
+            {
+                "id": "a_5",
+                "name": "a_5",
+                "description": "a at [0.2727272727272727]"
+            },
+            {
+                "id": "a_6",
+                "name": "a_6",
+                "description": "a at [0.8181818181818182]"
+            },
+            {
+                "id": "a_7",
+                "name": "a_7",
+                "description": "a at [1.3636363636363635]"
+            },
+            {
+                "id": "a_8",
+                "name": "a_8",
+                "description": "a at [1.9090909090909092]"
+            },
+            {
+                "id": "a_9",
+                "name": "a_9",
+                "description": "a at [2.4545454545454546]"
+            }
+        ],
+        "transitions": [
+            {
+                "id": "r_a_0_1_0",
+                "input": [
+                    "a_1"
+                ],
+                "output": [
+                    "a_0"
+                ],
+                "properties": {
+                    "name": "r_a_0_1_0"
+                }
+            },
+            {
+                "id": "r_a_0_0_boundary",
+                "input": [
+                    "a_0"
+                ],
+                "output": [],
+                "properties": {
+                    "name": "r_a_0_0_boundary"
+                }
+            },
+            {
+                "id": "r_a_0_2_1",
+                "input": [
+                    "a_2"
+                ],
+                "output": [
+                    "a_1"
+                ],
+                "properties": {
+                    "name": "r_a_0_2_1"
+                }
+            },
+            {
+                "id": "r_a_0_3_2",
+                "input": [
+                    "a_3"
+                ],
+                "output": [
+                    "a_2"
+                ],
+                "properties": {
+                    "name": "r_a_0_3_2"
+                }
+            },
+            {
+                "id": "r_a_0_4_3",
+                "input": [
+                    "a_4"
+                ],
+                "output": [
+                    "a_3"
+                ],
+                "properties": {
+                    "name": "r_a_0_4_3"
+                }
+            },
+            {
+                "id": "r_a_0_5_4",
+                "input": [
+                    "a_5"
+                ],
+                "output": [
+                    "a_4"
+                ],
+                "properties": {
+                    "name": "r_a_0_5_4"
+                }
+            },
+            {
+                "id": "r_a_0_6_5",
+                "input": [
+                    "a_6"
+                ],
+                "output": [
+                    "a_5"
+                ],
+                "properties": {
+                    "name": "r_a_0_6_5"
+                }
+            },
+            {
+                "id": "r_a_0_7_6",
+                "input": [
+                    "a_7"
+                ],
+                "output": [
+                    "a_6"
+                ],
+                "properties": {
+                    "name": "r_a_0_7_6"
+                }
+            },
+            {
+                "id": "r_a_0_8_7",
+                "input": [
+                    "a_8"
+                ],
+                "output": [
+                    "a_7"
+                ],
+                "properties": {
+                    "name": "r_a_0_8_7"
+                }
+            },
+            {
+                "id": "r_a_0_9_8",
+                "input": [
+                    "a_9"
+                ],
+                "output": [
+                    "a_8"
+                ],
+                "properties": {
+                    "name": "r_a_0_9_8"
+                }
+            },
+            {
+                "id": "r_a_0_boundary_9",
+                "input": [],
+                "output": [
+                    "a_9"
+                ],
+                "properties": {
+                    "name": "r_a_0_boundary_9"
+                }
+            }
+        ]
+    },
+    "semantics": {
+        "ode": {
+            "rates": [
+                {
+                    "target": "r_a_0_1_0",
+                    "expression": "(-u/dx)*(a_1)"
+                },
+                {
+                    "target": "r_a_0_0_boundary",
+                    "expression": "(-u/dx)*(a_0)"
+                },
+                {
+                    "target": "r_a_0_2_1",
+                    "expression": "(-u/dx)*(a_2)"
+                },
+                {
+                    "target": "r_a_0_3_2",
+                    "expression": "(-u/dx)*(a_3)"
+                },
+                {
+                    "target": "r_a_0_4_3",
+                    "expression": "(-u/dx)*(a_4)"
+                },
+                {
+                    "target": "r_a_0_5_4",
+                    "expression": "(-u/dx)*(a_5)"
+                },
+                {
+                    "target": "r_a_0_6_5",
+                    "expression": "(-u/dx)*(a_6)"
+                },
+                {
+                    "target": "r_a_0_7_6",
+                    "expression": "(-u/dx)*(a_7)"
+                },
+                {
+                    "target": "r_a_0_8_7",
+                    "expression": "(-u/dx)*(a_8)"
+                },
+                {
+                    "target": "r_a_0_9_8",
+                    "expression": "(-u/dx)*(a_9)"
+                },
+                {
+                    "target": "r_a_0_boundary_9",
+                    "expression": "(0.0*t)"
+                }
+            ],
+            "initials": [
+                {
+                    "target": "a_0",
+                    "expression": "0.2894736842105263"
+                },
+                {
+                    "target": "a_1",
+                    "expression": "0.34375"
+                },
+                {
+                    "target": "a_2",
+                    "expression": "0.42307692307692313"
+                },
+                {
+                    "target": "a_3",
+                    "expression": "0.5499999999999999"
+                },
+                {
+                    "target": "a_4",
+                    "expression": "0.7857142857142857"
+                },
+                {
+                    "target": "a_5",
+                    "expression": "0.7857142857142857"
+                },
+                {
+                    "target": "a_6",
+                    "expression": "0.5499999999999999"
+                },
+                {
+                    "target": "a_7",
+                    "expression": "0.42307692307692313"
+                },
+                {
+                    "target": "a_8",
+                    "expression": "0.34375"
+                },
+                {
+                    "target": "a_9",
+                    "expression": "0.2894736842105263"
+                }
+            ],
+            "parameters": [
+                {
+                    "id": "u",
+                    "value": 1.0,
+                    "distribution": {
+                        "type": "StandardUniform1",
+                        "parameters": {
+                            "minimum": 0.0,
+                            "maximum": 1.0
+                        }
+                    }
+                },
+                {
+                    "id": "dx",
+                    "value": 1.0,
+                    "distribution": {
+                        "type": "StandardUniform1",
+                        "parameters": {
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            ],
+            "time": {
+                "id": "t",
+                "units": {
+                    "expression": "day",
+                    "expression_mathml": "<ci>day</ci>"
+                }
+            }
+        }
+    }
+}
